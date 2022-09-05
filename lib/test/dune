@@ -1,0 +1,4 @@
+(library
+ (public_name nightmare.test)
+ (name nightmare_test)
+ (libraries alcotest))
