@@ -1,0 +1,3 @@
+(test
+  (name nightmare_service_test)
+  (libraries nightmare.test alcotest nightmare.service))

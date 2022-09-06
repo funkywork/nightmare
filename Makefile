@@ -6,6 +6,7 @@ all: build
 build:
 	dune build
 
+# [make test] run all test
 test:
 	dune runtest --no-buffer -j 1
 
@@ -15,7 +16,7 @@ clean:
 	dune clean
 
 # [make doc] build the documentation (using odoc)
-doc:
+doc: build
 	dune build @doc
 
 # [make utop] launch an REPL with the whole package in
@@ -32,6 +33,9 @@ check-lint:
 lint:
 	dune build @fmt --auto-promote
 
+
+
+# Setting up the development environment
 
 .PHONY: dev-deps deps
 
