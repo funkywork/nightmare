@@ -192,17 +192,17 @@ val ( /: )
 
 (** {3 Pretty-printing} *)
 
-(** [sprintf path ...] will return a function that need all defined variables
-    into the path and will produce a corresponding string. *)
+(** [sprintf path] will return a function that need all defined variables into
+    the path and will produce a corresponding string. *)
 val sprintf : ('handler_continuation, string) t -> 'handler_continuation
 
-(** [sprintf_with path handler ...] will return a function that need all defined
+(** [sprintf_with path handler] will return a function that need all defined
     variables into the path and will produce a corresponding string and apply
     [handler] to that produced string.
 
     This function is useful if you want to apply a finalizer to the output of a
     path that has not yet been completely calculated. For example,
-    {!val:sprintf} is a specialised version of [sprintf_with] :
+    {!val:sprintf} is a specialised version of [sprintf_with]:
     [let sprintf path = sprintf_with path (fun x -> x)]. *)
 val sprintf_with
   :  ('handler_continuation, 'handler_return) t
@@ -236,7 +236,7 @@ val pp : Format.formatter -> ('handler_continuation, 'handler_return) t -> unit
     In this example, the result will be:
     ["/get_message/42/by_user/grm/in_category/global"]. *)
 
-(** {3 Scanning} *)
+(** {3 Scanning and interpreting} *)
 
 (** [sscanf path uri handler] will try to interpret a [string] according to a
     [path] and performing [handler] which is a function that takes one argument
