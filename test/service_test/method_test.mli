@@ -20,8 +20,8 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-let () =
-  Alcotest.run
-    "Nightmare_service"
-    [ Parser_test.cases; Path_test.cases; Method_test.cases ]
-;;
+(** The presence of an [mli] file may seem a bit excessive, but it is mainly to
+    quickly identify unused tests. *)
+
+(** List of all test-cases. *)
+val cases : string * unit Alcotest.test_case list

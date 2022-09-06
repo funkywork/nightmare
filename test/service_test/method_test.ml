@@ -20,8 +20,25 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-let () =
-  Alcotest.run
-    "Nightmare_service"
-    [ Parser_test.cases; Path_test.cases; Method_test.cases ]
+open Nightmare_test
+
+let method_testable =
+  let open Nightmare_service in
+  Alcotest.testable Method.pp Method.equal
 ;;
+
+let test_to_string_from_string =
+  test_equality
+    ~about:"to_string & from_string"
+    ~desc:
+      "[to_string] should returns valid string and [from_string] should return \
+       valid method wrapped in [Some]"
+    Alcotest.(list @@ option method_testable)
+    (fun () ->
+      let open Nightmare_service.Method in
+      let expected = List.map Option.some all
+      and computed = List.map (fun meth -> from_string @@ to_string meth) all in
+      expected, computed)
+;;
+
+let cases = "Method", [ test_to_string_from_string ]
