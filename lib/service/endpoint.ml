@@ -37,6 +37,7 @@ type (_, _, _, _) t =
   | Inner : ('m, 'k, 'r) path -> ([> `Inner ], 'm, 'k, 'r) t
   | Outer : string * ('m, 'k, 'r) path -> ([> `Outer ], 'm, 'k, 'r) t
 
+let ( ~: ) f = f ()
 let inner x = Inner x
 let get x = inner @@ GET x
 let post x = inner @@ POST x

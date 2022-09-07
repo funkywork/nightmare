@@ -79,22 +79,22 @@ let test_href_over_inner_links =
         ; "/user/msp/26?bar=foo#fw"
         ]
       and computed =
-        [ href (Sample.i1 ())
-        ; href ~anchor:"foo" (Sample.i1 ())
-        ; href ~parameters:[ "foo", "bar"; "bar", "baz" ] (Sample.i1 ())
-        ; href ~parameters:[ "bar", "foo" ] ~anchor:"fw" (Sample.i1 ())
-        ; href (Sample.i2 ())
-        ; href ~anchor:"foo" (Sample.i2 ())
-        ; href ~parameters:[ "foo", "bar"; "bar", "baz" ] (Sample.i2 ())
-        ; href ~parameters:[ "bar", "foo" ] ~anchor:"fw" (Sample.i2 ())
-        ; href (Sample.i3 ()) "gr-im" 25
-        ; href ~anchor:"foo" (Sample.i3 ()) "xvw" 32
+        [ href ~:Sample.i1
+        ; href ~anchor:"foo" ~:Sample.i1
+        ; href ~parameters:[ "foo", "bar"; "bar", "baz" ] ~:Sample.i1
+        ; href ~parameters:[ "bar", "foo" ] ~anchor:"fw" ~:Sample.i1
+        ; href ~:Sample.i2
+        ; href ~anchor:"foo" ~:Sample.i2
+        ; href ~parameters:[ "foo", "bar"; "bar", "baz" ] ~:Sample.i2
+        ; href ~parameters:[ "bar", "foo" ] ~anchor:"fw" ~:Sample.i2
+        ; href ~:Sample.i3 "gr-im" 25
+        ; href ~anchor:"foo" ~:Sample.i3 "xvw" 32
         ; href
             ~parameters:[ "foo", "bar"; "bar", "baz" ]
-            (Sample.i3 ())
+            ~:Sample.i3
             "xhtmlboi"
             999
-        ; href ~parameters:[ "bar", "foo" ] ~anchor:"fw" (Sample.i3 ()) "msp" 26
+        ; href ~parameters:[ "bar", "foo" ] ~anchor:"fw" ~:Sample.i3 "msp" 26
         ]
       in
       expected, computed)
@@ -114,13 +114,13 @@ let test_href_over_github =
         ; "https://github.com/xhtmlboi?tab=repositories#bottom"
         ]
       and computed =
-        [ href (Sample.github ()) "gr-im"
-        ; href ~anchor:"hello" (Sample.github ()) "funkywork"
-        ; href ~parameters:[ "tab", "repositories" ] (Sample.github ()) "xvw"
+        [ href ~:Sample.github "gr-im"
+        ; href ~anchor:"hello" ~:Sample.github "funkywork"
+        ; href ~parameters:[ "tab", "repositories" ] ~:Sample.github "xvw"
         ; href
             ~parameters:[ "tab", "repositories" ]
             ~anchor:"bottom"
-            (Sample.github ())
+            ~:Sample.github
             "xhtmlboi"
         ]
       in
@@ -141,8 +141,8 @@ let test_href_over_gravatar =
         ; "https://www.gravatar.com/avatar/77147495ce1de81bd3b4d4044b8367fd"
         ]
       and computed =
-        [ href (Sample.gravatar ()) xhtmlboi_hash
-        ; href (Sample.gravatar ()) xvw_hash
+        [ href ~:Sample.gravatar xhtmlboi_hash
+        ; href ~:Sample.gravatar xvw_hash
         ]
       in
       expected, computed)
@@ -159,13 +159,13 @@ let test_form_method_for_links =
       let open Nightmare_service.Endpoint in
       let expected = [ `GET; `GET; `GET; `POST; `POST; `GET; `GET ]
       and computed =
-        [ form_method (Sample.i1 ())
-        ; form_method (Sample.i2 ())
-        ; form_method (Sample.i3 ())
-        ; form_method (Sample.i4 ())
-        ; form_method (Sample.i5 ())
-        ; form_method (Sample.github ())
-        ; form_method (Sample.gravatar ())
+        [ form_method ~:Sample.i1
+        ; form_method ~:Sample.i2
+        ; form_method ~:Sample.i3
+        ; form_method ~:Sample.i4
+        ; form_method ~:Sample.i5
+        ; form_method ~:Sample.github
+        ; form_method ~:Sample.gravatar
         ]
       in
       expected, computed)
@@ -188,16 +188,16 @@ let test_form_action_for_links =
         ; "https://www.gravatar.com/avatar/5eb63bbbe01eeed093cb22bb8f5acdc3"
         ]
       and computed =
-        [ form_action (Sample.i1 ())
-        ; form_action (Sample.i2 ())
-        ; form_action (Sample.i3 ()) ~anchor:"bottom" "gr-im" 25
-        ; form_action (Sample.i4 ()) "im-a-message"
-        ; form_action (Sample.i5 ()) "Pierre" 25 true
+        [ form_action ~:Sample.i1
+        ; form_action ~:Sample.i2
+        ; form_action ~:Sample.i3 ~anchor:"bottom" "gr-im" 25
+        ; form_action ~:Sample.i4 "im-a-message"
+        ; form_action ~:Sample.i5 "Pierre" 25 true
         ; form_action
-            (Sample.github ())
+            ~:Sample.github
             ~parameters:[ "foo", "bar"; "hello", "true" ]
             "funkywork"
-        ; form_action (Sample.gravatar ()) (Md5.hash "hello world")
+        ; form_action ~:Sample.gravatar (Md5.hash "hello world")
         ]
       in
       expected, computed)
@@ -220,20 +220,20 @@ let test_sscanf_for_links =
         ; None
         ]
       and computed =
-        [ sscanf (Sample.i1 ()) `GET (href ~anchor:"f" (Sample.i1 ())) "on root"
-        ; sscanf (Sample.i1 ()) `GET "/foo" "on root"
-        ; sscanf (Sample.i2 ()) `GET (href (Sample.i2 ())) "/foo/bar/baz"
-        ; sscanf (Sample.i2 ()) `GET "/foo/baz/bar" "on /foo/bar/baz"
+        [ sscanf ~:Sample.i1 `GET (href ~anchor:"f" ~:Sample.i1) "on root"
+        ; sscanf ~:Sample.i1 `GET "/foo" "on root"
+        ; sscanf ~:Sample.i2 `GET (href ~:Sample.i2) "/foo/bar/baz"
+        ; sscanf ~:Sample.i2 `GET "/foo/baz/bar" "on /foo/bar/baz"
         ; sscanf
-            (Sample.i3 ())
+            ~:Sample.i3
             `GET
-            (href (Sample.i3 ()) "Pierre" 25)
+            (href ~:Sample.i3 "Pierre" 25)
             (Format.asprintf "%s/%d")
-        ; sscanf (Sample.i3 ()) `GET "/foo/baz/bar" (Format.asprintf "%s/%d")
+        ; sscanf ~:Sample.i3 `GET "/foo/baz/bar" (Format.asprintf "%s/%d")
         ; sscanf
-            (Sample.i3 ())
+            ~:Sample.i3
             `CONNECT
-            (href (Sample.i3 ()) "Pierre" 25)
+            (href ~:Sample.i3 "Pierre" 25)
             (Format.asprintf "%s/%d")
         ]
       in

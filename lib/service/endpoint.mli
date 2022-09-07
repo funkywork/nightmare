@@ -144,6 +144,15 @@ val outer
       let github_profile () = outer get "https://github.com" Path.(~/:string)
     ]} *)
 
+(** {1 Infix operators} *)
+
+(** Since, for {i value restriction} reasons, [endpoints] are often packed into
+    a function of type [unit -> endpoint], [~:endpoint] allows the endpoint
+    packed into the function to be returned. *)
+val ( ~: )
+  :  (unit -> ('scope, 'method_, 'handler_continuation, 'handler_return) t)
+  -> ('scope, 'method_, 'handler_continuation, 'handler_return) t
+
 (** {1 Link generation and pretty-printing}
 
     As seen in the {!module:Path}, the way a path is constructed allows it to be
