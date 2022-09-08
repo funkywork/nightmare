@@ -20,22 +20,42 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-(* here, ['k] means ['handler_continuation] and ['r] means ['handler_return]. *)
-
 type (_, _, _) path =
-  | GET : ('k, 'r) Path.t -> ([> `GET ], 'k, 'r) path
-  | POST : ('k, 'r) Path.t -> ([> `POST ], 'k, 'r) path
-  | PUT : ('k, 'r) Path.t -> ([> `PUT ], 'k, 'r) path
-  | DELETE : ('k, 'r) Path.t -> ([> `DELETE ], 'k, 'r) path
-  | HEAD : ('k, 'r) Path.t -> ([> `HEAD ], 'k, 'r) path
-  | CONNECT : ('k, 'r) Path.t -> ([> `CONNECT ], 'k, 'r) path
-  | OPTIONS : ('k, 'r) Path.t -> ([> `OPTIONS ], 'k, 'r) path
-  | TRACE : ('k, 'r) Path.t -> ([> `TRACE ], 'k, 'r) path
-  | PATCH : ('k, 'r) Path.t -> ([> `PATCH ], 'k, 'r) path
+  | GET :
+      ('handler_continuation, 'handler_return) Path.t
+      -> ([> `GET ], 'handler_continuation, 'handler_return) path
+  | POST :
+      ('handler_continuation, 'handler_return) Path.t
+      -> ([> `POST ], 'handler_continuation, 'handler_return) path
+  | PUT :
+      ('handler_continuation, 'handler_return) Path.t
+      -> ([> `PUT ], 'handler_continuation, 'handler_return) path
+  | DELETE :
+      ('handler_continuation, 'handler_return) Path.t
+      -> ([> `DELETE ], 'handler_continuation, 'handler_return) path
+  | HEAD :
+      ('handler_continuation, 'handler_return) Path.t
+      -> ([> `HEAD ], 'handler_continuation, 'handler_return) path
+  | CONNECT :
+      ('handler_continuation, 'handler_return) Path.t
+      -> ([> `CONNECT ], 'handler_continuation, 'handler_return) path
+  | OPTIONS :
+      ('handler_continuation, 'handler_return) Path.t
+      -> ([> `OPTIONS ], 'handler_continuation, 'handler_return) path
+  | TRACE :
+      ('handler_continuation, 'handler_return) Path.t
+      -> ([> `TRACE ], 'handler_continuation, 'handler_return) path
+  | PATCH :
+      ('handler_continuation, 'handler_return) Path.t
+      -> ([> `PATCH ], 'handler_continuation, 'handler_return) path
 
 type (_, _, _, _) t =
-  | Inner : ('m, 'k, 'r) path -> ([> `Inner ], 'm, 'k, 'r) t
-  | Outer : string * ('m, 'k, 'r) path -> ([> `Outer ], 'm, 'k, 'r) t
+  | Inner :
+      ('m, 'handler_continuation, 'handler_return) path
+      -> ([> `Inner ], 'm, 'handler_continuation, 'handler_return) t
+  | Outer :
+      string * ('m, 'handler_continuation, 'handler_return) path
+      -> ([> `Outer ], 'm, 'handler_continuation, 'handler_return) t
 
 let ( ~: ) f = f ()
 let inner x = Inner x

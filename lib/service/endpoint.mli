@@ -203,7 +203,7 @@ val href_with
     {b Since HTML form can just handle [GET] and [POST] form, the function can
       just take those as an argument}. *)
 val form_method
-  :  ([> `Inner | `Outer ], Method.for_form_action, _, _) t
+  :  ([ `Inner | `Outer ], Method.for_form_action, _, _) t
   -> [> Method.for_form_action ]
 
 (** [form_action ?anchor ?parameters endpoint] will return a function that need
