@@ -20,12 +20,20 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-let () =
-  Alcotest.run
-    "Nightmare_service"
-    [ Parser_test.cases
-    ; Path_test.cases
-    ; Method_test.cases
-    ; Endpoint_test.cases
-    ]
-;;
+(** [Nightmare_service] is a library that embeds everything that concerns the
+    definition of services/controllers. *)
+
+(** {1 Infix operators} *)
+
+include module type of Infix (** @inline *)
+
+(** {1 Modules}
+
+    Modules describing the different components of a service/controller (its
+    path, an endpoint, supported HTTP methods) and other utilities. *)
+
+module Path = Path
+module Endpoint = Endpoint
+module Parser = Parser
+module Method = Method
+module Infix = Infix

@@ -96,7 +96,7 @@ let sprintf_with path handler =
 
 let sprintf path = sprintf_with path (fun x -> x)
 
-let sscanf_with path uri handler =
+let sscanf path uri =
   let rec aux
     : type handler_continuation handler_return normal_form.
       (handler_return -> normal_form)
@@ -121,7 +121,5 @@ let sscanf_with path uri handler =
   in
   let parsed = Parser.Href.from_string uri in
   let fragments = List.rev @@ Parser.Href.fragments parsed in
-  aux handler path fragments
+  aux (fun x -> x) path fragments
 ;;
-
-let sscanf path uri = sscanf_with path uri (fun x -> x)

@@ -20,12 +20,8 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-let () =
-  Alcotest.run
-    "Nightmare_service"
-    [ Parser_test.cases
-    ; Path_test.cases
-    ; Method_test.cases
-    ; Endpoint_test.cases
-    ]
-;;
+let ( ~: ) = Endpoint.( ~: )
+let ( ~/ ) = Path.( ~/ )
+let ( ~/: ) = Path.( ~/: )
+let ( / ) = Path.( / )
+let ( /: ) = Path.( /: )
