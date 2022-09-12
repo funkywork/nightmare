@@ -20,21 +20,11 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-let test ?(speed = `Quick) ~about ~desc a_test =
-  let title = Format.asprintf "%-42s%s" about desc in
-  Alcotest.test_case title speed a_test
-;;
+(** [Nightmare_common] contains the recurring definitions of the framework. It
+    is a dependency of all other umbrella projects. *)
 
-let same testable ~expected ~computed =
-  Alcotest.check testable "should be same" expected computed
-;;
+(** {1 Error Handling}
 
-let test_equality ?(speed = `Quick) ~about ~desc testable a_test =
-  test ~speed ~about ~desc (fun () ->
-    let expected, computed = a_test () in
-    same testable ~expected ~computed)
-;;
+    Contains the modules related to error management. *)
 
-let error_testable =
-  Alcotest.testable Nightmare_common.Error.pp Nightmare_common.Error.equal
-;;
+module Error = Error
