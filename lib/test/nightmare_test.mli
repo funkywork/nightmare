@@ -55,8 +55,15 @@ val test_equality
   -> (unit -> 'a * 'a)
   -> unit Alcotest.test_case
 
-(** {2 Unit test helpers} *)
+(** {1 Test helpers} *)
 
 (** [same testable x y] make the test fails if [x] and [y] are not equal
     (according to the meaning of equality defined into the [testable] value). *)
 val same : 'a Alcotest.testable -> expected:'a -> computed:'a -> unit
+
+(** {1 Testables}
+
+    Some built-in [testables] (related to Alcotest). *)
+
+(** Testable for {!type:Nightmare_common.Error.t}. *)
+val error_testable : Nightmare_common.Error.t Alcotest.testable
