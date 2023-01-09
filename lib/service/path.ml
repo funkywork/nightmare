@@ -35,8 +35,7 @@ type (_, _) t =
       ('continuation, 'new_variable -> 'witness) t * 'new_variable variable
       -> ('continuation, 'witness) t
 
-type ('handler_continutation, 'witness) wrapped =
-  unit -> ('handler_continutation, 'witness) t
+type ('continuation, 'witness) wrapped = unit -> ('continuation, 'witness) t
 
 let variable ~from_string ~to_string name =
   Record { from_string; to_string; name }

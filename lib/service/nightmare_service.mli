@@ -23,6 +23,26 @@
 (** [Nightmare_service] is a library that embeds everything that concerns the
     definition of services/controllers. *)
 
+(** {1 Types aliases} *)
+
+(** [method_] is an alias for {!type:Method.t}. *)
+type method_ = Method.t
+
+(** [path] is an alias for {!type:Path.t}. *)
+type ('continuation, 'witness) path = ('continuation, 'witness) Path.t
+
+(** [wrapped_path] is an alias for {!type:Path.wrapped}. *)
+type ('continuation, 'witness) wrapped_path =
+  ('continuation, 'witness) Path.wrapped
+
+(** [endpoint] is an alias for {!type:Endpoint.t}. *)
+type ('scope, 'method_, 'continuation, 'witness) endpoint =
+  ('scope, 'method_, 'continuation, 'witness) Endpoint.t
+
+(** [wrapped_endpoint] is an alias for {!type:Endpoint.wrapped}. *)
+type ('scope, 'method_, 'continuation, 'witness) wrapped_endpoint =
+  ('scope, 'method_, 'continuation, 'witness) Endpoint.wrapped
+
 (** {1 Infix operators} *)
 
 include module type of Infix (** @inline *)

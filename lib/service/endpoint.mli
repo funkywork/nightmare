@@ -44,6 +44,12 @@
 (** The type describing an [endpoint]. *)
 type ('scope, 'method_, 'continuation, 'witness) t
 
+(** A [wrapped] endpoint is wrapped in a [unit -> t] function to avoid the value
+    restriction. *)
+
+type ('scope, 'method_, 'continuation, 'witness) wrapped =
+  unit -> ('scope, 'method_, 'continuation, 'witness) t
+
 (** {1 Constructing inner endpoint}
 
     The construction of an [inner endpoint] is simply the association between a
@@ -171,7 +177,7 @@ val ( ~: )
 val href
   :  ?anchor:string
   -> ?parameters:(string * string) list
-  -> ('scope_, [< Method.for_link ], 'continuation, string) t
+  -> ('scope_, [< Method.for_link ], 'continuation, string) wrapped
   -> 'continuation
 
 (** [href_with ?anchor ?parameters endpoint handler] will return a function that
@@ -195,7 +201,7 @@ val href
 val href_with
   :  ?anchor:string
   -> ?parameters:(string * string) list
-  -> ('scope_, [< Method.for_link ], 'continuation, 'witness) t
+  -> ('scope_, [< Method.for_link ], 'continuation, 'witness) wrapped
   -> (string -> 'witness)
   -> 'continuation
 
@@ -203,7 +209,7 @@ val href_with
     {b Since HTML form can just handle [GET] and [POST] form, the function can
       just take those as an argument}. *)
 val form_method
-  :  ([ `Inner | `Outer ], Method.for_form_action, _, _) t
+  :  ([ `Inner | `Outer ], Method.for_form_action, _, _) wrapped
   -> [> Method.for_form_action ]
 
 (** [form_action ?anchor ?parameters endpoint] will return a function that need
@@ -215,7 +221,7 @@ val form_method
 val form_action
   :  ?anchor:string
   -> ?parameters:(string * string) list
-  -> ('scope_, [< Method.for_form_action ], 'continuation, string) t
+  -> ('scope_, [< Method.for_form_action ], 'continuation, string) wrapped
   -> 'continuation
 
 (** [form_action_with ?anchor ?parameters endpoint handler] will return a
@@ -230,7 +236,7 @@ val form_action
 val form_action_with
   :  ?anchor:string
   -> ?parameters:(string * string) list
-  -> ('scope_, [< Method.for_form_action ], 'continuation, 'witness) t
+  -> ('scope_, [< Method.for_form_action ], 'continuation, 'witness) wrapped
   -> (string -> 'witness)
   -> 'continuation
 
@@ -251,7 +257,7 @@ val form_action_with
     one buried in the endpoint and return its result wrapped in a [Some], if the
     endpoint is not a candidate, it will return [None].*)
 val sscanf
-  :  ([ `Inner ], Method.t, 'continuation, 'witness) t
+  :  ([ `Inner ], Method.t, 'continuation, 'witness) wrapped
   -> Method.t
   -> string
   -> 'continuation

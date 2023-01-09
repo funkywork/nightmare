@@ -20,6 +20,18 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
+type method_ = Method.t
+type ('continuation, 'witness) path = ('continuation, 'witness) Path.t
+
+type ('continuation, 'witness) wrapped_path =
+  ('continuation, 'witness) Path.wrapped
+
+type ('scope, 'method_, 'continuation, 'witness) endpoint =
+  ('scope, 'method_, 'continuation, 'witness) Endpoint.t
+
+type ('scope, 'method_, 'continuation, 'witness) wrapped_endpoint =
+  ('scope, 'method_, 'continuation, 'witness) Endpoint.wrapped
+
 module Path = Path
 module Endpoint = Endpoint
 module Parser = Parser

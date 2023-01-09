@@ -57,6 +57,9 @@ type (_, _, _, _) t =
       string * ('m, 'continuation, 'witness) path
       -> ([> `Outer ], 'm, 'continuation, 'witness) t
 
+type ('scope, 'method_, 'continuation, 'witness) wrapped =
+  unit -> ('scope, 'method_, 'continuation, 'witness) t
+
 let ( ~: ) f = f ()
 let inner x = Inner x
 let get x = inner @@ GET x
@@ -97,12 +100,12 @@ let get_path
 
 let handle_path_with
   : type scope method_ continuation witness.
-    (scope, method_, continuation, witness) t
+    (scope, method_, continuation, witness) wrapped
     -> (string -> witness)
     -> continuation
   =
  fun endpoint handler ->
-  match endpoint with
+  match endpoint () with
   | Inner p ->
     let path = get_path p in
     Path.sprintf_with path handler
@@ -149,15 +152,18 @@ let form_action_with = href_with
 let form_action = href
 
 let form_method
-  : (_, Method.for_form_action, _, _) t -> [> Method.for_form_action ]
-  = function
+  : (_, Method.for_form_action, _, _) wrapped -> [> Method.for_form_action ]
+  =
+ fun endpoint ->
+  match endpoint () with
   | Inner (GET _) | Outer (_, GET _) -> `GET
   | Inner (POST _) | Outer (_, POST _) -> `POST
 ;;
 
 let sscanf endpoint given_method given_uri =
-  let aux : ([ `Inner ], Method.t, _, _) t -> _ =
-   fun (Inner p) ->
+  let aux : ([ `Inner ], Method.t, _, _) wrapped -> _ =
+   fun endpoint ->
+    let (Inner p) = endpoint () in
     match p, (given_method :> Method.t) with
     | GET path, `GET
     | POST path, `POST

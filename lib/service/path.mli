@@ -110,11 +110,10 @@ val char : char variable
 
 type ('continuation, 'witness) t
 
-(** A `wrapped' path is wrapped in a `unit to path' function to avoid the value
+(** A [wrapped] path is wrapped in a [unit -> t] function to avoid the value
     restriction. *)
 
-type ('handler_continutation, 'witness) wrapped =
-  unit -> ('handler_continutation, 'witness) t
+type ('continuation, 'witness) wrapped = unit -> ('continuation, 'witness) t
 
 (** {2 Composing path} *)
 
