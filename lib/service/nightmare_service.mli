@@ -43,9 +43,14 @@ type ('scope, 'method_, 'continuation, 'witness) endpoint =
 type ('scope, 'method_, 'continuation, 'witness) wrapped_endpoint =
   ('scope, 'method_, 'continuation, 'witness) Endpoint.wrapped
 
-(** {1 Infix operators} *)
+(** [handler] is an alias for {!type:Handler.t}. *)
+type ('request, 'response) handler = ('request, 'response) Handler.t
 
-include module type of Infix (** @inline *)
+(** [middleware] is an alias for {!type:Middleware.t}. *)
+type ('request, 'response) middleware = ('request, 'response) Middleware.t
+
+(** [service] is an alias for {!type:Service.t}. *)
+type ('request, 'response) service = ('request, 'response) Service.t
 
 (** {1 Modules}
 
@@ -56,7 +61,9 @@ module Path = Path
 module Endpoint = Endpoint
 module Parser = Parser
 module Method = Method
-module Infix = Infix
+module Handler = Handler
+module Middleware = Middleware
+module Service = Service
 
 (** {1 Signatures}
 

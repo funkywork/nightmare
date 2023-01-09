@@ -155,27 +155,36 @@ val add_variable
       ;;
     ]} *)
 
-(** {2 Infix operators}
+(** {2 Infix operators} *)
 
-    As the non-infix way of describing paths is rather verbose, here is a
-    collection of infix operators to describe a path in a rather natural way. *)
+module Infix : sig
+  (** As the non-infix way of describing paths is rather verbose, here is a
+      collection of infix operators to describe a path in a rather natural way. *)
 
-(** [~/str] is [root |> add_constant str]. *)
-val ( ~/ ) : string -> ('witness, 'witness) t
+  (** [~/str] is [root |> add_constant str]. *)
+  val ( ~/ ) : string -> ('witness, 'witness) t
 
-(** [~/:var] is [root |> add_variable var]. *)
-val ( ~/: ) : 'new_variable variable -> ('new_variable -> 'witness, 'witness) t
+  (** [~/:var] is [root |> add_variable var]. *)
+  val ( ~/: )
+    :  'new_variable variable
+    -> ('new_variable -> 'witness, 'witness) t
 
-(** [path / str] is [path |> add_constant str]. A (flipped) infix version of
-    {!val:add_constant}. *)
-val ( / ) : ('continuation, 'witness) t -> string -> ('continuation, 'witness) t
+  (** [path / str] is [path |> add_constant str]. A (flipped) infix version of
+      {!val:add_constant}. *)
+  val ( / )
+    :  ('continuation, 'witness) t
+    -> string
+    -> ('continuation, 'witness) t
 
-(** [path /: var] is [path |> add_variable var]. A (flipped) infix version of
-    {!val:add_variable}. *)
-val ( /: )
-  :  ('continuation, 'new_variable -> 'witness) t
-  -> 'new_variable variable
-  -> ('continuation, 'witness) t
+  (** [path /: var] is [path |> add_variable var]. A (flipped) infix version of
+      {!val:add_variable}. *)
+  val ( /: )
+    :  ('continuation, 'new_variable -> 'witness) t
+    -> 'new_variable variable
+    -> ('continuation, 'witness) t
+end
+
+include module type of Infix (** @inline *)
 
 (** {3 Example}
 

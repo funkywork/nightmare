@@ -20,5 +20,6 @@
  (depends
   (ocaml (>= 4.14.0))
   (dune (>= 3.0.0))
+  (lwt (>= 5.6.1))
   (odoc :with-doc)
   (alcotest :with-test)))

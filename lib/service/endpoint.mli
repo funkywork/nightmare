@@ -150,15 +150,6 @@ val outer
       let github_profile () = outer get "https://github.com" Path.(~/:string)
     ]} *)
 
-(** {1 Infix operators} *)
-
-(** Since, for {i value restriction} reasons, [endpoints] are often packed into
-    a function of type [unit -> endpoint], [~:endpoint] allows the endpoint
-    packed into the function to be returned. *)
-val ( ~: )
-  :  (unit -> ('scope, 'method_, 'continuation, 'witness) t)
-  -> ('scope, 'method_, 'continuation, 'witness) t
-
 (** {1 Link generation and pretty-printing}
 
     As seen in the {!module:Path}, the way a path is constructed allows it to be
@@ -262,3 +253,13 @@ val sscanf
   -> string
   -> 'continuation
   -> 'witness option
+
+(** {1 Infix operators}
+
+    The [Endpoint] module re-exports the operators from {!module:Path.Infix} so
+    that the [Endpoint] opening is sufficient to build the [Endpoint] and the
+    [Path] without having to couple the local openings. *)
+
+module Infix = Path.Infix
+
+include module type of Path.Infix (** @closed*)

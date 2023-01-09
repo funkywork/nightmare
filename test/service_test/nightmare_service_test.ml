@@ -27,5 +27,6 @@ let () =
     ; Path_test.cases
     ; Method_test.cases
     ; Endpoint_test.cases
+    ; Service_test.cases
     ]
 ;;

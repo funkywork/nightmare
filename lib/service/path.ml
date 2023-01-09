@@ -85,10 +85,15 @@ let char =
 let root = Root
 let add_constant value base = Const (base, value)
 let add_variable variable base = Var (base, variable)
-let ( ~/ ) value = add_constant value root
-let ( ~/: ) variable = add_variable variable root
-let ( / ) base value = add_constant value base
-let ( /: ) base variable = add_variable variable base
+
+module Infix = struct
+  let ( ~/ ) value = add_constant value root
+  let ( ~/: ) variable = add_variable variable root
+  let ( / ) base value = add_constant value base
+  let ( /: ) base variable = add_variable variable base
+end
+
+include Infix
 
 let pp ppf path =
   let rec aux

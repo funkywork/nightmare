@@ -32,10 +32,15 @@ type ('scope, 'method_, 'continuation, 'witness) endpoint =
 type ('scope, 'method_, 'continuation, 'witness) wrapped_endpoint =
   ('scope, 'method_, 'continuation, 'witness) Endpoint.wrapped
 
+type ('request, 'response) handler = ('request, 'response) Handler.t
+type ('request, 'response) middleware = ('request, 'response) Middleware.t
+type ('request, 'response) service = ('request, 'response) Service.t
+
 module Path = Path
 module Endpoint = Endpoint
 module Parser = Parser
 module Method = Method
-module Infix = Infix
+module Handler = Handler
+module Middleware = Middleware
+module Service = Service
 module Signatures = Signatures
-include Infix

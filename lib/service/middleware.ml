@@ -20,8 +20,13 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-let ( ~: ) = Endpoint.( ~: )
-let ( ~/ ) = Path.( ~/ )
-let ( ~/: ) = Path.( ~/: )
-let ( / ) = Path.( / )
-let ( /: ) = Path.( /: )
+type ('request, 'response) t =
+  ('request, 'response) Handler.t -> ('request, 'response) Handler.t
+
+let fold middlewares handler =
+  let rec aux = function
+    | [] -> handler
+    | x :: xs -> x (aux xs)
+  in
+  aux middlewares
+;;

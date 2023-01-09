@@ -60,7 +60,6 @@ type (_, _, _, _) t =
 type ('scope, 'method_, 'continuation, 'witness) wrapped =
   unit -> ('scope, 'method_, 'continuation, 'witness) t
 
-let ( ~: ) f = f ()
 let inner x = Inner x
 let get x = inner @@ GET x
 let post x = inner @@ POST x
@@ -178,3 +177,6 @@ let sscanf endpoint given_method given_uri =
   in
   aux endpoint
 ;;
+
+module Infix = Path.Infix
+include Infix

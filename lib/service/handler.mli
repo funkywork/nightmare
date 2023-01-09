@@ -20,33 +20,9 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-let test ?(speed = `Quick) ~about ~desc a_test =
-  let title = Format.asprintf "%-42s%s" about desc in
-  Alcotest.test_case title speed a_test
-;;
+(** A Handler is just a function that takes a request and returns a response
+    (wrapped in a promise [Lwt.t]). *)
 
-let test_lwt ?(speed = `Quick) ~about ~desc a_test =
-  test ~speed ~about ~desc (fun () -> Lwt_main.run (a_test ()))
-;;
+(** {1 Types} *)
 
-let same testable ~expected ~computed =
-  Alcotest.check testable "should be same" expected computed
-;;
-
-let test_equality ?(speed = `Quick) ~about ~desc testable a_test =
-  test ~speed ~about ~desc (fun () ->
-    let expected, computed = a_test () in
-    same testable ~expected ~computed)
-;;
-
-let test_equality_lwt ?(speed = `Quick) ~about ~desc testable a_test =
-  test ~speed ~about ~desc (fun () ->
-    let expected, computed = Lwt_main.run (a_test ()) in
-    same testable ~expected ~computed)
-;;
-
-let error_testable =
-  Alcotest.testable Nightmare_common.Error.pp Nightmare_common.Error.equal
-;;
-
-module Dummy_request = Dummy_request
+type ('request, 'response) t = 'request -> 'response Lwt.t
