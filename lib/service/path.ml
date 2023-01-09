@@ -1,6 +1,6 @@
 (*  MIT License
 
-    Copyright (c) 2022 funkywork
+    Copyright (c) 2023 funkywork
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -21,22 +21,50 @@
     SOFTWARE. *)
 
 type 'a variable =
-  { from_string : string -> 'a option
-  ; to_string : 'a -> string
-  ; name : string
-  }
+  | Record of
+      { from_string : string -> 'a option
+      ; to_string : 'a -> string
+      ; name : string
+      }
+  | Module of (module Signatures.PATH_FRAGMENT with type t = 'a)
 
 type (_, _) t =
-  | Root : ('handler_return, 'handler_return) t
-  | Const :
-      ('handler_continuation, 'handler_return) t * string
-      -> ('handler_continuation, 'handler_return) t
+  | Root : ('witness, 'witness) t
+  | Const : ('continuation, 'witness) t * string -> ('continuation, 'witness) t
   | Var :
-      ('handler_continuation, 'new_variable -> 'handler_return) t
-      * 'new_variable variable
-      -> ('handler_continuation, 'handler_return) t
+      ('continuation, 'new_variable -> 'witness) t * 'new_variable variable
+      -> ('continuation, 'witness) t
 
-let variable ~from_string ~to_string name = { from_string; to_string; name }
+type ('handler_continutation, 'witness) wrapped =
+  unit -> ('handler_continutation, 'witness) t
+
+let variable ~from_string ~to_string name =
+  Record { from_string; to_string; name }
+;;
+
+let variable' (type a) (module PF : Signatures.PATH_FRAGMENT with type t = a) =
+  Module (module PF)
+;;
+
+let variable_name : type a. a variable -> string = function
+  | Record { name; _ } -> name
+  | Module (module M) -> M.fragment_name
+;;
+
+let variable_to_string : type a. a variable -> a -> _ =
+ fun fragment value ->
+  match fragment with
+  | Record { to_string; _ } -> to_string value
+  | Module (module M) -> M.fragment_to_string value
+;;
+
+let variable_from_string : type a. a variable -> string -> a option =
+ fun fragment value ->
+  match fragment with
+  | Record { from_string; _ } -> from_string value
+  | Module (module M) -> M.fragment_from_string value
+;;
+
 let string = variable ~from_string:Option.some ~to_string:(fun x -> x) "string"
 let int = variable ~from_string:int_of_string_opt ~to_string:string_of_int "int"
 
@@ -65,13 +93,13 @@ let ( /: ) base variable = add_variable variable base
 
 let pp ppf path =
   let rec aux
-    : type handler_continuation handler_return.
-      string list -> (handler_continuation, handler_return) t -> string list
+    : type continuation witness.
+      string list -> (continuation, witness) t -> string list
     =
    fun acc -> function
     | Root -> acc
     | Const (path_xs, x) -> aux (x :: acc) path_xs
-    | Var (path_xs, { name; _ }) -> aux ((":" ^ name) :: acc) path_xs
+    | Var (path_xs, fr) -> aux ((":" ^ variable_name fr) :: acc) path_xs
   in
   let str = aux [] path |> String.concat "/" in
   Format.fprintf ppf "/%s" str
@@ -80,16 +108,14 @@ let pp ppf path =
 let sprintf_with path handler =
   let collapse_list x = handler ("/" ^ String.concat "/" @@ List.rev x) in
   let rec aux
-    : type handler_continuation handler_return.
-      (string list -> handler_return)
-      -> (handler_continuation, handler_return) t
-      -> handler_continuation
+    : type continuation witness.
+      (string list -> witness) -> (continuation, witness) t -> continuation
     =
    fun continue -> function
     | Root -> continue []
     | Const (path_xs, x) -> aux (fun xs -> continue (x :: xs)) path_xs
-    | Var (path_xs, { to_string; _ }) ->
-      aux (fun xs w -> continue (to_string w :: xs)) path_xs
+    | Var (path_xs, fr) ->
+      aux (fun xs w -> continue (variable_to_string fr w :: xs)) path_xs
   in
   aux collapse_list path
 ;;
@@ -98,11 +124,11 @@ let sprintf path = sprintf_with path (fun x -> x)
 
 let sscanf path uri =
   let rec aux
-    : type handler_continuation handler_return normal_form.
-      (handler_return -> normal_form)
-      -> (handler_continuation, handler_return) t
+    : type continuation witness normal_form.
+      (witness -> normal_form)
+      -> (continuation, witness) t
       -> string list
-      -> handler_continuation
+      -> continuation
       -> normal_form option
     =
    fun continue path fragments ->
@@ -112,11 +138,11 @@ let sscanf path uri =
       if String.equal x fragment
       then aux continue path_xs uri_xs
       else fun _ -> None
-    | Var (path_xs, { from_string; _ }), fragment :: uri_xs ->
+    | Var (path_xs, fr), fragment :: uri_xs ->
       Option.fold
         ~none:(fun _ -> None)
         ~some:(fun var -> aux (fun acc -> continue (acc var)) path_xs uri_xs)
-      @@ from_string fragment
+      @@ variable_from_string fr fragment
     | _ -> fun _ -> None
   in
   let parsed = Parser.Href.from_string uri in

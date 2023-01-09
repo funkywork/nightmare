@@ -1,6 +1,6 @@
 (*  MIT License
 
-    Copyright (c) 2022 funkywork
+    Copyright (c) 2023 funkywork
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -22,40 +22,40 @@
 
 type (_, _, _) path =
   | GET :
-      ('handler_continuation, 'handler_return) Path.t
-      -> ([> `GET ], 'handler_continuation, 'handler_return) path
+      ('continuation, 'witness) Path.t
+      -> ([> `GET ], 'continuation, 'witness) path
   | POST :
-      ('handler_continuation, 'handler_return) Path.t
-      -> ([> `POST ], 'handler_continuation, 'handler_return) path
+      ('continuation, 'witness) Path.t
+      -> ([> `POST ], 'continuation, 'witness) path
   | PUT :
-      ('handler_continuation, 'handler_return) Path.t
-      -> ([> `PUT ], 'handler_continuation, 'handler_return) path
+      ('continuation, 'witness) Path.t
+      -> ([> `PUT ], 'continuation, 'witness) path
   | DELETE :
-      ('handler_continuation, 'handler_return) Path.t
-      -> ([> `DELETE ], 'handler_continuation, 'handler_return) path
+      ('continuation, 'witness) Path.t
+      -> ([> `DELETE ], 'continuation, 'witness) path
   | HEAD :
-      ('handler_continuation, 'handler_return) Path.t
-      -> ([> `HEAD ], 'handler_continuation, 'handler_return) path
+      ('continuation, 'witness) Path.t
+      -> ([> `HEAD ], 'continuation, 'witness) path
   | CONNECT :
-      ('handler_continuation, 'handler_return) Path.t
-      -> ([> `CONNECT ], 'handler_continuation, 'handler_return) path
+      ('continuation, 'witness) Path.t
+      -> ([> `CONNECT ], 'continuation, 'witness) path
   | OPTIONS :
-      ('handler_continuation, 'handler_return) Path.t
-      -> ([> `OPTIONS ], 'handler_continuation, 'handler_return) path
+      ('continuation, 'witness) Path.t
+      -> ([> `OPTIONS ], 'continuation, 'witness) path
   | TRACE :
-      ('handler_continuation, 'handler_return) Path.t
-      -> ([> `TRACE ], 'handler_continuation, 'handler_return) path
+      ('continuation, 'witness) Path.t
+      -> ([> `TRACE ], 'continuation, 'witness) path
   | PATCH :
-      ('handler_continuation, 'handler_return) Path.t
-      -> ([> `PATCH ], 'handler_continuation, 'handler_return) path
+      ('continuation, 'witness) Path.t
+      -> ([> `PATCH ], 'continuation, 'witness) path
 
 type (_, _, _, _) t =
   | Inner :
-      ('m, 'handler_continuation, 'handler_return) path
-      -> ([> `Inner ], 'm, 'handler_continuation, 'handler_return) t
+      ('m, 'continuation, 'witness) path
+      -> ([> `Inner ], 'm, 'continuation, 'witness) t
   | Outer :
-      string * ('m, 'handler_continuation, 'handler_return) path
-      -> ([> `Outer ], 'm, 'handler_continuation, 'handler_return) t
+      string * ('m, 'continuation, 'witness) path
+      -> ([> `Outer ], 'm, 'continuation, 'witness) t
 
 let ( ~: ) f = f ()
 let inner x = Inner x
@@ -70,10 +70,10 @@ let trace x = inner @@ TRACE x
 let patch x = inner @@ PATCH x
 
 let outer
-  :  (('handler_continuation, 'handler_return) Path.t
-      -> ([ `Inner ], 'method_, 'handler_continuation, 'handler_return) t)
-  -> string -> ('handler_continuation, 'handler_return) Path.t
-  -> ([> `Outer ], 'method_, 'handler_continuation, 'handler_return) t
+  :  (('continuation, 'witness) Path.t
+      -> ([ `Inner ], 'method_, 'continuation, 'witness) t)
+  -> string -> ('continuation, 'witness) Path.t
+  -> ([> `Outer ], 'method_, 'continuation, 'witness) t
   =
  fun f prefix path ->
   match f path with
@@ -81,9 +81,8 @@ let outer
 ;;
 
 let get_path
-  : type method_ handler_continuation handler_return.
-    (method_, handler_continuation, handler_return) path
-    -> (handler_continuation, handler_return) Path.t
+  : type method_ continuation witness.
+    (method_, continuation, witness) path -> (continuation, witness) Path.t
   = function
   | GET p
   | POST p
@@ -97,10 +96,10 @@ let get_path
 ;;
 
 let handle_path_with
-  : type scope method_ handler_continuation handler_return.
-    (scope, method_, handler_continuation, handler_return) t
-    -> (string -> handler_return)
-    -> handler_continuation
+  : type scope method_ continuation witness.
+    (scope, method_, continuation, witness) t
+    -> (string -> witness)
+    -> continuation
   =
  fun endpoint handler ->
   match endpoint with

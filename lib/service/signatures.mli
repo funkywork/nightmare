@@ -20,27 +20,18 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-(** [Nightmare_service] is a library that embeds everything that concerns the
-    definition of services/controllers. *)
+(** Description of a module describing a type that can be interpreted as a
+    fragment of {!type: Path.t} *)
+module type PATH_FRAGMENT = sig
+  (**The type of fragment. *)
+  type t
 
-(** {1 Infix operators} *)
+  (** A label, or name, to describe the path fragment. *)
+  val fragment_name : string
 
-include module type of Infix (** @inline *)
+  (** A function to read a string as a path fragment. *)
+  val fragment_from_string : string -> t option
 
-(** {1 Modules}
-
-    Modules describing the different components of a service/controller (its
-    path, an endpoint, supported HTTP methods) and other utilities. *)
-
-module Path = Path
-module Endpoint = Endpoint
-module Parser = Parser
-module Method = Method
-module Infix = Infix
-
-(** {1 Signatures}
-
-    Signatures of modules that can be used as parameters of functors or to type
-    first class modules. *)
-
-module Signatures = Signatures
+  (** A function to project a string into a path fragment. *)
+  val fragment_to_string : t -> string
+end
