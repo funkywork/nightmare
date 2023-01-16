@@ -26,7 +26,6 @@ module R = Dummy_request
 
 module Routes = struct
   open Endpoint
-  open Path
 
   let hello_world () = get (~/"hello" / "world")
   let sum () = post (~/"sum" / "a" /: int / "b" /: int)

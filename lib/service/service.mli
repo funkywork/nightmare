@@ -46,7 +46,7 @@ type ('request, 'response) t
     is a very simple service that just say hello world.
 
     {[
-      let hello_endpoint () = Endpoint.(get Path.(~/"hello" / "world"))
+      let hello_endpoint () = Endpoint.(get (~/"hello" / "world"))
 
       let hello_world_service =
         straight ~endpoint:hello_endpoint (fun _request ->
@@ -59,7 +59,7 @@ type ('request, 'response) t
     (and and does very complicated arithmetic):
 
     {[
-      let sum_endpoint () = Endpoint.(get Path.(~/"sum" /: int /: int))
+      let sum_endpoint () = Endpoint.(get (~/"sum" /: int /: int))
 
       let sum_service =
         straight ~endpoint:sum_endpoint (fun x y _request -> Lwt.return (x + y))
@@ -111,7 +111,7 @@ val straight
 
     {[
       let secret_endpoint () =
-        Endpoint.(get Path.(~/"secret" / "page" / "with-password" /: string))
+        Endpoint.(get (~/"secret" / "page" / "with-password" /: string))
       ;;
 
       let secret_service =
@@ -158,7 +158,7 @@ val straight'
 
     {[
       let binop_endpoint () =
-        Endpoint.(post Path.(~/"binop" /: char /: int /: int))
+        Endpoint.(post (~/"binop" /: char /: int /: int))
       ;;
 
       let binop_service () =
@@ -210,7 +210,7 @@ val failable
     {[
       let secret_failable_endpoint () =
         Endpoint.(
-          get Path.(~/"secret" / "failable-page" / "with-password" /: string))
+          get (~/"secret" / "failable-page" / "with-password" /: string))
       ;;
 
       let secret_failable_service =

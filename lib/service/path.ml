@@ -64,23 +64,32 @@ let variable_from_string : type a. a variable -> string -> a option =
   | Module (module M) -> M.fragment_from_string value
 ;;
 
-let string = variable ~from_string:Option.some ~to_string:(fun x -> x) "string"
-let int = variable ~from_string:int_of_string_opt ~to_string:string_of_int "int"
+module Preset = struct
+  let string =
+    variable ~from_string:Option.some ~to_string:(fun x -> x) "string"
+  ;;
 
-let float =
-  variable ~from_string:float_of_string_opt ~to_string:string_of_float "float"
-;;
+  let int =
+    variable ~from_string:int_of_string_opt ~to_string:string_of_int "int"
+  ;;
 
-let bool =
-  variable ~from_string:bool_of_string_opt ~to_string:string_of_bool "bool"
-;;
+  let float =
+    variable ~from_string:float_of_string_opt ~to_string:string_of_float "float"
+  ;;
 
-let char =
-  let is_char s = Int.equal 1 @@ String.length s in
-  let from_string s = if is_char s then Some s.[0] else None in
-  let to_string c = String.make 1 c in
-  variable ~from_string ~to_string "char"
-;;
+  let bool =
+    variable ~from_string:bool_of_string_opt ~to_string:string_of_bool "bool"
+  ;;
+
+  let char =
+    let is_char s = Int.equal 1 @@ String.length s in
+    let from_string s = if is_char s then Some s.[0] else None in
+    let to_string c = String.make 1 c in
+    variable ~from_string ~to_string "char"
+  ;;
+end
+
+include Preset
 
 let root = Root
 let add_constant value base = Const (base, value)

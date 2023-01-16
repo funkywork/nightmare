@@ -179,4 +179,8 @@ let sscanf endpoint given_method given_uri =
 ;;
 
 module Infix = Path.Infix
-include Infix
+include Path.Infix
+module Variables = Path.Preset
+include Path.Preset
+
+let root = Path.root

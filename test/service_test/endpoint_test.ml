@@ -40,7 +40,6 @@ end
 
 module Sample = struct
   open Nightmare_service
-  open Path
   open Endpoint
 
   let i1 () = get root

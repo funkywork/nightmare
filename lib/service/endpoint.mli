@@ -147,7 +147,7 @@ val outer
     describe its endpoint like this:
 
     {[
-      let github_profile () = outer get "https://github.com" Path.(~/:string)
+      let github_profile () = outer get "https://github.com" ~/:string
     ]} *)
 
 (** {1 Link generation and pretty-printing}
@@ -254,12 +254,26 @@ val sscanf
   -> 'continuation
   -> 'witness option
 
-(** {1 Infix operators}
+(** {1 Re-export of path components}
 
-    The [Endpoint] module re-exports the operators from {!module:Path.Infix} so
-    that the [Endpoint] opening is sufficient to build the [Endpoint] and the
-    [Path] without having to couple the local openings. *)
+    The [Endpoint] module re-exports helpers from {!module:Path} so that the
+    [Endpoint] opening is sufficient to build the [Endpoint] and the [Path]
+    without having to couple the local openings.
+
+    {2 Infix operators} *)
 
 module Infix = Path.Infix
 
 include module type of Path.Infix (** @closed*)
+
+(** {2 Preset variables} *)
+
+module Variables = Path.Preset
+
+include module type of Path.Preset (** @closed *)
+
+(** {2 Other helpers} *)
+
+(** [root] returns the root of a {{!type:t} path}. Every path starts with a
+    root. *)
+val root : ('witness, 'witness) Path.t

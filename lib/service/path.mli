@@ -69,20 +69,24 @@ val variable'
 
     Set of predefined variable descriptors for common and usual types. *)
 
-(** [string] describes a variable of type [string]. *)
-val string : string variable
+module Preset : sig
+  (** [string] describes a variable of type [string]. *)
+  val string : string variable
 
-(** [int] describes a variable of type [int]. *)
-val int : int variable
+  (** [int] describes a variable of type [int]. *)
+  val int : int variable
 
-(** [float] describes a variable of type [float]. *)
-val float : float variable
+  (** [float] describes a variable of type [float]. *)
+  val float : float variable
 
-(** [bool] describes a variable of type [bool]. *)
-val bool : bool variable
+  (** [bool] describes a variable of type [bool]. *)
+  val bool : bool variable
 
-(** [char] describes a variable of type [char]. *)
-val char : char variable
+  (** [char] describes a variable of type [char]. *)
+  val char : char variable
+end
+
+include module type of Preset (** @inline *)
 
 (** {1 Path}
 
