@@ -1,4 +1,4 @@
 (library
  (public_name nightmare.test)
  (name nightmare_test)
- (libraries alcotest nightmare.common))
+ (libraries alcotest lwt lwt.unix nightmare.common))

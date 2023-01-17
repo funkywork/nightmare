@@ -1,6 +1,6 @@
 (*  MIT License
 
-    Copyright (c) 2022 funkywork
+    Copyright (c) 2023 funkywork
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -20,9 +20,27 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
+type method_ = Method.t
+type ('continuation, 'witness) path = ('continuation, 'witness) Path.t
+
+type ('continuation, 'witness) wrapped_path =
+  ('continuation, 'witness) Path.wrapped
+
+type ('scope, 'method_, 'continuation, 'witness) endpoint =
+  ('scope, 'method_, 'continuation, 'witness) Endpoint.t
+
+type ('scope, 'method_, 'continuation, 'witness) wrapped_endpoint =
+  ('scope, 'method_, 'continuation, 'witness) Endpoint.wrapped
+
+type ('request, 'response) handler = ('request, 'response) Handler.t
+type ('request, 'response) middleware = ('request, 'response) Middleware.t
+type ('request, 'response) service = ('request, 'response) Service.t
+
 module Path = Path
 module Endpoint = Endpoint
 module Parser = Parser
 module Method = Method
-module Infix = Infix
-include Infix
+module Handler = Handler
+module Middleware = Middleware
+module Service = Service
+module Signatures = Signatures

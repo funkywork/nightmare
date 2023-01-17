@@ -1,6 +1,6 @@
 (*  MIT License
 
-    Copyright (c) 2022 funkywork
+    Copyright (c) 2023 funkywork
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -23,9 +23,34 @@
 (** [Nightmare_service] is a library that embeds everything that concerns the
     definition of services/controllers. *)
 
-(** {1 Infix operators} *)
+(** {1 Types aliases} *)
 
-include module type of Infix (** @inline *)
+(** [method_] is an alias for {!type:Method.t}. *)
+type method_ = Method.t
+
+(** [path] is an alias for {!type:Path.t}. *)
+type ('continuation, 'witness) path = ('continuation, 'witness) Path.t
+
+(** [wrapped_path] is an alias for {!type:Path.wrapped}. *)
+type ('continuation, 'witness) wrapped_path =
+  ('continuation, 'witness) Path.wrapped
+
+(** [endpoint] is an alias for {!type:Endpoint.t}. *)
+type ('scope, 'method_, 'continuation, 'witness) endpoint =
+  ('scope, 'method_, 'continuation, 'witness) Endpoint.t
+
+(** [wrapped_endpoint] is an alias for {!type:Endpoint.wrapped}. *)
+type ('scope, 'method_, 'continuation, 'witness) wrapped_endpoint =
+  ('scope, 'method_, 'continuation, 'witness) Endpoint.wrapped
+
+(** [handler] is an alias for {!type:Handler.t}. *)
+type ('request, 'response) handler = ('request, 'response) Handler.t
+
+(** [middleware] is an alias for {!type:Middleware.t}. *)
+type ('request, 'response) middleware = ('request, 'response) Middleware.t
+
+(** [service] is an alias for {!type:Service.t}. *)
+type ('request, 'response) service = ('request, 'response) Service.t
 
 (** {1 Modules}
 
@@ -36,4 +61,13 @@ module Path = Path
 module Endpoint = Endpoint
 module Parser = Parser
 module Method = Method
-module Infix = Infix
+module Handler = Handler
+module Middleware = Middleware
+module Service = Service
+
+(** {1 Signatures}
+
+    Signatures of modules that can be used as parameters of functors or to type
+    first class modules. *)
+
+module Signatures = Signatures

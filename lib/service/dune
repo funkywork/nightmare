@@ -1,3 +1,5 @@
 (library
  (public_name nightmare.service)
- (name nightmare_service))
+ (name nightmare_service)
+ (modules_without_implementation signatures)
+ (libraries lwt))

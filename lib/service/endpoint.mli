@@ -1,6 +1,6 @@
 (*  MIT License
 
-    Copyright (c) 2022 funkywork
+    Copyright (c) 2023 funkywork
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -38,11 +38,17 @@
     - ['scope] which can be [ `Inner] or [`Outer], describing whether the
       endpoint can be interpreted or not
     - ['method] which is always of type {!type:Method.t}
-    - ['handler_continuation] and ['handler_return] which are the two parameters
-      of the {!type:Path.t} used to describe the path *)
+    - ['continuation] and ['witness] which are the two parameters of the
+      {!type:Path.t} used to describe the path *)
 
 (** The type describing an [endpoint]. *)
-type ('scope, 'method_, 'handler_continuation, 'handler_return) t
+type ('scope, 'method_, 'continuation, 'witness) t
+
+(** A [wrapped] endpoint is wrapped in a [unit -> t] function to avoid the value
+    restriction. *)
+
+type ('scope, 'method_, 'continuation, 'witness) wrapped =
+  unit -> ('scope, 'method_, 'continuation, 'witness) t
 
 (** {1 Constructing inner endpoint}
 
@@ -52,64 +58,64 @@ type ('scope, 'method_, 'handler_continuation, 'handler_return) t
 (** [get path] builds an [inner endpoint] for the [GET] method attached to the
     given [path]. *)
 val get
-  :  ('handler_continuation, 'handler_return) Path.t
-  -> ([> `Inner ], [> `GET ], 'handler_continuation, 'handler_return) t
+  :  ('continuation, 'witness) Path.t
+  -> ([> `Inner ], [> `GET ], 'continuation, 'witness) t
 
 (** [post path] builds an [inner endpoint] for the [POST] method attached to the
     given [path]. *)
 val post
-  :  ('handler_continuation, 'handler_return) Path.t
-  -> ([> `Inner ], [> `POST ], 'handler_continuation, 'handler_return) t
+  :  ('continuation, 'witness) Path.t
+  -> ([> `Inner ], [> `POST ], 'continuation, 'witness) t
 
 (** [put path] builds an [inner endpoint] for the [PUT] method attached to the
     given [path]. *)
 val put
-  :  ('handler_continuation, 'handler_return) Path.t
-  -> ([> `Inner ], [> `PUT ], 'handler_continuation, 'handler_return) t
+  :  ('continuation, 'witness) Path.t
+  -> ([> `Inner ], [> `PUT ], 'continuation, 'witness) t
 
 (** [delete path] builds an [inner endpoint] for the [DELETE] method attached to
     the given [path]. *)
 val delete
-  :  ('handler_continuation, 'handler_return) Path.t
-  -> ([> `Inner ], [> `DELETE ], 'handler_continuation, 'handler_return) t
+  :  ('continuation, 'witness) Path.t
+  -> ([> `Inner ], [> `DELETE ], 'continuation, 'witness) t
 
 (** [head path] builds an [inner endpoint] for the [HEAD] method attached to the
     given [path]. *)
 val head
-  :  ('handler_continuation, 'handler_return) Path.t
-  -> ([> `Inner ], [> `HEAD ], 'handler_continuation, 'handler_return) t
+  :  ('continuation, 'witness) Path.t
+  -> ([> `Inner ], [> `HEAD ], 'continuation, 'witness) t
 
 (** [connect path] builds an [inner endpoint] for the [CONNECT] method attached
     to the given [path]. *)
 val connect
-  :  ('handler_continuation, 'handler_return) Path.t
-  -> ([> `Inner ], [> `CONNECT ], 'handler_continuation, 'handler_return) t
+  :  ('continuation, 'witness) Path.t
+  -> ([> `Inner ], [> `CONNECT ], 'continuation, 'witness) t
 
 (** [options path] builds an [inner endpoint] for the [OPTIONS] method attached
     to the given [path]. *)
 val options
-  :  ('handler_continuation, 'handler_return) Path.t
-  -> ([> `Inner ], [> `OPTIONS ], 'handler_continuation, 'handler_return) t
+  :  ('continuation, 'witness) Path.t
+  -> ([> `Inner ], [> `OPTIONS ], 'continuation, 'witness) t
 
 (** [trace path] builds an [inner endpoint] for the [TRACE] method attached to
     the given [path]. *)
 val trace
-  :  ('handler_continuation, 'handler_return) Path.t
-  -> ([> `Inner ], [> `TRACE ], 'handler_continuation, 'handler_return) t
+  :  ('continuation, 'witness) Path.t
+  -> ([> `Inner ], [> `TRACE ], 'continuation, 'witness) t
 
 (** [patch path] builds an [inner endpoint] for the [PATCH] method attached to
     the given [path]. *)
 val patch
-  :  ('handler_continuation, 'handler_return) Path.t
-  -> ([> `Inner ], [> `PATCH ], 'handler_continuation, 'handler_return) t
+  :  ('continuation, 'witness) Path.t
+  -> ([> `Inner ], [> `PATCH ], 'continuation, 'witness) t
 
 (** {2 Examples}
 
     The definition of an endpoint is simply to describe a function that takes
     [unit] and returns a {!type:t}. (Since an endpoint can be used in multiple
-    place and the second parameter, ['handler_return] is fixed by the usage, for
-    example, the ['handler_return] can vary if you want to generate a link (it
-    will return a [string]) or interpret a [path] as a route which will return a
+    place and the second parameter, ['witness] is fixed by the usage, for
+    example, the ['witness] can vary if you want to generate a link (it will
+    return a [string]) or interpret a [path] as a route which will return a
     [http response]. So in order to avoid an early type-fixing, we wrap an
     endpoint into a function from [unit] to {!type:t}.)
 
@@ -128,11 +134,11 @@ val patch
     of the function {!val:get}, {!val:post}, {!val:put}, {!val:delete},
     {!val:patch}, {!val:head}, {!val:connect}, {!val:options}, {!val:trace}. *)
 val outer
-  :  (('handler_continuation, 'handler_return) Path.t
-      -> ([ `Inner ], 'method_, 'handler_continuation, 'handler_return) t)
+  :  (('continuation, 'witness) Path.t
+      -> ([ `Inner ], 'method_, 'continuation, 'witness) t)
   -> string
-  -> ('handler_continuation, 'handler_return) Path.t
-  -> ([> `Outer ], 'method_, 'handler_continuation, 'handler_return) t
+  -> ('continuation, 'witness) Path.t
+  -> ([> `Outer ], 'method_, 'continuation, 'witness) t
 
 (** {2 Examples}
 
@@ -141,17 +147,8 @@ val outer
     describe its endpoint like this:
 
     {[
-      let github_profile () = outer get "https://github.com" Path.(~/:string)
+      let github_profile () = outer get "https://github.com" ~/:string
     ]} *)
-
-(** {1 Infix operators} *)
-
-(** Since, for {i value restriction} reasons, [endpoints] are often packed into
-    a function of type [unit -> endpoint], [~:endpoint] allows the endpoint
-    packed into the function to be returned. *)
-val ( ~: )
-  :  (unit -> ('scope, 'method_, 'handler_continuation, 'handler_return) t)
-  -> ('scope, 'method_, 'handler_continuation, 'handler_return) t
 
 (** {1 Link generation and pretty-printing}
 
@@ -171,8 +168,8 @@ val ( ~: )
 val href
   :  ?anchor:string
   -> ?parameters:(string * string) list
-  -> ('scope_, [< Method.for_link ], 'handler_continuation, string) t
-  -> 'handler_continuation
+  -> ('scope_, [< Method.for_link ], 'continuation, string) wrapped
+  -> 'continuation
 
 (** [href_with ?anchor ?parameters endpoint handler] will return a function that
     need all defined variables into the path and will produce a corresponding
@@ -195,15 +192,15 @@ val href
 val href_with
   :  ?anchor:string
   -> ?parameters:(string * string) list
-  -> ('scope_, [< Method.for_link ], 'handler_continuation, 'handler_return) t
-  -> (string -> 'handler_return)
-  -> 'handler_continuation
+  -> ('scope_, [< Method.for_link ], 'continuation, 'witness) wrapped
+  -> (string -> 'witness)
+  -> 'continuation
 
 (** [form_method endpoint] will returns the method of a form.
     {b Since HTML form can just handle [GET] and [POST] form, the function can
       just take those as an argument}. *)
 val form_method
-  :  ([ `Inner | `Outer ], Method.for_form_action, _, _) t
+  :  ([ `Inner | `Outer ], Method.for_form_action, _, _) wrapped
   -> [> Method.for_form_action ]
 
 (** [form_action ?anchor ?parameters endpoint] will return a function that need
@@ -215,8 +212,8 @@ val form_method
 val form_action
   :  ?anchor:string
   -> ?parameters:(string * string) list
-  -> ('scope_, [< Method.for_form_action ], 'handler_continuation, string) t
-  -> 'handler_continuation
+  -> ('scope_, [< Method.for_form_action ], 'continuation, string) wrapped
+  -> 'continuation
 
 (** [form_action_with ?anchor ?parameters endpoint handler] will return a
     function that need all defined variables into the path and will produce a
@@ -230,13 +227,9 @@ val form_action
 val form_action_with
   :  ?anchor:string
   -> ?parameters:(string * string) list
-  -> ( 'scope_
-     , [< Method.for_form_action ]
-     , 'handler_continuation
-     , 'handler_return )
-     t
-  -> (string -> 'handler_return)
-  -> 'handler_continuation
+  -> ('scope_, [< Method.for_form_action ], 'continuation, 'witness) wrapped
+  -> (string -> 'witness)
+  -> 'continuation
 
 (** {1 Scanning and interpreting}
 
@@ -255,8 +248,32 @@ val form_action_with
     one buried in the endpoint and return its result wrapped in a [Some], if the
     endpoint is not a candidate, it will return [None].*)
 val sscanf
-  :  ([ `Inner ], Method.t, 'handler_continuation, 'handler_return) t
+  :  ([ `Inner ], Method.t, 'continuation, 'witness) wrapped
   -> Method.t
   -> string
-  -> 'handler_continuation
-  -> 'handler_return option
+  -> 'continuation
+  -> 'witness option
+
+(** {1 Re-export of path components}
+
+    The [Endpoint] module re-exports helpers from {!module:Path} so that the
+    [Endpoint] opening is sufficient to build the [Endpoint] and the [Path]
+    without having to couple the local openings.
+
+    {2 Infix operators} *)
+
+module Infix = Path.Infix
+
+include module type of Path.Infix (** @closed*)
+
+(** {2 Preset variables} *)
+
+module Variables = Path.Preset
+
+include module type of Path.Preset (** @closed *)
+
+(** {2 Other helpers} *)
+
+(** [root] returns the root of a {{!type:t} path}. Every path starts with a
+    root. *)
+val root : ('witness, 'witness) Path.t

@@ -1,6 +1,6 @@
 (*  MIT License
 
-    Copyright (c) 2022 funkywork
+    Copyright (c) 2023 funkywork
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -43,6 +43,14 @@ val test
   -> ('a -> unit)
   -> 'a Alcotest.test_case
 
+(** Lwt version of {!val:test}. *)
+val test_lwt
+  :  ?speed:Alcotest.speed_level
+  -> about:string
+  -> desc:string
+  -> (unit -> unit Lwt.t)
+  -> unit Alcotest.test_case
+
 (** [test_equality ?speed ~about ~desc testable a_test] is almost the same of
     {!val:test} except that the test is supposed to return a couple of value
     that have to be equal. It is a shortcut for writting test that only rely on
@@ -55,11 +63,25 @@ val test_equality
   -> (unit -> 'a * 'a)
   -> unit Alcotest.test_case
 
+(** Lwt version of {!val:test_equality}. *)
+val test_equality_lwt
+  :  ?speed:Alcotest.speed_level
+  -> about:string
+  -> desc:string
+  -> 'a Alcotest.testable
+  -> (unit -> ('a * 'a) Lwt.t)
+  -> unit Alcotest.test_case
+
 (** {1 Test helpers} *)
 
 (** [same testable x y] make the test fails if [x] and [y] are not equal
     (according to the meaning of equality defined into the [testable] value). *)
 val same : 'a Alcotest.testable -> expected:'a -> computed:'a -> unit
+
+(** A module that mimic a form of [Request] that can be used to deal with
+    middlewares. *)
+
+module Dummy_request = Dummy_request
 
 (** {1 Testables}
 

@@ -1,6 +1,6 @@
 (*  MIT License
 
-    Copyright (c) 2022 funkywork
+    Copyright (c) 2023 funkywork
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -27,5 +27,6 @@ let () =
     ; Path_test.cases
     ; Method_test.cases
     ; Endpoint_test.cases
+    ; Service_test.cases
     ]
 ;;
