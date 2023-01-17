@@ -82,10 +82,3 @@ val same : 'a Alcotest.testable -> expected:'a -> computed:'a -> unit
     middlewares. *)
 
 module Dummy_request = Dummy_request
-
-(** {1 Testables}
-
-    Some built-in [testables] (related to Alcotest). *)
-
-(** Testable for {!type:Nightmare_common.Error.t}. *)
-val error_testable : Nightmare_common.Error.t Alcotest.testable
