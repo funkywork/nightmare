@@ -32,5 +32,6 @@
   (ocaml (>= 4.14.0))
   (dune (>= 3.0.0))
   (dream (>= 1.0.0~alpha4))
+  (nightmare (= :version))
   (odoc :with-doc)
   (alcotest :with-test)))
