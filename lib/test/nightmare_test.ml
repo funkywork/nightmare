@@ -45,8 +45,4 @@ let test_equality_lwt ?(speed = `Quick) ~about ~desc testable a_test =
     same testable ~expected ~computed)
 ;;
 
-let error_testable =
-  Alcotest.testable Nightmare_common.Error.pp Nightmare_common.Error.equal
-;;
-
 module Dummy_request = Dummy_request
