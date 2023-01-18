@@ -28,7 +28,7 @@ type middleware = (request, response) Nightmare_service.middleware
 
 let router ~services fallback request = Router.run ~services fallback request
 
-let redirect ?status ?code ?headers ?anchor ?parameters endpoint =
+let redirect_to ?status ?code ?headers ?anchor ?parameters endpoint =
   Redirect.run ?status ?code ?headers ?anchor ?parameters endpoint
 ;;
 
