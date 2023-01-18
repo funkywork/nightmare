@@ -168,7 +168,7 @@ val outer
 val href
   :  ?anchor:string
   -> ?parameters:(string * string) list
-  -> ('scope_, [< Method.for_link ], 'continuation, string) wrapped
+  -> (_, [< Method.for_link ], 'continuation, string) wrapped
   -> 'continuation
 
 (** [href_with ?anchor ?parameters endpoint handler] will return a function that
@@ -192,7 +192,7 @@ val href
 val href_with
   :  ?anchor:string
   -> ?parameters:(string * string) list
-  -> ('scope_, [< Method.for_link ], 'continuation, 'witness) wrapped
+  -> (_, [< Method.for_link ], 'continuation, 'witness) wrapped
   -> (string -> 'witness)
   -> 'continuation
 
@@ -200,7 +200,7 @@ val href_with
     {b Since HTML form can just handle [GET] and [POST] form, the function can
       just take those as an argument}. *)
 val form_method
-  :  ([ `Inner | `Outer ], Method.for_form_action, _, _) wrapped
+  :  (_, Method.for_form_action, _, _) wrapped
   -> [> Method.for_form_action ]
 
 (** [form_action ?anchor ?parameters endpoint] will return a function that need
@@ -212,7 +212,7 @@ val form_method
 val form_action
   :  ?anchor:string
   -> ?parameters:(string * string) list
-  -> ('scope_, [< Method.for_form_action ], 'continuation, string) wrapped
+  -> (_, [< Method.for_form_action ], 'continuation, string) wrapped
   -> 'continuation
 
 (** [form_action_with ?anchor ?parameters endpoint handler] will return a
@@ -227,7 +227,7 @@ val form_action
 val form_action_with
   :  ?anchor:string
   -> ?parameters:(string * string) list
-  -> ('scope_, [< Method.for_form_action ], 'continuation, 'witness) wrapped
+  -> (_, [< Method.for_form_action ], 'continuation, 'witness) wrapped
   -> (string -> 'witness)
   -> 'continuation
 
