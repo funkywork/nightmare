@@ -32,6 +32,14 @@
   (ocaml (>= 4.14.0))
   (dune (>= 3.0.0))
   (dream (>= 1.0.0~alpha4))
-  (nightmare (= :version))
-  (odoc :with-doc)
-  (alcotest :with-test)))
+  (nightmare (= :version))))
+
+(package
+ (name nightmare_tyxml)
+ (synopsis "Glue between Nightmare and TyXML")
+ (description "Facilitates interaction between Nightmare and TyXML")
+ (depends
+  (ocaml (>= 4.14.0))
+  (dune (>= 3.0.0))
+  (tyxml (>= 4.5.0))
+  (nightmare (= :version))))
