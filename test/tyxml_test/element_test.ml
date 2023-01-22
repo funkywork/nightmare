@@ -23,7 +23,6 @@
 open Nightmare_test
 
 let html_testable =
-  (* FIXME: Equality should be fixed *)
   Alcotest.testable (Tyxml.Html.pp_elt ~indent:true ()) (fun a b ->
     let a = Format.asprintf "%a" (Tyxml.Html.pp_elt ()) a
     and b = Format.asprintf "%a" (Tyxml.Html.pp_elt ()) b in

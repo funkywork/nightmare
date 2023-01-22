@@ -70,7 +70,8 @@
     ]}
 
     Overall, the API is very similar to the [Tyxml.Html.a] function and
-    attributes can still be passed to the [a_of] function. *)
+    attributes (except for those derived from the endpoint like [href] or
+    [src].) can still be passed to the [a_of] function. *)
 
 (** {2 Elements} *)
 
@@ -80,7 +81,7 @@
 val a_of
   :  ?anchor:string
   -> ?parameters:(string * string) list
-  -> ?a:Html_types.a_attrib Tyxml.Html.attrib list
+  -> ?a:Attrib.a Tyxml.Html.attrib list
   -> ( _
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
@@ -92,7 +93,7 @@ val a_of
     parameters of [endpoint] and returning an HTML element [<base>]. (with
     [href] computed from [endpoint]) *)
 val base_of
-  :  ?a:Html_types.base_attrib Tyxml.Html.attrib list
+  :  ?a:Attrib.base Tyxml.Html.attrib list
   -> ( 'scope_
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
@@ -105,7 +106,7 @@ val base_of
     [src] computed from [endpoint]) *)
 val embed_of
   :  ?parameters:(string * string) list
-  -> ?a:Html_types.embed_attrib Tyxml.Html.attrib list
+  -> ?a:Attrib.embed Tyxml.Html.attrib list
   -> ( 'scope_
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
@@ -122,7 +123,7 @@ val form_of
   :  ?anchor:string
   -> ?parameters:(string * string) list
   -> ?csrf_token:string * string
-  -> ?a:Html_types.form_attrib Tyxml.Html.attrib list
+  -> ?a:Attrib.form Tyxml.Html.attrib list
   -> ( 'scope_
      , Nightmare_service.Method.for_form_action
      , 'continuation
@@ -137,7 +138,7 @@ val form_of
 val iframe_of
   :  ?anchor:string
   -> ?parameters:(string * string) list
-  -> ?a:Html_types.iframe_attrib Tyxml.Html.attrib list
+  -> ?a:Attrib.iframe Tyxml.Html.attrib list
   -> ( _
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
@@ -166,7 +167,7 @@ val img_of
 val link_of
   :  ?parameters:(string * string) list
   -> rel:Html_types.linktypes
-  -> ?a:Html_types.link_attrib Tyxml.Html.attrib list
+  -> ?a:Attrib.link Tyxml.Html.attrib list
   -> ( _
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
@@ -179,7 +180,7 @@ val link_of
     [<object>] (with [data] computed from [endpoint]). *)
 val object_of
   :  ?parameters:(string * string) list
-  -> ?a:Html_types.object__attrib Tyxml.Html.attrib list
+  -> ?a:Attrib.object_ Tyxml.Html.attrib list
   -> ?object_params:Html_types.param Tyxml.Html.elt list
   -> ( _
      , [< Nightmare_service.Method.for_link ]
@@ -194,7 +195,7 @@ val object_of
     [src] computed from [endpoint]). *)
 val script_of
   :  ?parameters:(string * string) list
-  -> ?a:Html_types.script_attrib Tyxml.Html.attrib list
+  -> ?a:Attrib.script Tyxml.Html.attrib list
   -> ( _
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
@@ -208,10 +209,14 @@ val script_of
     [src] computed from [endpoint]). *)
 val source_of
   :  ?parameters:(string * string) list
-  -> ?a:Html_types.source_attrib Tyxml.Html.attrib list
+  -> ?a:Attrib.source Tyxml.Html.attrib list
   -> ( _
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
      , [> Html_types.source ] Tyxml.Html.elt )
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
+
+(** {1 Hooked attributes} *)
+
+module Attrib = Attrib
