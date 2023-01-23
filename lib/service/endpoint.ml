@@ -151,7 +151,8 @@ let form_action_with = href_with
 let form_action = href
 
 let form_method
-  : (_, Method.for_form_action, _, _) wrapped -> [> Method.for_form_action ]
+  : type scope.
+    (scope, Method.for_form_action, _, _) wrapped -> [> Method.for_form_action ]
   =
  fun endpoint ->
   match endpoint () with

@@ -20,17 +20,4 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-type request = Dream.request
-type response = Dream.response
-type service = (request, response) Nightmare_service.service
-type handler = (request, response) Nightmare_service.handler
-type middleware = (request, response) Nightmare_service.middleware
-
-let router ~services fallback request = Router.run ~services fallback request
-
-let redirect_to ?status ?code ?headers ?anchor ?parameters endpoint =
-  Redirect.run ?status ?code ?headers ?anchor ?parameters endpoint
-;;
-
-module Router = Router
-module Redirect = Redirect
+(* Deliberately left empty *)

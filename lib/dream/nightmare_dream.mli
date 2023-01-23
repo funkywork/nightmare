@@ -67,10 +67,10 @@ module Router = Router
 
     See {!module:Redirect} for a comprehensive example. *)
 
-(** [redirect ?status ?code ?headers ?anchor ?parameters endpoint] returns a
+(** [redirect_to ?status ?code ?headers ?anchor ?parameters endpoint] returns a
     function that waits to be provisioned by the variables defined by the
     [Endpoint] and a request. *)
-val redirect
+val redirect_to
   :  ?status:[< Dream.redirection ]
   -> ?code:int
   -> ?headers:(string * string) list
