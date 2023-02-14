@@ -1,0 +1,7 @@
+(library
+ (public_name nightmare_js)
+ (name nightmare_js)
+ (libraries preface js_of_ocaml-compiler.runtime lwt js_of_ocaml-lwt)
+ (modules_without_implementation aliases bindings)
+ (modes byte)
+ (preprocess (pps js_of_ocaml-ppx)))
