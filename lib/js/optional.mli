@@ -20,12 +20,15 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-module Aliases = Aliases
-include Aliases
-module Bindings = Bindings
-module Interfaces = Interfaces
-module Optional = Optional
-module Option = Optional.Option
-module Nullable = Optional.Nullable
-module Undefinable = Optional.Undefinable
-module Console = Console
+(** Concrete implementations of [Optional]. *)
+
+open Aliases
+
+(** Uniformity of [Option] in terms of [Optional]. *)
+module Option : Interfaces.OPTIONAL with type 'a t = 'a option
+
+(** Uniformity of [Nullable] in terms of [Optional]. *)
+module Nullable : Interfaces.OPTIONAL with type 'a t = 'a or_null
+
+(** Uniformity of [Undefinable] in terms of [Optional]. *)
+module Undefinable : Interfaces.OPTIONAL with type 'a t = 'a or_undefined
