@@ -21,6 +21,7 @@
   (ocaml (>= 4.14.0))
   (dune (>= 3.0.0))
   (lwt (>= 5.6.1))
+  (preface (>= 1.0.0))
   (odoc :with-doc)
   (alcotest :with-test)))
 
@@ -42,4 +43,18 @@
   (ocaml (>= 4.14.0))
   (dune (>= 3.0.0))
   (tyxml (>= 4.5.0))
+  (nightmare (= :version))))
+
+(package
+ (name nightmare_js)
+ (synopsis "The JavaScript Runtime for Nightmare JS Application")
+ (description "A list of helpers to deal with Nightmare inside a Js_of_ocaml application")
+ (depends
+  (ocaml (>= 4.14.0))
+  (dune (>= 3.0.0))
+  (lwt (>= 5.6.1))
+  (preface (>= 1.0.0))
+  (js_of_ocaml-compiler (>= 5.0.1))
+  (js_of_ocaml-ppx (>= 5.0.1))
+  (js_of_ocaml-lwt (>= 5.0.1))
   (nightmare (= :version))))

@@ -1,3 +1,3 @@
 (test
-  (name nightmare_service_test)
-  (libraries alcotest nightmare.test nightmare.service))
+ (name nightmare_service_test)
+ (libraries alcotest nightmare.test nightmare.service))
