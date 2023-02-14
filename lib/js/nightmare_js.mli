@@ -28,7 +28,25 @@
 
     Some common type aliases to simplify function signatures. *)
 
+(**/**)
+
+module Aliases = Aliases
+
+(**/**)
+
 include module type of Aliases (** @inline *)
+
+(** {2 Modules types} *)
+
+module Bindings = Bindings
+module Interfaces = Interfaces
+
+(** {2 Optional values} *)
+
+module Optional = Optional
+module Option = Optional.Option
+module Nullable = Optional.Nullable
+module Undefinable = Optional.Undefinable
 
 (** {1 Utils} *)
 
