@@ -5,9 +5,9 @@ on:
 
 jobs:
   build_opam:
-    name: Checks that the source code respects the formatting imposed by OCamlformat
+    name: Builds the project and performs the unit tests
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         os:
           - ubuntu-latest
@@ -28,6 +28,6 @@ jobs:
         with:
           ocaml-compiler: ${{ matrix.ocaml-compiler }}
           opam-depext-flags: --with-test
-      - run: opam install dune -y
-      - run: opam install ocamlformat -y
-      - run: opam exec -- dune build @fmt
+      - run: opam install . --deps-only --with-test -y
+      - run: opam exec -- dune build
+      - run: opam exec -- dune runtest
