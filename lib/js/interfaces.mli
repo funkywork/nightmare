@@ -21,8 +21,9 @@
     SOFTWARE. *)
 
 (** Generalization of signatures in the manner of the method described in this
-    article: {{:https://www.craigfe.io/posts/generalised-signatures} Generalised
-    signatures}. *)
+    article:
+    {{:https://www.craigfe.io/posts/generalised-signatures} Generalised
+      signatures}. *)
 
 open Aliases
 
@@ -109,12 +110,20 @@ module type OPTIONAL = sig
 
   module Infix : sig
     include Preface.Specs.Functor.INFIX with type 'a t := 'a t (** @inline *)
-    include Preface.Specs.Alt.INFIX with type 'a t := 'a t  (** @inline *)
-    include Preface.Specs.Applicative.INFIX with type 'a t := 'a t  (** @inline *)
-    include Preface.Specs.Alternative.INFIX with type 'a t := 'a t  (** @inline *)
-    include Preface.Specs.Selective.INFIX with type 'a t := 'a t  (** @inline *)
-    include Preface.Specs.Monad.INFIX with type 'a t := 'a t  (** @inline *)
-    include Preface.Specs.Monad_plus.INFIX with type 'a t := 'a t  (** @inline *)
+
+    include Preface.Specs.Alt.INFIX with type 'a t := 'a t (** @inline *)
+
+    include Preface.Specs.Applicative.INFIX with type 'a t := 'a t
+    (** @inline *)
+
+    include Preface.Specs.Alternative.INFIX with type 'a t := 'a t
+    (** @inline *)
+
+    include Preface.Specs.Selective.INFIX with type 'a t := 'a t (** @inline *)
+
+    include Preface.Specs.Monad.INFIX with type 'a t := 'a t (** @inline *)
+
+    include Preface.Specs.Monad_plus.INFIX with type 'a t := 'a t (** @inline *)
   end
 
   include module type of Infix (** @inline *)
@@ -122,8 +131,10 @@ module type OPTIONAL = sig
   (** {1 Syntax} *)
 
   module Syntax : sig
-    include Preface.Specs.Applicative.SYNTAX with type 'a t := 'a t  (** @inline *)
-    include Preface.Specs.Monad.SYNTAX with type 'a t := 'a t  (** @inline *)
+    include Preface.Specs.Applicative.SYNTAX with type 'a t := 'a t
+    (** @inline *)
+
+    include Preface.Specs.Monad.SYNTAX with type 'a t := 'a t (** @inline *)
   end
 
   include module type of Syntax (** @inline *)

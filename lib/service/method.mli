@@ -29,8 +29,9 @@
     variants that are unified in {!type:t}. This allows methods to be
     intersected, particularly to index certain types more finely. *)
 
-(** See {{:https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods} MDN Web
-    documentation} for more information about [HTTP request methods]. *)
+(** See
+    {{:https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods} MDN Web
+      documentation} for more information about [HTTP request methods]. *)
 type t =
   [ `GET (** Requests a representation of the specified resource. *)
   | `POST (** Submits an entity to the specified resource. *)

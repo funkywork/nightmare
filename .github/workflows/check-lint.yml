@@ -1,0 +1,32 @@
+name: Check lint
+on:
+  pull_request:
+
+jobs:
+  build_opam:
+    name: Checks that the source code respects the formatting imposed by OCamlformat
+    strategy:
+      fail-fast: true
+      matrix:
+        os:
+          - ubuntu-latest
+        ocaml-compiler:
+          - 5.0.0
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: configure git LF
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+      - name: Checkout code
+        uses: actions/checkout@v2
+        #
+      - name: Use OCaml ${{ matrix.ocaml-compiler }}
+        uses: ocaml/setup-ocaml@v2
+        with:
+          ocaml-compiler: ${{ matrix.ocaml-compiler }}
+          opam-depext-flags: --with-test
+      - run: opam install dune -y
+      - run: opam install ocamlformat -y
+      - run: opam exec -- dune build @fmt
