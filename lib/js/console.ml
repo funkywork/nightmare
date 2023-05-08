@@ -22,7 +22,12 @@
 
 open Js_of_ocaml
 
-let console = Bindings.get_console ()
+external get_console
+  :  unit
+  -> Bindings.console_hook Js.t
+  = "caml_js_get_console"
+
+let console = get_console ()
 let clear () = console##clear
 let log value = console##log value
 let debug value = console##debug value

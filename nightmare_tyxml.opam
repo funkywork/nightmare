@@ -9,7 +9,7 @@ license: "MIT"
 homepage: "https://github.com/funkywork/nightmare"
 bug-reports: "https://github.com/funkywork/nightmare/issues"
 depends: [
-  "ocaml" {>= "4.14.0"}
+  "ocaml" {>= "5.0.0"}
   "dune" {>= "3.0" & >= "3.0.0"}
   "tyxml" {>= "4.5.0"}
   "nightmare" {= version}
