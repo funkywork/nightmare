@@ -22,8 +22,7 @@
 
 (** A dead simple binding of the debugging console. The correspondence of the
     functions can be found on the MND documentation:
-    {{:https://developer.mozilla.org/en-US/docs/Web/API/Console}
-    WebAPI/Console}.
+    {{:https://developer.mozilla.org/en-US/docs/Web/API/Console} WebAPI/Console}.
 
     The goal of this module is mostly for debugging. *)
 
