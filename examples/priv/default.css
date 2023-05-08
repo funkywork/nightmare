@@ -1,0 +1,134 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  font-family: sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 1.4;
+  background-color: #fff;
+}
+
+header {
+  background-color: #111;
+  color: #fff;
+}
+
+header > nav,
+header > main {
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+  padding: 8px;
+}
+
+header > main {
+  margin: 64px auto;
+}
+
+header > main > h1,
+header > main > h2 {
+  margin: 0;
+  text-align: center;
+}
+
+header > main > h1 {
+  font-weight: 900;
+  font-size: 220%;
+}
+
+header > main > h2 {
+  font-weight: 300;
+  font-size: 120%;
+}
+
+header > nav {
+  border-top: 1px solid #2a2a2a;
+}
+
+header > nav > ul {
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+}
+
+header > nav > ul > li {
+  flex: 1;
+  text-align: center;
+  border-left: 1px solid #fff;
+}
+
+header > nav > ul > li:first-child {
+  border: 0px solid transparent;
+}
+
+header > nav > ul > li > a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 110%;
+  display: block;
+}
+
+footer {
+  background-color: #fff;
+  padding: 32px;
+}
+
+footer > div {
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+}
+
+footer > div > span {
+  font-weight: 700;
+}
+
+footer > div > a {
+  text-decoration: none;
+}
+
+footer > div > a > img {
+  width: 120px;
+}
+
+body > main {
+  flex: 1;
+  width: 100%;
+  max-width: 800px;
+  margin: 32px auto;
+  padding: 12px;
+  font-size: 88%;
+}
+
+body > main > h1,
+body > main > h2 {
+  margin: 0;
+}
+
+body > main > h2 {
+  font-weight: 300;
+  margin-bottom: 64px;
+}
+
+@media all and (max-width: 640px) {
+  header > nav > ul {
+    display: flex;
+    flex-direction: column;
+  }
+
+  header > nav > ul > li {
+    border-left: 0px solid transparent;
+    padding: 12px;
+    border-top: 1px solid #2a2a2a;
+  }
+}
