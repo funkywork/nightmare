@@ -1,7 +1,6 @@
-name: Check lint
+name: Unit test
 on:
   pull_request:
-  push:
 
 jobs:
   build_opam:
@@ -12,7 +11,7 @@ jobs:
         os:
           - ubuntu-latest
         ocaml-compiler:
-          - 5.0.x
+          - 5.0.0
     runs-on: ${{ matrix.os }}
 
     steps:
