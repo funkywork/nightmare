@@ -1,6 +1,6 @@
 # Nightmare
 
-> **Warning** *Nightmare* is still _Work In Progress_.
+> **Warning** _Nightmare_ is still _Work In Progress_.
 
 A set of components that fit, a priori, relatively well with the web framework
 ([OCaml](https://ocaml.org)) [Dream](https://aantron.github.io/dream/) to try to
@@ -25,7 +25,7 @@ initiate the environment:
 
 ```shellsession
 opam update
-opam switch create . ocaml-base-compiler.4.14.0 --deps-only -y
+opam switch create . ocaml-base-compiler.5.0.0 --deps-only -y
 eval $(opam env)
 ```
 
@@ -36,6 +36,7 @@ dependencies using `make`:
 make dev-deps
 make deps
 ```
+
 Now you should be able to easily start contributing to **Nightmare**.
 
 > **Note** If you are not using [GNU/Make](https://www.gnu.org/software/make/)
