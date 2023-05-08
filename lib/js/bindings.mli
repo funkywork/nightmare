@@ -41,6 +41,3 @@ class type console_hook =
     method timeLog : 'a. js_string t -> 'a -> unit meth
     method table : 'a. 'a -> js_string t js_array t or_undefined -> unit meth
   end
-
-(** Retreive the console implementation. *)
-external get_console : unit -> console_hook t = "caml_js_get_console"

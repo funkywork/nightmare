@@ -14,6 +14,8 @@ _build/
 # ocamlbuild targets
 *.byte
 *.native
+*.bc.js
+*.bc-for-jsoo
 
 # oasis generated files
 setup.data
