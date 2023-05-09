@@ -20,38 +20,45 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-(** [Nightmare_js] provides an API for working with the web browser (via
-    [Js_of_ocaml]) and tries to provide bindings missing from the standard
-    [Js_of_ocaml] library. *)
+(** {1 Common types} *)
 
-(** {1 Types}
+(** Describes the change of state of a storage. Mostly used for event handling. *)
+type ('key, 'value) change = ('key, 'value) Interfaces.storage_change_state =
+  | Clear
+  | Insert of
+      { key : 'key
+      ; value : 'value
+      }
+  | Remove of
+      { key : 'key
+      ; value : 'value
+      }
+  | Update of
+      { key : 'key
+      ; old_value : 'value
+      ; new_value : 'value
+      }
 
-    Some common type aliases to simplify function signatures. *)
+(** {1 Common signatures} *)
 
-(**/**)
+module type VALUE = Interfaces.STORAGE_SERIALIZABLE
+module type REQUIREMENT = Interfaces.STORAGE_REQUIREMENT
+module type S = Interfaces.STORAGE
 
-module Aliases = Aliases
+(** {1 Exception}
 
-(**/**)
+    Exceptions are not supposed to appear, they are only present to make the API
+    complete. *)
 
-include module type of Aliases (** @inline *)
+(** In the age of our modern browsers, this exception should never be launched. *)
+exception Not_supported
 
-(** {2 Modules types} *)
+(** {1 Create a storage} *)
 
-module Bindings = Bindings
-module Interfaces = Interfaces
+module Make (Req : REQUIREMENT) :
+  S with type key = string and type value = string
 
-(** {2 Optional values} *)
+(** {1 Predefined storages} *)
 
-module Optional = Optional
-module Option = Optional.Option
-module Nullable = Optional.Nullable
-module Undefinable = Optional.Undefinable
-
-(** {2 Web Storage API} *)
-
-module Storage = Storage
-
-(** {1 Utils} *)
-
-module Console = Console
+module Local : S with type key = string and type value = string
+module Session : S with type key = string and type value = string

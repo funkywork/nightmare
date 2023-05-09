@@ -139,3 +139,119 @@ module type OPTIONAL = sig
 
   include module type of Syntax (** @inline *)
 end
+
+(** {1 Storage signatures}
+
+    Uniform treatment of the two storage modes ([LocalStorage] and
+    [SessionStorage]). *)
+
+(** {2 Common types} *)
+
+(** Describes the change of state of a storage. *)
+type ('key, 'value) storage_change_state =
+  | Clear
+  | Insert of
+      { key : 'key
+      ; value : 'value
+      }
+  | Remove of
+      { key : 'key
+      ; value : 'value
+      }
+  | Update of
+      { key : 'key
+      ; old_value : 'value
+      ; new_value : 'value
+      }
+
+(** {2 Keys and values}
+
+    Describes a data item that can be serialized (and deserialized) to allow
+    arbitrary data storage in a web storage. *)
+
+(** A value that can be injected into a string or projected into a value. *)
+module type STORAGE_SERIALIZABLE = sig
+  type t
+
+  val write : t -> string
+  val read : string -> t option
+end
+
+(** {2 Storage requirement} *)
+
+module type STORAGE_REQUIREMENT = sig
+  val handler : Js_of_ocaml.Dom_html.storage Js_of_ocaml.Js.t or_undefined
+end
+
+(** {2 Storage API} *)
+
+module type STORAGE = sig
+  (** {1 Types} *)
+
+  (** The type of a [key]. *)
+  type key
+
+  (** The type of a [value]. *)
+  type value
+
+  (** A [Map] that can be the result of a slice of the storage. *)
+  module Map : Map.S with type key = key
+
+  (** A slice of results. *)
+  type slice = value Map.t
+
+  (** {1 API} *)
+
+  (** [length ()] return the number of entries stored into the storage. *)
+  val length : unit -> int
+
+  (** [get k] return the value indexed by [k] wrapped into an [option]. Returns
+      [None] if the value does not exists. *)
+  val get : key -> value option
+
+  (** [set k v] stores [v] at the index [k]. *)
+  val set : key -> value -> unit
+
+  (** [remove k] delete the value at the index [k]. *)
+  val remove : key -> unit
+
+  (** [update f k] allows you to modify an input, passed as an option to a
+      function (wrapped in [Some] if it exists, [None] if it doesn't), the
+      function returns an [option], too, if it returns [Some] the result is
+      modified, if it returns [None] the result is deleted. The final result of
+      the function's application is returned.
+
+      - [remove k] = [update (fun _ -> None) k]
+      - [set k v] = [update (fun _ -> Some v) k]
+      - [match get k with Some x -> set k (x ^ v) then set k v] =
+        [update (function Some x -> Some (x ^ v) | None -> Some v)]. *)
+  val update : (value option -> value option) -> key -> value option
+
+  (** [clear ()] clear all entries of the storage. *)
+  val clear : unit -> unit
+
+  (** [key n] will return the key of the nth [n] entry in the storage.*)
+  val key : int -> key option
+
+  (** [nth x] will return the a pair of [key]/[value] of the nth [n] entry in
+      the storage. *)
+  val nth : int -> (key * value) option
+
+  (** [fold f v] folds every entries of the storage. *)
+  val fold : ('acc -> key -> value -> 'acc) -> 'acc -> 'acc
+
+  (** [to_map ()] returns the storage as a [slice] (a [Map] indexed by keys). *)
+  val to_map : unit -> slice
+
+  (** [filter p] will returns all entries that satisfies the predicate
+      [p key value]. *)
+  val filter : (key -> value -> bool) -> slice
+
+  (* (\** {1 Event Handling} *\) *)
+
+  (* val on_change *)
+  (*   :  ?prefix:string *)
+  (*   -> url:string *)
+  (*   -> (key, value) storage_change_state *)
+  (*   -> unit Lwt.t *)
+end
