@@ -247,11 +247,13 @@ module type STORAGE = sig
       [p key value]. *)
   val filter : (key -> value -> bool) -> slice
 
-  (* (\** {1 Event Handling} *\) *)
+  (** {1 Event Handling} *)
 
-  (* val on_change *)
-  (*   :  ?prefix:string *)
-  (*   -> url:string *)
-  (*   -> (key, value) storage_change_state *)
-  (*   -> unit Lwt.t *)
+  val on
+    :  ?capture:bool
+    -> ?once:bool
+    -> ?passive:bool
+    -> ?prefix:string
+    -> (url:string -> (key, value) storage_change_state -> bool)
+    -> Js_of_ocaml.Dom.event_listener_id
 end

@@ -39,6 +39,12 @@ type ('key, 'value) change = ('key, 'value) Interfaces.storage_change_state =
       ; new_value : 'value
       }
 
+(** {1 Storage Event} *)
+
+type event = Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t
+
+val event : event Js_of_ocaml.Dom.Event.typ
+
 (** {1 Common signatures} *)
 
 module type VALUE = Interfaces.STORAGE_SERIALIZABLE

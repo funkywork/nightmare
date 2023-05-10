@@ -42,6 +42,10 @@ module type VALUE = Interfaces.STORAGE_SERIALIZABLE
 module type REQUIREMENT = Interfaces.STORAGE_REQUIREMENT
 module type S = Interfaces.STORAGE
 
+type event = Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t
+
+let event = Js_of_ocaml.Dom.Event.make "storage"
+
 module Make (Req : REQUIREMENT) = struct
   open Js_of_ocaml
   open Optional
@@ -116,6 +120,53 @@ module Make (Req : REQUIREMENT) = struct
   ;;
 
   let to_map () = filter (fun _ _ -> true)
+
+  let make_change_state (event : Dom_html.storageEvent Js.t) k =
+    let key = Js.to_string k in
+    let old_value = unwrap_string event##.oldValue in
+    let new_value = unwrap_string event##.newValue in
+    match old_value, new_value with
+    | None, Some value -> Insert { key; value }
+    | Some value, None -> Remove { key; value }
+    | Some old_value, Some new_value -> Update { key; old_value; new_value }
+    | None, None -> Clear
+  ;;
+
+  let pertinent_storage ev =
+    let open Nullable in
+    (let* area = ev##.storageArea in
+     let+ curr = from_optdef Req.handler in
+     area = curr)
+    |> value ~default:false
+  ;;
+
+  let has_prefix ~prefix str = 
+    let prefix = Js.string prefix in
+    let index = str##lastIndexOf_from prefix 0 in
+    Int.equal index 0
+
+  let on ?capture ?once ?passive ?(prefix = "") f =
+    let capture = Option.(Js.bool <$> capture) in
+    let once = Option.(Js.bool <$> once) in
+    let passive = Option.(Js.bool <$> passive) in
+    let callback event =
+      if pertinent_storage event then
+        let url = Js.to_string event##.url in
+        match Nullable.to_option event##.key with
+        | None -> f ~url Clear |> Js.bool
+        | Some k ->
+          if has_prefix ~prefix k then 
+            f ~url (make_change_state event k) |> Js.bool 
+          else Js._true else Js._true
+      in
+    Dom.addEventListenerWithOptions
+      Dom_html.window
+      event
+      ?capture
+      ?once
+      ?passive
+      (Dom.handler callback)
+  ;;
 end
 
 module Local = Make (struct
