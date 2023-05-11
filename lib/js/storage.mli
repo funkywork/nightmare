@@ -31,7 +31,7 @@ type ('key, 'value) change = ('key, 'value) Interfaces.storage_change_state =
       }
   | Remove of
       { key : 'key
-      ; value : 'value
+      ; old_value : 'value
       }
   | Update of
       { key : 'key

@@ -156,7 +156,7 @@ type ('key, 'value) storage_change_state =
       }
   | Remove of
       { key : 'key
-      ; value : 'value
+      ; old_value : 'value
       }
   | Update of
       { key : 'key
@@ -249,11 +249,63 @@ module type STORAGE = sig
 
   (** {1 Event Handling} *)
 
+  (** [on ?capture ?once ?passive ?prefix] sets up a function that will be
+      called whenever the storage change. It return an [event_listener_id] (in
+      order to be revoked). A [prefix]. a prefix can be given to filter on keys
+      starting only with the prefix. *)
   val on
     :  ?capture:bool
     -> ?once:bool
     -> ?passive:bool
     -> ?prefix:string
-    -> (url:string -> (key, value) storage_change_state -> bool)
+    -> ((key, value) storage_change_state
+        -> Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t
+        -> unit)
+    -> Js_of_ocaml.Dom.event_listener_id
+
+  (** A specialized version of {!val:on} only for storage clearing. *)
+  val on_clear
+    :  ?capture:bool
+    -> ?once:bool
+    -> ?passive:bool
+    -> (Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t -> unit)
+    -> Js_of_ocaml.Dom.event_listener_id
+
+  (** A specialized version of {!val:on} only for storage insertion. *)
+  val on_insert
+    :  ?capture:bool
+    -> ?once:bool
+    -> ?passive:bool
+    -> ?prefix:string
+    -> (key:key
+        -> value:value
+        -> Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t
+        -> unit)
+    -> Js_of_ocaml.Dom.event_listener_id
+
+  (** A specialized version of {!val:on} only for storage deletion (the value of
+      the handler contains the deleted value). *)
+  val on_remove
+    :  ?capture:bool
+    -> ?once:bool
+    -> ?passive:bool
+    -> ?prefix:string
+    -> (key:key
+        -> old_value:value
+        -> Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t
+        -> unit)
+    -> Js_of_ocaml.Dom.event_listener_id
+
+  (** A specialized version of {!val:on} only for storage update. *)
+  val on_update
+    :  ?capture:bool
+    -> ?once:bool
+    -> ?passive:bool
+    -> ?prefix:string
+    -> (key:key
+        -> old_value:value
+        -> new_value:value
+        -> Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t
+        -> unit)
     -> Js_of_ocaml.Dom.event_listener_id
 end

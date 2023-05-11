@@ -30,7 +30,7 @@ type ('key, 'value) change = ('key, 'value) Interfaces.storage_change_state =
       }
   | Remove of
       { key : 'key
-      ; value : 'value
+      ; old_value : 'value
       }
   | Update of
       { key : 'key
@@ -127,7 +127,7 @@ module Make (Req : REQUIREMENT) = struct
     let new_value = unwrap_string event##.newValue in
     match old_value, new_value with
     | None, Some value -> Insert { key; value }
-    | Some value, None -> Remove { key; value }
+    | Some old_value, None -> Remove { key; old_value }
     | Some old_value, Some new_value -> Update { key; old_value; new_value }
     | None, None -> Clear
   ;;
@@ -140,25 +140,28 @@ module Make (Req : REQUIREMENT) = struct
     |> value ~default:false
   ;;
 
-  let has_prefix ~prefix str = 
+  let has_prefix ~prefix str =
     let prefix = Js.string prefix in
     let index = str##lastIndexOf_from prefix 0 in
     Int.equal index 0
+  ;;
 
   let on ?capture ?once ?passive ?(prefix = "") f =
     let capture = Option.(Js.bool <$> capture) in
     let once = Option.(Js.bool <$> once) in
     let passive = Option.(Js.bool <$> passive) in
     let callback event =
-      if pertinent_storage event then
-        let url = Js.to_string event##.url in
-        match Nullable.to_option event##.key with
-        | None -> f ~url Clear |> Js.bool
-        | Some k ->
-          if has_prefix ~prefix k then 
-            f ~url (make_change_state event k) |> Js.bool 
-          else Js._true else Js._true
-      in
+      if pertinent_storage event
+      then (
+        let () =
+          match Nullable.to_option event##.key with
+          | None -> f Clear event
+          | Some k ->
+            if has_prefix ~prefix k then f (make_change_state event k) event
+        in
+        Js._true)
+      else Js._true
+    in
     Dom.addEventListenerWithOptions
       Dom_html.window
       event
@@ -166,6 +169,34 @@ module Make (Req : REQUIREMENT) = struct
       ?once
       ?passive
       (Dom.handler callback)
+  ;;
+
+  let on_clear ?capture ?once ?passive f =
+    on ?capture ?once ?passive (fun state ev ->
+      match state with
+      | Clear -> f ev
+      | _ -> ())
+  ;;
+
+  let on_insert ?capture ?once ?passive ?prefix f =
+    on ?capture ?once ?passive ?prefix (fun state ev ->
+      match state with
+      | Insert { key; value } -> f ~key ~value ev
+      | _ -> ())
+  ;;
+
+  let on_remove ?capture ?once ?passive ?prefix f =
+    on ?capture ?once ?passive ?prefix (fun state ev ->
+      match state with
+      | Remove { key; old_value } -> f ~key ~old_value ev
+      | _ -> ())
+  ;;
+
+  let on_update ?capture ?once ?passive ?prefix f =
+    on ?capture ?once ?passive ?prefix (fun state ev ->
+      match state with
+      | Update { key; old_value; new_value } -> f ~key ~old_value ~new_value ev
+      | _ -> ())
   ;;
 end
 
