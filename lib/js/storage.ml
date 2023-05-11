@@ -39,6 +39,7 @@ type ('key, 'value) change = ('key, 'value) Interfaces.storage_change_state =
       }
 
 module type VALUE = Interfaces.STORAGE_SERIALIZABLE
+module type KEY = Interfaces.PREFIXED_KEY
 module type REQUIREMENT = Interfaces.STORAGE_REQUIREMENT
 module type S = Interfaces.STORAGE
 
@@ -207,3 +208,52 @@ end)
 module Session = Make (struct
   let handler = Js_of_ocaml.Dom_html.window##.sessionStorage
 end)
+
+let separator = "\x00"
+
+module Ref
+  (Backend : S with type key = string and type value = string)
+  (Key : KEY)
+  (Value : VALUE) =
+struct
+  type t = Ref of string
+
+  let make_prefixed_key value =
+    "nightmare" ^ separator ^ "ref" ^ separator ^ Key.prefix ^ separator ^ value
+  ;;
+
+  let make key = Ref (make_prefixed_key key)
+
+  let set (Ref k) v =
+    let value = Value.write v in
+    Backend.set k value
+  ;;
+
+  let make_with k v =
+    let reference = make k in
+    let () = set reference v in
+    reference
+  ;;
+
+  let get (Ref k) =
+    let open Optional.Option in
+    Backend.get k >>= Value.read
+  ;;
+
+  let make_if_not_exists k v =
+    let reference = make k in
+    let () =
+      match get reference with
+      | None -> set reference v
+      | Some _ -> ()
+    in
+    reference
+  ;;
+
+  module Infix = struct
+    let ( ! ) = get
+    let ( := ) = set
+  end
+
+  include Infix
+end

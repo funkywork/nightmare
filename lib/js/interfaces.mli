@@ -177,6 +177,11 @@ module type STORAGE_SERIALIZABLE = sig
   val read : string -> t option
 end
 
+(** The module that describe the prefix/scope of a key. *)
+module type PREFIXED_KEY = sig
+  val prefix : string
+end
+
 (** {2 Storage requirement} *)
 
 module type STORAGE_REQUIREMENT = sig

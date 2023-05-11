@@ -47,7 +47,6 @@ val event : event Js_of_ocaml.Dom.Event.typ
 
 (** {1 Common signatures} *)
 
-module type VALUE = Interfaces.STORAGE_SERIALIZABLE
 module type REQUIREMENT = Interfaces.STORAGE_REQUIREMENT
 module type S = Interfaces.STORAGE
 
@@ -68,3 +67,35 @@ module Make (Req : REQUIREMENT) :
 
 module Local : S with type key = string and type value = string
 module Session : S with type key = string and type value = string
+
+(** {1 References}
+
+    A reference is similar to OCaml's [ref] except that it is persisted in an
+    associated backend. ([Local] or [Session]), however, as deletion of storage
+    is not controllable, they always return options. A key is prefixed, which is
+    a poor way of making a scope. *)
+
+module type VALUE = Interfaces.STORAGE_SERIALIZABLE
+module type KEY = Interfaces.PREFIXED_KEY
+
+(** A functor to build particular kind of references. *)
+module Ref
+  (Backend : S with type key = string and type value = string)
+  (Key : KEY)
+  (Value : VALUE) : sig
+  (** The type that describe a Ref. *)
+  type t
+
+  val make : string -> t
+  val make_with : string -> Value.t -> t
+  val make_if_not_exists : string -> Value.t -> t
+  val set : t -> Value.t -> unit
+  val get : t -> Value.t option
+
+  module Infix : sig
+    val ( ! ) : t -> Value.t option
+    val ( := ) : t -> Value.t -> unit
+  end
+
+  include module type of Infix
+end
