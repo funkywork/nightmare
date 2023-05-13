@@ -122,18 +122,19 @@ module Make (Req : REQUIREMENT) = struct
 
   let to_map () = filter (fun _ _ -> true)
 
-  let make_change_state (event : Dom_html.storageEvent Js.t) k =
-    let key = Js.to_string k in
+  let event_to_change (event : Dom_html.storageEvent Js.t) =
+    let key = unwrap_string event##.key in
     let old_value = unwrap_string event##.oldValue in
     let new_value = unwrap_string event##.newValue in
-    match old_value, new_value with
-    | None, Some value -> Insert { key; value }
-    | Some old_value, None -> Remove { key; old_value }
-    | Some old_value, Some new_value -> Update { key; old_value; new_value }
-    | None, None -> Clear
+    match key, old_value, new_value with
+    | Some key, None, Some value -> Insert { key; value }
+    | Some key, Some old_value, None -> Remove { key; old_value }
+    | Some key, Some old_value, Some new_value ->
+      Update { key; old_value; new_value }
+    | _ -> Clear
   ;;
 
-  let pertinent_storage ev =
+  let event_is_related ev =
     let open Nullable in
     (let* area = ev##.storageArea in
      let+ curr = from_optdef Req.handler in
@@ -152,13 +153,13 @@ module Make (Req : REQUIREMENT) = struct
     let once = Option.(Js.bool <$> once) in
     let passive = Option.(Js.bool <$> passive) in
     let callback event =
-      if pertinent_storage event
+      if event_is_related event
       then (
         let () =
           match Nullable.to_option event##.key with
           | None -> f Clear event
           | Some k ->
-            if has_prefix ~prefix k then f (make_change_state event k) event
+            if has_prefix ~prefix k then f (event_to_change event) event
         in
         Js._true)
       else Js._true
@@ -198,6 +199,81 @@ module Make (Req : REQUIREMENT) = struct
       match state with
       | Update { key; old_value; new_value } -> f ~key ~old_value ~new_value ev
       | _ -> ())
+  ;;
+
+  let prepare_lwt_task () =
+    let open Optional in
+    let task, awaiter = Lwt.task () in
+    let listener_id = ref Nullable.empty in
+    let cancelation () =
+      Nullable.fold (fun () -> ()) Dom_html.removeEventListener !listener_id
+    in
+    let () = Lwt.on_cancel task cancelation in
+    task, awaiter, cancelation, listener_id
+  ;;
+
+  let lwt_on ?capture ?passive ?prefix () =
+    let task, awaiter, cancelation, listener_id = prepare_lwt_task () in
+    let () =
+      listener_id
+        := Nullable.fill
+           @@ on ?capture ?passive ?prefix (fun state event ->
+                let () = cancelation () in
+                Lwt.wakeup awaiter (state, event))
+    in
+    task
+  ;;
+
+  let lwt_on_clear ?capture ?passive () =
+    let task, awaiter, cancelation, listener_id = prepare_lwt_task () in
+    let () =
+      listener_id
+        := Nullable.fill
+           @@ on_clear ?capture ?passive (fun event ->
+                let () = cancelation () in
+                Lwt.wakeup awaiter event)
+    in
+    task
+  ;;
+
+  let lwt_on_insert ?capture ?passive ?prefix () =
+    let task, awaiter, cancelation, listener_id = prepare_lwt_task () in
+    let () =
+      listener_id
+        := Nullable.fill
+           @@ on_insert ?capture ?passive ?prefix (fun ~key ~value event ->
+                let () = cancelation () in
+                Lwt.wakeup awaiter (key, value, event))
+    in
+    task
+  ;;
+
+  let lwt_on_remove ?capture ?passive ?prefix () =
+    let task, awaiter, cancelation, listener_id = prepare_lwt_task () in
+    let () =
+      listener_id
+        := Nullable.fill
+           @@ on_remove ?capture ?passive ?prefix (fun ~key ~old_value event ->
+                let () = cancelation () in
+                Lwt.wakeup awaiter (key, old_value, event))
+    in
+    task
+  ;;
+
+  let lwt_on_update ?capture ?passive ?prefix () =
+    let task, awaiter, cancelation, listener_id = prepare_lwt_task () in
+    let () =
+      listener_id
+        := Nullable.fill
+           @@ on_update
+                ?capture
+                ?passive
+                ?prefix
+                (fun ~key ~old_value ~new_value event ->
+                let () = cancelation () in
+                Lwt.wakeup awaiter (key, new_value, `Old_value old_value, event))
+    in
+    task
   ;;
 end
 

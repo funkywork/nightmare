@@ -48,8 +48,6 @@ type event = Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t
 (** The value of a storage event. Used for the function [addEventListener]. *)
 val event : event Js_of_ocaml.Dom.Event.typ
 
-(** Event handler for [Lwt_js_events]. *)
-
 (** {1 Common signatures} *)
 
 module type REQUIREMENT = Interfaces.STORAGE_REQUIREMENT

@@ -252,7 +252,7 @@ module type STORAGE = sig
       [p key value]. *)
   val filter : (key -> value -> bool) -> slice
 
-  (** {1 Event Handling} *)
+  (** {1 Events Handling} *)
 
   (** [on ?capture ?once ?passive ?prefix] sets up a function that will be
       called whenever the storage change. It return an [event_listener_id] (in
@@ -313,4 +313,66 @@ module type STORAGE = sig
         -> Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t
         -> unit)
     -> Js_of_ocaml.Dom.event_listener_id
+
+  (** [event_to_change ev] compute a [(key, value) storage_change_state] from a
+      storage event.*)
+  val event_to_change
+    :  Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t
+    -> (key, value) storage_change_state
+
+  (** [event_is_related ev] returns [true] if the event is related to the
+      backend, otherwise [false]. *)
+  val event_is_related
+    :  Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t
+    -> bool
+
+  (** {2 Lwt events}
+
+      Some event description to deal with [js_of_ocaml-lwt] (using
+      [Lwt_js_event]). *)
+
+  (** Lwt version of [on]. *)
+  val lwt_on
+    :  ?capture:bool
+    -> ?passive:bool
+    -> ?prefix:string
+    -> unit
+    -> ((key, value) storage_change_state
+       * Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t)
+       Lwt.t
+
+  (** Lwt version of [on_clear]. *)
+  val lwt_on_clear
+    :  ?capture:bool
+    -> ?passive:bool
+    -> unit
+    -> Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t Lwt.t
+
+  (** Lwt version of [on_insert]. *)
+  val lwt_on_insert
+    :  ?capture:bool
+    -> ?passive:bool
+    -> ?prefix:string
+    -> unit
+    -> (key * value * Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t) Lwt.t
+
+  (** Lwt version of [on_remove]. *)
+  val lwt_on_remove
+    :  ?capture:bool
+    -> ?passive:bool
+    -> ?prefix:string
+    -> unit
+    -> (key * value * Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t) Lwt.t
+
+  (** Lwt version of [on_update]. *)
+  val lwt_on_update
+    :  ?capture:bool
+    -> ?passive:bool
+    -> ?prefix:string
+    -> unit
+    -> (key
+       * value
+       * [ `Old_value of value ]
+       * Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t)
+       Lwt.t
 end
