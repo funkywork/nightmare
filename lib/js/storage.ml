@@ -209,7 +209,8 @@ module Session = Make (struct
   let handler = Js_of_ocaml.Dom_html.window##.sessionStorage
 end)
 
-let separator = "\x00"
+let separator = "\x01"
+let terminator = "\x00"
 
 module Ref
   (Backend : S with type key = string and type value = string)
@@ -218,11 +219,16 @@ module Ref
 struct
   type t = Ref of string
 
-  let make_prefixed_key value =
-    "nightmare" ^ separator ^ "ref" ^ separator ^ Key.prefix ^ separator ^ value
+  let complete_prefix =
+    "nightmare" ^ separator ^ "ref" ^ separator ^ Key.prefix ^ separator
   ;;
 
+  let make_prefixed_key value = complete_prefix ^ value ^ terminator
   let make key = Ref (make_prefixed_key key)
+
+  let has_terminator prefix s =
+    if String.ends_with ~suffix:prefix s then Some s else None
+  ;;
 
   let set (Ref k) v =
     let value = Value.write v in
@@ -248,6 +254,55 @@ struct
       | Some _ -> ()
     in
     reference
+  ;;
+
+  let on ?capture ?once ?passive ~key f =
+    let prefix = make_prefixed_key key in
+    let callback change event =
+      let new_state =
+        let open Optional.Option in
+        match change with
+        | Clear -> Some Clear
+        | Insert { key; value } ->
+          let* key = has_terminator prefix key >|= make in
+          let+ value = Value.read value in
+          Insert { key; value }
+        | Remove { key; old_value } ->
+          let* key = has_terminator prefix key >|= make in
+          let+ old_value = Value.read old_value in
+          Remove { key; old_value }
+        | Update { key; old_value; new_value } ->
+          let* key = has_terminator prefix key >|= make in
+          let* old_value = Value.read old_value in
+          let+ new_value = Value.read new_value in
+          Update { key; old_value; new_value }
+      in
+      match new_state with
+      | None -> ()
+      | Some state -> f state event
+    in
+    Backend.on ?capture ?once ?passive ~prefix callback
+  ;;
+
+  let on_insert ?capture ?once ?passive ~key f =
+    on ?capture ?once ?passive ~key (fun state ev ->
+      match state with
+      | Insert { key; value } -> f ~key ~value ev
+      | _ -> ())
+  ;;
+
+  let on_remove ?capture ?once ?passive ~key f =
+    on ?capture ?once ?passive ~key (fun state ev ->
+      match state with
+      | Remove { key; old_value } -> f ~key ~old_value ev
+      | _ -> ())
+  ;;
+
+  let on_update ?capture ?once ?passive ~key f =
+    on ?capture ?once ?passive ~key (fun state ev ->
+      match state with
+      | Update { key; old_value; new_value } -> f ~key ~old_value ~new_value ev
+      | _ -> ())
   ;;
 
   module Infix = struct
