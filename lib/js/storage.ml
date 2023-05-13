@@ -47,6 +47,17 @@ type event = Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t
 
 let event = Js_of_ocaml.Dom.Event.make "storage"
 
+let prepare_lwt_task () =
+  let open Optional in
+  let task, awaiter = Lwt.task () in
+  let listener_id = ref Nullable.empty in
+  let cancelation () =
+    Nullable.iter Js_of_ocaml.Dom_html.removeEventListener !listener_id
+  in
+  let () = Lwt.on_cancel task cancelation in
+  task, awaiter, cancelation, listener_id
+;;
+
 module Make (Req : REQUIREMENT) = struct
   open Js_of_ocaml
   open Optional
@@ -59,10 +70,7 @@ module Make (Req : REQUIREMENT) = struct
   type slice = value Map.t
 
   let storage =
-    Optional.Undefinable.fold
-      (fun () -> raise Not_supported)
-      (fun x -> x)
-      Req.handler
+    Undefinable.fold (fun () -> raise Not_supported) (fun x -> x) Req.handler
   ;;
 
   let unwrap_string s =
@@ -201,17 +209,6 @@ module Make (Req : REQUIREMENT) = struct
       | _ -> ())
   ;;
 
-  let prepare_lwt_task () =
-    let open Optional in
-    let task, awaiter = Lwt.task () in
-    let listener_id = ref Nullable.empty in
-    let cancelation () =
-      Nullable.fold (fun () -> ()) Dom_html.removeEventListener !listener_id
-    in
-    let () = Lwt.on_cancel task cancelation in
-    task, awaiter, cancelation, listener_id
-  ;;
-
   let lwt_on ?capture ?passive ?prefix () =
     let task, awaiter, cancelation, listener_id = prepare_lwt_task () in
     let () =
@@ -293,6 +290,8 @@ module Ref
   (Key : KEY)
   (Value : VALUE) =
 struct
+  open Optional
+
   type t = Ref of string
 
   let complete_prefix =
@@ -318,9 +317,11 @@ struct
   ;;
 
   let get (Ref k) =
-    let open Optional.Option in
+    let open Option in
     Backend.get k >>= Value.read
   ;;
+
+  let unset (Ref k) = Backend.remove k
 
   let make_if_not_exists k v =
     let reference = make k in
@@ -336,7 +337,7 @@ struct
     let prefix = make_prefixed_key key in
     let callback change event =
       let new_state =
-        let open Optional.Option in
+        let open Option in
         match change with
         | Clear -> Some Clear
         | Insert { key; value } ->
@@ -379,6 +380,58 @@ struct
       match state with
       | Update { key; old_value; new_value } -> f ~key ~old_value ~new_value ev
       | _ -> ())
+  ;;
+
+  let lwt_on ?capture ?passive ~key () =
+    let task, awaiter, cancelation, listener_id = prepare_lwt_task () in
+    let () =
+      listener_id
+        := Nullable.fill
+           @@ on ?capture ?passive ~key (fun state event ->
+                let () = cancelation () in
+                Lwt.wakeup awaiter (state, event))
+    in
+    task
+  ;;
+
+  let lwt_on_insert ?capture ?passive ~key () =
+    let task, awaiter, cancelation, listener_id = prepare_lwt_task () in
+    let () =
+      listener_id
+        := Nullable.fill
+           @@ on_insert ?capture ?passive ~key (fun ~key ~value event ->
+                let () = cancelation () in
+                Lwt.wakeup awaiter (key, value, event))
+    in
+    task
+  ;;
+
+  let lwt_on_remove ?capture ?passive ~key () =
+    let task, awaiter, cancelation, listener_id = prepare_lwt_task () in
+    let () =
+      listener_id
+        := Nullable.fill
+           @@ on_remove ?capture ?passive ~key (fun ~key ~old_value event ->
+                let () = cancelation () in
+                Lwt.wakeup awaiter (key, old_value, event))
+    in
+    task
+  ;;
+
+  let lwt_on_update ?capture ?passive ~key () =
+    let task, awaiter, cancelation, listener_id = prepare_lwt_task () in
+    let () =
+      listener_id
+        := Nullable.fill
+           @@ on_update
+                ?capture
+                ?passive
+                ~key
+                (fun ~key ~old_value ~new_value event ->
+                let () = cancelation () in
+                Lwt.wakeup awaiter (key, new_value, `Old_value old_value, event))
+    in
+    task
   ;;
 
   module Infix = struct

@@ -64,6 +64,9 @@ module type OPTIONAL = sig
 
   include FOLDABLE_OPTION (** @inline *)
 
+  (** [iter f x] performs [f] on the value wrapped into [x]. *)
+  val iter : ('a -> unit) -> 'a t -> unit
+
   (** Equality between optional values. *)
   val equal : ('a -> 'a -> bool) -> 'a t -> 'a t -> bool
 

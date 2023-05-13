@@ -107,6 +107,9 @@ module Ref
       is not controlled by the library, the result is wrapped into an option. *)
   val get : t -> Value.t option
 
+  (** [unset reference] remove the value positionned at the indexed reference. *)
+  val unset : t -> unit
+
   (** {1 Events Handling} *)
 
   (** [on ?capture ?once ?passive ?prefix] sets up a function that will be
@@ -160,6 +163,49 @@ module Ref
         -> Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t
         -> unit)
     -> Js_of_ocaml.Dom.event_listener_id
+
+  (** {2 Lwt events}
+
+      Some event description to deal with [js_of_ocaml-lwt] (using
+      [Lwt_js_event]). *)
+
+  (** Lwt version of [on]. *)
+  val lwt_on
+    :  ?capture:bool
+    -> ?passive:bool
+    -> key:string
+    -> unit
+    -> ((t, Value.t) change
+       * Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t)
+       Lwt.t
+
+  (** Lwt version of [on_insert]. *)
+  val lwt_on_insert
+    :  ?capture:bool
+    -> ?passive:bool
+    -> key:string
+    -> unit
+    -> (t * Value.t * Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t) Lwt.t
+
+  (** Lwt version of [on_remove]. *)
+  val lwt_on_remove
+    :  ?capture:bool
+    -> ?passive:bool
+    -> key:string
+    -> unit
+    -> (t * Value.t * Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t) Lwt.t
+
+  (** Lwt version of [on_update]. *)
+  val lwt_on_update
+    :  ?capture:bool
+    -> ?passive:bool
+    -> key:string
+    -> unit
+    -> (t
+       * Value.t
+       * [ `Old_value of Value.t ]
+       * Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t)
+       Lwt.t
 
   (** {1 Infix Operators} *)
 
