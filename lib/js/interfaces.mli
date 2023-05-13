@@ -64,6 +64,9 @@ module type OPTIONAL = sig
 
   include FOLDABLE_OPTION (** @inline *)
 
+  (** [iter f x] performs [f] on the value wrapped into [x]. *)
+  val iter : ('a -> unit) -> 'a t -> unit
+
   (** Equality between optional values. *)
   val equal : ('a -> 'a -> bool) -> 'a t -> 'a t -> bool
 
@@ -138,4 +141,241 @@ module type OPTIONAL = sig
   end
 
   include module type of Syntax (** @inline *)
+end
+
+(** {1 Storage signatures}
+
+    Uniform treatment of the two storage modes ([LocalStorage] and
+    [SessionStorage]). *)
+
+(** {2 Common types} *)
+
+(** Describes the change of state of a storage. *)
+type ('key, 'value) storage_change_state =
+  | Clear
+  | Insert of
+      { key : 'key
+      ; value : 'value
+      }
+  | Remove of
+      { key : 'key
+      ; old_value : 'value
+      }
+  | Update of
+      { key : 'key
+      ; old_value : 'value
+      ; new_value : 'value
+      }
+
+(** {2 Keys and values}
+
+    Describes a data item that can be serialized (and deserialized) to allow
+    arbitrary data storage in a web storage. *)
+
+(** A value that can be injected into a string or projected into a value. *)
+module type STORAGE_SERIALIZABLE = sig
+  type t
+
+  val write : t -> string
+  val read : string -> t option
+end
+
+(** The module that describe the prefix/scope of a key. *)
+module type PREFIXED_KEY = sig
+  val prefix : string
+end
+
+(** {2 Storage requirement} *)
+
+module type STORAGE_REQUIREMENT = sig
+  val handler : Js_of_ocaml.Dom_html.storage Js_of_ocaml.Js.t or_undefined
+end
+
+(** {2 Storage API} *)
+
+module type STORAGE = sig
+  (** {1 Types} *)
+
+  (** The type of a [key]. *)
+  type key
+
+  (** The type of a [value]. *)
+  type value
+
+  (** A [Map] that can be the result of a slice of the storage. *)
+  module Map : Map.S with type key = key
+
+  (** A slice of results. *)
+  type slice = value Map.t
+
+  (** {1 API} *)
+
+  (** [length ()] return the number of entries stored into the storage. *)
+  val length : unit -> int
+
+  (** [get k] return the value indexed by [k] wrapped into an [option]. Returns
+      [None] if the value does not exists. *)
+  val get : key -> value option
+
+  (** [set k v] stores [v] at the index [k]. *)
+  val set : key -> value -> unit
+
+  (** [remove k] delete the value at the index [k]. *)
+  val remove : key -> unit
+
+  (** [update f k] allows you to modify an input, passed as an option to a
+      function (wrapped in [Some] if it exists, [None] if it doesn't), the
+      function returns an [option], too, if it returns [Some] the result is
+      modified, if it returns [None] the result is deleted. The final result of
+      the function's application is returned.
+
+      - [remove k] = [update (fun _ -> None) k]
+      - [set k v] = [update (fun _ -> Some v) k]
+      - [match get k with Some x -> set k (x ^ v) then set k v] =
+        [update (function Some x -> Some (x ^ v) | None -> Some v)]. *)
+  val update : (value option -> value option) -> key -> value option
+
+  (** [clear ()] clear all entries of the storage. *)
+  val clear : unit -> unit
+
+  (** [key n] will return the key of the nth [n] entry in the storage.*)
+  val key : int -> key option
+
+  (** [nth x] will return the a pair of [key]/[value] of the nth [n] entry in
+      the storage. *)
+  val nth : int -> (key * value) option
+
+  (** [fold f v] folds every entries of the storage. *)
+  val fold : ('acc -> key -> value -> 'acc) -> 'acc -> 'acc
+
+  (** [to_map ()] returns the storage as a [slice] (a [Map] indexed by keys). *)
+  val to_map : unit -> slice
+
+  (** [filter p] will returns all entries that satisfies the predicate
+      [p key value]. *)
+  val filter : (key -> value -> bool) -> slice
+
+  (** {1 Events Handling} *)
+
+  (** [on ?capture ?once ?passive ?prefix] sets up a function that will be
+      called whenever the storage change. It return an [event_listener_id] (in
+      order to be revoked). A [prefix]. a prefix can be given to filter on keys
+      starting only with the prefix. *)
+  val on
+    :  ?capture:bool
+    -> ?once:bool
+    -> ?passive:bool
+    -> ?prefix:string
+    -> ((key, value) storage_change_state
+        -> Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t
+        -> unit)
+    -> Js_of_ocaml.Dom.event_listener_id
+
+  (** A specialized version of {!val:on} only for storage clearing. *)
+  val on_clear
+    :  ?capture:bool
+    -> ?once:bool
+    -> ?passive:bool
+    -> (Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t -> unit)
+    -> Js_of_ocaml.Dom.event_listener_id
+
+  (** A specialized version of {!val:on} only for storage insertion. *)
+  val on_insert
+    :  ?capture:bool
+    -> ?once:bool
+    -> ?passive:bool
+    -> ?prefix:string
+    -> (key:key
+        -> value:value
+        -> Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t
+        -> unit)
+    -> Js_of_ocaml.Dom.event_listener_id
+
+  (** A specialized version of {!val:on} only for storage deletion (the value of
+      the handler contains the deleted value). *)
+  val on_remove
+    :  ?capture:bool
+    -> ?once:bool
+    -> ?passive:bool
+    -> ?prefix:string
+    -> (key:key
+        -> old_value:value
+        -> Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t
+        -> unit)
+    -> Js_of_ocaml.Dom.event_listener_id
+
+  (** A specialized version of {!val:on} only for storage update. *)
+  val on_update
+    :  ?capture:bool
+    -> ?once:bool
+    -> ?passive:bool
+    -> ?prefix:string
+    -> (key:key
+        -> old_value:value
+        -> new_value:value
+        -> Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t
+        -> unit)
+    -> Js_of_ocaml.Dom.event_listener_id
+
+  (** [event_to_change ev] compute a [(key, value) storage_change_state] from a
+      storage event.*)
+  val event_to_change
+    :  Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t
+    -> (key, value) storage_change_state
+
+  (** [event_is_related ev] returns [true] if the event is related to the
+      backend, otherwise [false]. *)
+  val event_is_related
+    :  Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t
+    -> bool
+
+  (** {2 Lwt events}
+
+      Some event description to deal with [js_of_ocaml-lwt] (using
+      [Lwt_js_event]). *)
+
+  (** Lwt version of [on]. *)
+  val lwt_on
+    :  ?capture:bool
+    -> ?passive:bool
+    -> ?prefix:string
+    -> unit
+    -> ((key, value) storage_change_state
+       * Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t)
+       Lwt.t
+
+  (** Lwt version of [on_clear]. *)
+  val lwt_on_clear
+    :  ?capture:bool
+    -> ?passive:bool
+    -> unit
+    -> Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t Lwt.t
+
+  (** Lwt version of [on_insert]. *)
+  val lwt_on_insert
+    :  ?capture:bool
+    -> ?passive:bool
+    -> ?prefix:string
+    -> unit
+    -> (key * value * Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t) Lwt.t
+
+  (** Lwt version of [on_remove]. *)
+  val lwt_on_remove
+    :  ?capture:bool
+    -> ?passive:bool
+    -> ?prefix:string
+    -> unit
+    -> (key * value * Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t) Lwt.t
+
+  (** Lwt version of [on_update]. *)
+  val lwt_on_update
+    :  ?capture:bool
+    -> ?passive:bool
+    -> ?prefix:string
+    -> unit
+    -> (key
+       * value
+       * [ `Old_value of value ]
+       * Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t)
+       Lwt.t
 end

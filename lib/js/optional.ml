@@ -26,6 +26,7 @@ module Make (R : Interfaces.FOLDABLE_OPTION) = struct
   include R
 
   let halt () = empty
+  let iter f x = fold (fun () -> ()) f x
 
   let equal f left right =
     let left_is_empty () = fold (fun () -> true) (fun _ -> false) right

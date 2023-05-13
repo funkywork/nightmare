@@ -48,6 +48,10 @@ module Option = Optional.Option
 module Nullable = Optional.Nullable
 module Undefinable = Optional.Undefinable
 
+(** {2 Web Storage API} *)
+
+module Storage = Storage
+
 (** {1 Utils} *)
 
 module Console = Console
