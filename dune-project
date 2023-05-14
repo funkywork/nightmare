@@ -58,3 +58,14 @@
   (js_of_ocaml-ppx (>= 5.2.0))
   (js_of_ocaml-lwt (>= 5.2.0))
   (nightmare (= :version))))
+
+(package
+  (name nightmare_js-vdom)
+  (synopsis "A companion library and glue for ocaml-vdom and Nightmare")
+  (description "Provides additional HTML tags and attributes for the ocaml-vdom library and adds support for Nightmare services")
+  (depends
+    (ocaml (>= 5.0.0))
+    (dune (>= 3.0.0))
+    (tyxml (>= 4.5.0))
+    (ocaml-vdom (>= 0.2))
+    (nightmare_js (= :version))))

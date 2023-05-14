@@ -50,3 +50,12 @@ dev-deps:
 # in the OPAM description files.
 deps:
 	opam install . --deps-only --with-doc --with-test -y
+
+# Examples
+
+example-simple-routing:
+	dune exec examples/simple-routing/app.exe
+
+example-simple-js-interaction:
+	dune build examples/simple-js-interaction/js/index.bc.js
+	dune exec examples/simple-js-interaction/app.exe
