@@ -30,3 +30,4 @@ module Nullable = Optional.Nullable
 module Undefinable = Optional.Undefinable
 module Console = Console
 module Storage = Storage
+module Suspension = Suspension

@@ -1,0 +1,9 @@
+(executable
+  (name app)
+  (libraries
+    dream
+    tyxml
+    nightmare.service
+    nightmare_dream
+    nightmare_tyxml
+    common))

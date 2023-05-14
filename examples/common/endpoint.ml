@@ -8,3 +8,4 @@ let ocaml_logo () =
 ;;
 
 let github_repository () = outer get "https://github.com" (~/:string /: string)
+let asset () = get (~/"priv" /: string)
