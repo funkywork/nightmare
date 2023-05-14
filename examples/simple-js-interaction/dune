@@ -4,6 +4,6 @@
     dream
     tyxml
     nightmare.service
-    nightmare_dream
-    nightmare_tyxml
+    nightmare-dream
+    nightmare-tyxml
     common))

@@ -1,5 +1,5 @@
 (library
- (public_name nightmare_tyxml)
+ (public_name nightmare-tyxml)
  (name nightmare_tyxml)
  (modules_without_implementation attrib)
  (libraries tyxml nightmare.service))

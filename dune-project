@@ -26,7 +26,7 @@
   (alcotest :with-test)))
 
 (package
- (name nightmare_dream)
+ (name nightmare-dream)
  (synopsis "Glue between Nightmare and Dream")
  (description "An overlay built on top of Dream for using Nightmare tools")
  (depends
@@ -36,7 +36,7 @@
   (nightmare (= :version))))
 
 (package
- (name nightmare_tyxml)
+ (name nightmare-tyxml)
  (synopsis "Glue between Nightmare and TyXML")
  (description "Facilitates interaction between Nightmare and TyXML")
  (depends
