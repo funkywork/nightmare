@@ -68,4 +68,5 @@
     (dune (>= 3.0.0))
     (tyxml (>= 4.5.0))
     (ocaml-vdom (>= 0.2))
+    (nightmare-tyxml (= :version))
     (nightmare_js (= :version))))

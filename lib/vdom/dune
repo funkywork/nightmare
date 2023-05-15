@@ -1,6 +1,5 @@
 (library
  (public_name nightmare_js-vdom)
  (name nightmare_js_vdom)
- (modules_without_implementation types)
- (libraries nightmare.service tyxml ocaml-vdom)
+ (libraries tyxml ocaml-vdom nightmare.service nightmare-tyxml)
  (modes byte))

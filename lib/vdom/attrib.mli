@@ -20,7 +20,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-(** Describes the HTML attributes *)
+(** Describes HTML attributes *)
 
 (** An attribute has the type [('kind, 'message) t], the ['kind] is a phantom
     type to allows only valid attributes in nodes. *)
@@ -108,6 +108,19 @@ val on_contextmenu : (Vdom.mouse_event -> 'msg) -> ([> `OnContextMenu ], 'msg) t
 val on_mousemove : (Vdom.mouse_event -> 'msg) -> ([> `OnMouseMove ], 'msg) t
 val on_keydown : (Vdom.key_event -> 'msg) -> ([> `OnKeyDown ], 'msg) t
 val on_custom : ('kind custom_event -> 'msg option) -> ('kind, 'msg) t
+
+(** {1 Specifics attributes} *)
+
+val a_href : string -> ([> `Href ], 'msg) t
+val a_hreflang : string -> ([> `Hreflang ], 'msg) t
+val a_download : ?new_name:string -> unit -> ([> `Download ], 'msg) t
+val a_ping : string list -> ([> `Ping ], 'msg) t
+val a_rel : Html_types.linktypes -> ([> `Rel ], 'msg) t
+val a_mime_type : string -> ([> `Mime_type ], 'msg) t
+
+val a_target
+  :  [< `Self | `Blank | `Parent | `Top | `Other of string ]
+  -> ([> `Target ], 'msg) t
 
 (** {1 Attribut helpers} *)
 

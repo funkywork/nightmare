@@ -35,3 +35,4 @@ let elt tag ?key ?a children =
 
 let txt ?key value = Vdom.text ?key value
 let div ?key ?a children = elt "div" ?key ?a children
+let a ?key ?a children = elt "a" ?key ?a children

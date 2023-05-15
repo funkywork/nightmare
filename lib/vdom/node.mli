@@ -20,19 +20,37 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
+(** Describes HTML nodes *)
+
+(** An attribute has the type [('kind, 'message) t], the ['kind] is a phantom
+    type to allows only valid nodes in node children. *)
 type (_, 'msg) t
 
+(** Describes a node that take a list of attributes and a list of nodes (as
+    children).
+
+    - ['attrib] is a phantom type that fixes available attributes
+    - ['children] is a phantom type that fixes available children
+    - ['result] is a phantom type that gives the kind of the generated node
+    - ['msg] is the message propagated by the VDom.
+    - [?key] is the key for the VDom diffing
+    - [?a] is the list of the attributes *)
 type ('attrib, 'children, 'result, 'msg) star =
   ?key:string
   -> ?a:('attrib, 'msg) Attrib.t list
   -> ('children, 'msg) t list
   -> ('result, 'msg) t
 
+(** [txt ?key value] wrap [value] into a text node (pcdata). *)
 val txt : ?key:string -> string -> ([> Html_types.txt ], 'msg) t
 
+(** [div ?key ?a children] produce a [<div>] element. *)
 val div
-  : ( [< Types.div_attrib ]
+  : ( [< Html_types.div_attrib ]
     , [< Html_types.div_content_fun ]
     , [> `Div ]
     , 'msg )
     star
+
+(** [a ?key ?a children] produce a [<a>] element. *)
+val a : ([< Html_types.a_attrib ], 'a, 'a Html_types.a, 'msg) star

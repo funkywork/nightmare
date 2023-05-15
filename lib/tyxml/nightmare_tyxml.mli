@@ -81,7 +81,7 @@
 val a_of
   :  ?anchor:string
   -> ?parameters:(string * string) list
-  -> ?a:Attrib.a Tyxml.Html.attrib list
+  -> ?a:Attrib.Without_source.a Tyxml.Html.attrib list
   -> ( _
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
@@ -93,7 +93,7 @@ val a_of
     parameters of [endpoint] and returning an HTML element [<base>]. (with
     [href] computed from [endpoint]) *)
 val base_of
-  :  ?a:Attrib.base Tyxml.Html.attrib list
+  :  ?a:Attrib.Without_source.base Tyxml.Html.attrib list
   -> ( 'scope_
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
@@ -106,7 +106,7 @@ val base_of
     [src] computed from [endpoint]) *)
 val embed_of
   :  ?parameters:(string * string) list
-  -> ?a:Attrib.embed Tyxml.Html.attrib list
+  -> ?a:Attrib.Without_source.embed Tyxml.Html.attrib list
   -> ( 'scope_
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
@@ -123,7 +123,7 @@ val form_of
   :  ?anchor:string
   -> ?parameters:(string * string) list
   -> ?csrf_token:string * string
-  -> ?a:Attrib.form Tyxml.Html.attrib list
+  -> ?a:Attrib.Without_source.form Tyxml.Html.attrib list
   -> ( 'scope_
      , Nightmare_service.Method.for_form_action
      , 'continuation
@@ -138,7 +138,7 @@ val form_of
 val iframe_of
   :  ?anchor:string
   -> ?parameters:(string * string) list
-  -> ?a:Attrib.iframe Tyxml.Html.attrib list
+  -> ?a:Attrib.Without_source.iframe Tyxml.Html.attrib list
   -> ( _
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
@@ -167,7 +167,7 @@ val img_of
 val link_of
   :  ?parameters:(string * string) list
   -> rel:Html_types.linktypes
-  -> ?a:Attrib.link Tyxml.Html.attrib list
+  -> ?a:Attrib.Without_source.link Tyxml.Html.attrib list
   -> ( _
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
@@ -180,7 +180,7 @@ val link_of
     [<object>] (with [data] computed from [endpoint]). *)
 val object_of
   :  ?parameters:(string * string) list
-  -> ?a:Attrib.object_ Tyxml.Html.attrib list
+  -> ?a:Attrib.Without_source.object_ Tyxml.Html.attrib list
   -> ?object_params:Html_types.param Tyxml.Html.elt list
   -> ( _
      , [< Nightmare_service.Method.for_link ]
@@ -195,7 +195,7 @@ val object_of
     [src] computed from [endpoint]). *)
 val script_of
   :  ?parameters:(string * string) list
-  -> ?a:Attrib.script Tyxml.Html.attrib list
+  -> ?a:Attrib.Without_source.script Tyxml.Html.attrib list
   -> ( _
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
@@ -209,7 +209,7 @@ val script_of
     [src] computed from [endpoint]). *)
 val source_of
   :  ?parameters:(string * string) list
-  -> ?a:Attrib.source Tyxml.Html.attrib list
+  -> ?a:Attrib.Without_source.source Tyxml.Html.attrib list
   -> ( _
      , [< Nightmare_service.Method.for_link ]
      , 'continuation

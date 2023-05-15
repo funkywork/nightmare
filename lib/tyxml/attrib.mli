@@ -31,80 +31,82 @@
     Allowing to avoid that a given attribute overwrites the one computed by the
     endpoint. *)
 
-type a =
-  [ Html_types.common
-  | `Hreflang
-  | `Media
-  | `Rel
-  | `Target
-  | `Mime_type
-  | `Download
-  ]
+module Without_source : sig
+  type a =
+    [ Html_types.common
+    | `Hreflang
+    | `Media
+    | `Rel
+    | `Target
+    | `Mime_type
+    | `Download
+    ]
 
-type base =
-  [ Html_types.common
-  | `Target
-  ]
+  type base =
+    [ Html_types.common
+    | `Target
+    ]
 
-type embed =
-  [ Html_types.common
-  | `Height
-  | `Mime_type
-  | `Width
-  ]
+  type embed =
+    [ Html_types.common
+    | `Height
+    | `Mime_type
+    | `Width
+    ]
 
-type form =
-  [ Html_types.common
-  | `Accept_charset
-  | `Enctype
-  | `Name
-  | `Target
-  | `Autocomplete
-  | `Novalidate
-  ]
+  type form =
+    [ Html_types.common
+    | `Accept_charset
+    | `Enctype
+    | `Name
+    | `Target
+    | `Autocomplete
+    | `Novalidate
+    ]
 
-type iframe =
-  [ Html_types.common
-  | `Allowfullscreen
-  | `Allowpaymentrequest
-  | `Name
-  | `Sandbox
-  | `Seamless
-  | `Width
-  | `Height
-  | `Referrerpolicy
-  ]
+  type iframe =
+    [ Html_types.common
+    | `Allowfullscreen
+    | `Allowpaymentrequest
+    | `Name
+    | `Sandbox
+    | `Seamless
+    | `Width
+    | `Height
+    | `Referrerpolicy
+    ]
 
-type link =
-  [ Html_types.common
-  | Html_types.subressource_integrity
-  | `Hreflang
-  | `Media
-  | `Sizes
-  | `Mime_type
-  ]
+  type link =
+    [ Html_types.common
+    | Html_types.subressource_integrity
+    | `Hreflang
+    | `Media
+    | `Sizes
+    | `Mime_type
+    ]
 
-type object_ =
-  [ Html_types.common
-  | `Form
-  | `Mime_type
-  | `Height
-  | `Width
-  | `Name
-  | `Usemap
-  ]
+  type object_ =
+    [ Html_types.common
+    | `Form
+    | `Mime_type
+    | `Height
+    | `Width
+    | `Name
+    | `Usemap
+    ]
 
-type script =
-  [ Html_types.common
-  | Html_types.subressource_integrity
-  | `Async
-  | `Charset
-  | `Defer
-  | `Mime_type
-  ]
+  type script =
+    [ Html_types.common
+    | Html_types.subressource_integrity
+    | `Async
+    | `Charset
+    | `Defer
+    | `Mime_type
+    ]
 
-type source =
-  [ Html_types.common
-  | `Mime_type
-  | `Media
-  ]
+  type source =
+    [ Html_types.common
+    | `Mime_type
+    | `Media
+    ]
+end

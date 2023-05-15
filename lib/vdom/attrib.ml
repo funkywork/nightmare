@@ -29,6 +29,7 @@ let bool attr value = Vdom.Property (attr, Bool value)
 let int attr value = Vdom.Property (attr, Int value)
 let to_string f attr value = string attr (f value)
 let concat_with_space x y = x ^ " " ^ y
+let string_option = to_string (Option.value ~default:"")
 
 let charlist =
   to_string
@@ -38,12 +39,13 @@ let charlist =
 ;;
 
 let tokenize x = String.trim (String.lowercase_ascii x)
-
-let tokenize_list =
-  List.fold_left (fun acc token -> concat_with_space acc @@ tokenize token) ""
-;;
-
+let list_with f = List.fold_left (fun acc x -> concat_with_space acc (f x)) ""
+let string_list = list_with (fun x -> x)
+let tokenize_list_with f = list_with (fun x -> x |> f |> tokenize)
+let tokenize_list = tokenize_list_with (fun x -> x)
+let strings = to_string string_list
 let tokens = to_string tokenize_list
+let tokens_with f = to_string (tokenize_list_with f)
 let custom_property x = "data-" ^ tokenize x
 
 (* Universal attributes *)
@@ -157,6 +159,59 @@ let on_change_index f = Vdom.onchange_index f
 let on_mousemove f = Vdom.onmousemove f
 let on_keydown f = Vdom.onkeydown f
 let on_custom f = Vdom.oncustomevent f
+
+(* Specifics attributes *)
+
+let a_href value = string "href" value
+let a_hreflang value = string "hreflang" value
+let a_download ?new_name () = string_option "download" new_name
+let a_ping value = strings "ping" value
+
+let a_rel value =
+  tokens_with
+    (function
+     | `Alternate -> "alternate"
+     | `Archives -> "archives"
+     | `Author -> "author"
+     | `Bookmark -> "bookmark"
+     | `Canonical -> "canonical"
+     | `External -> "external"
+     | `First -> "first"
+     | `Help -> "help"
+     | `Icon -> "icon"
+     | `Index -> "index"
+     | `Last -> "last"
+     | `License -> "license"
+     | `Next -> "next"
+     | `Nofollow -> "nofollow"
+     | `Noreferrer -> "noreferrer"
+     | `Noopener -> "noopener"
+     | `Pingback -> "pingback"
+     | `Prefetch -> "prefetch"
+     | `Prev -> "prev"
+     | `Search -> "search"
+     | `Stylesheet -> "stylesheet"
+     | `Sidebar -> "sidebar"
+     | `Tag -> "tag"
+     | `Up -> "up"
+     | `Other s -> s)
+    "rel"
+    value
+;;
+
+let a_mime_type value = string "type" value
+
+let a_target value =
+  to_string
+    (function
+     | `Self -> "_self"
+     | `Blank -> "_blank"
+     | `Parent -> "_parent"
+     | `Top -> "_top"
+     | `Other x -> x)
+    "target"
+    value
+;;
 
 (* Util *)
 

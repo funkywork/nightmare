@@ -50,5 +50,4 @@ include module type of Attrib with type ('a, 'b) t := ('a, 'b) attrib
     Even if all functions are re-exported in this module, the auxiliary modules
     are accessible. *)
 
-module Types = Types
 module Attrib = Attrib
