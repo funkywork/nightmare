@@ -20,7 +20,8 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-type (+_, +'msg) t = 'msg Vdom.attribute
+type (_, 'msg) t = 'msg Vdom.attribute
+type _ custom_event = Vdom.Custom.event
 
 let attr key value = Vdom.Attribute (key, value)
 let string attr value = Vdom.Property (attr, String value)
@@ -140,3 +141,23 @@ let a_itemref value = attr "itemref" @@ tokenize_list value
 let a_itemprop value = attr "itemprop" value
 let a_itemtype value = attr "itemtype" value
 let a_itemscope () = attr "itemscope" "itemscope"
+
+(* Event Handling *)
+
+let on_mousedown f = Vdom.onmousedown f
+let on_click f = Vdom.onclick f
+let on_doubleclick f = Vdom.ondblclick f
+let on_contextmenu f = Vdom.oncontextmenu f
+let on_focus msg = Vdom.onfocus msg
+let on_blur msg = Vdom.onblur msg
+let on_input f = Vdom.oninput f
+let on_change f = Vdom.onchange f
+let on_change_checked f = Vdom.onchange_checked f
+let on_change_index f = Vdom.onchange_index f
+let on_mousemove f = Vdom.onmousemove f
+let on_keydown f = Vdom.onkeydown f
+let on_custom f = Vdom.oncustomevent f
+
+(* Util *)
+
+let remove_attribute_kind x = x

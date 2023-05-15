@@ -20,7 +20,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-type a_microdata =
+type microdata_attrib =
   [ `Itemid
   | `Itemprop
   | `Itemref
@@ -28,9 +28,9 @@ type a_microdata =
   | `Itemscope
   ]
 
-type a_universal =
+type universal_attrib =
   [ Html_types.core
-  | a_microdata
+  | microdata_attrib
   | `Autocapitalize
   | `Enterkeyhint
   | `Inert
@@ -39,4 +39,9 @@ type a_universal =
   | `Nonce
   | `Part
   | `Slot
+  ]
+
+type a_attrib =
+  [ Html_types.a_attrib
+  | universal_attrib
   ]

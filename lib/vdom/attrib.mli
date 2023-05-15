@@ -24,7 +24,10 @@
 
 (** An attribute has the type [('kind, 'message) t], the ['kind] is a phantom
     type to allows only valid attributes in nodes. *)
-type (+_, +'msg) t
+type (_, 'msg) t
+
+(** An indexed custom event. *)
+type +_ custom_event = Vdom.Custom.event
 
 (** {1 Universal attributes}
 
@@ -89,3 +92,23 @@ val a_itemref : string list -> ([> `Itemref ], 'msg) t
 val a_itemprop : string -> ([> `Itemprop ], 'msg) t
 val a_itemtype : string -> ([> `Itemtype ], 'msg) t
 val a_itemscope : unit -> ([> `Itemscope ], 'msg) t
+
+(** {1 Event Handlers} *)
+
+val on_focus : 'msg -> ([> `OnFocus ], 'msg) t
+val on_blur : 'msg -> ([> `OnBlur ], 'msg) t
+val on_input : (string -> 'msg) -> ([> `OnInput ], 'msg) t
+val on_change : (string -> 'msg) -> ([> `OnChange ], 'msg) t
+val on_change_checked : (bool -> 'msg) -> ([> `OnChange ], 'msg) t
+val on_change_index : (int -> 'msg) -> ([> `OnChange ], 'msg) t
+val on_mousedown : (Vdom.mouse_event -> 'msg) -> ([> `OnMouseDown ], 'msg) t
+val on_click : (Vdom.mouse_event -> 'msg) -> ([> `OnClick ], 'msg) t
+val on_doubleclick : (Vdom.mouse_event -> 'msg) -> ([> `OnDblClick ], 'msg) t
+val on_contextmenu : (Vdom.mouse_event -> 'msg) -> ([> `OnContextMenu ], 'msg) t
+val on_mousemove : (Vdom.mouse_event -> 'msg) -> ([> `OnMouseMove ], 'msg) t
+val on_keydown : (Vdom.key_event -> 'msg) -> ([> `OnKeyDown ], 'msg) t
+val on_custom : ('kind custom_event -> 'msg option) -> ('kind, 'msg) t
+
+(** {1 Attribut helpers} *)
+
+val remove_attribute_kind : ('a, 'msg) t -> 'msg Vdom.attribute

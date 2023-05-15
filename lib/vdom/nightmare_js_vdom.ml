@@ -23,7 +23,8 @@
 module Types = Types
 module Attrib = Attrib
 
-type (+'a, +'msg) attrib = ('a, 'msg) Attrib.t
+type ('a, 'msg) attrib = ('a, 'msg) Attrib.t
+type ('a, 'msg) node = ('a, 'msg) Node.t
 
-include (
-  Attrib : module type of Attrib with type (+'a, +'b) t := ('a, 'b) attrib)
+include (Node : module type of Node with type ('a, 'b) t := ('a, 'b) node)
+include (Attrib : module type of Attrib with type ('a, 'b) t := ('a, 'b) attrib)
