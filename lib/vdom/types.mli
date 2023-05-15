@@ -45,3 +45,8 @@ type a_attrib =
   [ Html_types.a_attrib
   | universal_attrib
   ]
+
+type div_attrib =
+  [ Html_types.div_attrib
+  | universal_attrib
+  ]

@@ -21,3 +21,17 @@
     SOFTWARE. *)
 
 type (_, 'msg) t = 'msg Vdom.vdom
+
+type ('attrib, 'children, 'result, 'msg) star =
+  ?key:string
+  -> ?a:('attrib, 'msg) Attrib.t list
+  -> ('children, 'msg) t list
+  -> ('result, 'msg) t
+
+let elt tag ?key ?a children =
+  let a = Option.map (List.map Attrib.remove_attribute_kind) a in
+  Vdom.elt tag ?key ?a children
+;;
+
+let txt ?key value = Vdom.text ?key value
+let div ?key ?a children = elt "div" ?key ?a children

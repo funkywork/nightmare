@@ -21,3 +21,18 @@
     SOFTWARE. *)
 
 type (_, 'msg) t
+
+type ('attrib, 'children, 'result, 'msg) star =
+  ?key:string
+  -> ?a:('attrib, 'msg) Attrib.t list
+  -> ('children, 'msg) t list
+  -> ('result, 'msg) t
+
+val txt : ?key:string -> string -> ([> Html_types.txt ], 'msg) t
+
+val div
+  : ( [< Types.div_attrib ]
+    , [< Html_types.div_content_fun ]
+    , [> `Div ]
+    , 'msg )
+    star
