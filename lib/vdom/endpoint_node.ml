@@ -20,38 +20,17 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-(** A library to glue together [Nightmare], [Tyxml] and [ocaml-vdom]. While
-    having some differences, the API for describing nodes and attributes is very
-    similar to Tyxml (and shares many signatures), *)
-
-(** {1 Types} *)
-
-(** {2 Html elements} *)
-
-(** The type describing an attribute of an HTML node. The first parameter is a
-    ghost type and the second is used to propagate messages from the virtual
-    DOM.*)
-type ('a, 'msg) attrib = ('a, 'msg) Attrib.t
-
-(** The type describing an Html Node. *)
-type ('a, 'msg) node = ('a, 'msg) Node.t
-
-(** {1 Html Elements} *)
-
-include module type of Node with type ('a, 'b) t := ('a, 'b) node (** @inline *)
-
-(** {2 Html Elements connected to endpoints} *)
-
-include module type of Endpoint_node (** @inline*)
-
-(** {1 Attributes} *)
-
-include module type of Attrib with type ('a, 'b) t := ('a, 'b) attrib
-(** @inline*)
-
-(** {1 Internal modules}
-
-    Even if all functions are re-exported in this module, the auxiliary modules
-    are accessible. *)
-
-module Attrib = Attrib
+let a_of ?anchor ?parameters ?key ?(a = []) endpoint =
+  Nightmare_service.Endpoint.href_with
+    ?anchor
+    ?parameters
+    endpoint
+    (fun target children ->
+    let a =
+      Attrib.a_href target
+      :: (a
+           : ([< Nightmare_tyxml.Attrib.Without_source.a ], 'msg) Attrib.t list
+           :> ([> Html_types.a_attrib ], 'msg) Attrib.t list)
+    in
+    Node.a ?key ~a children)
+;;

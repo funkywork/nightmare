@@ -20,7 +20,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-type (_, 'msg) t = 'msg Vdom.attribute
+type (+_, +'msg) t = 'msg Vdom.attribute
 type _ custom_event = Vdom.Custom.event
 
 let attr key value = Vdom.Attribute (key, value)

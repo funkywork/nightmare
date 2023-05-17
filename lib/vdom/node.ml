@@ -20,7 +20,10 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-type (_, 'msg) t = 'msg Vdom.vdom
+type (_, +'msg) t = 'msg Vdom.vdom
+
+module WS = Nightmare_tyxml.Attrib.Without_source
+module HT = Html_types
 
 type ('attrib, 'children, 'result, 'msg) star =
   ?key:string

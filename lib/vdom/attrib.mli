@@ -24,7 +24,7 @@
 
 (** An attribute has the type [('kind, 'message) t], the ['kind] is a phantom
     type to allows only valid attributes in nodes. *)
-type (_, 'msg) t
+type (+_, +'msg) t
 
 (** An indexed custom event. *)
 type +_ custom_event = Vdom.Custom.event

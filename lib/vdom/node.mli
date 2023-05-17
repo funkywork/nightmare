@@ -24,7 +24,7 @@
 
 (** An attribute has the type [('kind, 'message) t], the ['kind] is a phantom
     type to allows only valid nodes in node children. *)
-type (_, 'msg) t
+type (_, +'msg) t
 
 (** Describes a node that take a list of attributes and a list of nodes (as
     children).

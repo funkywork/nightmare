@@ -94,7 +94,7 @@ val a_of
     [href] computed from [endpoint]) *)
 val base_of
   :  ?a:Attrib.Without_source.base Tyxml.Html.attrib list
-  -> ( 'scope_
+  -> ( _
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
      , [> Html_types.base ] Tyxml.Html.elt )
@@ -107,7 +107,7 @@ val base_of
 val embed_of
   :  ?parameters:(string * string) list
   -> ?a:Attrib.Without_source.embed Tyxml.Html.attrib list
-  -> ( 'scope_
+  -> ( _
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
      , [> Html_types.embed ] Tyxml.Html.elt )
@@ -124,7 +124,7 @@ val form_of
   -> ?parameters:(string * string) list
   -> ?csrf_token:string * string
   -> ?a:Attrib.Without_source.form Tyxml.Html.attrib list
-  -> ( 'scope_
+  -> ( _
      , Nightmare_service.Method.for_form_action
      , 'continuation
      , Html_types.form_content_fun Tyxml.Html.elt list
