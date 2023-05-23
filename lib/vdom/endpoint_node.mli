@@ -38,3 +38,70 @@ val a_of
      )
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
+
+(** [audio_of ?anchor ?parameters ?srcs ?a endpoint] generates a function
+    expecting the parameters of [endpoint] and returning an HTML element
+    [<audio>] (with [src] computed from [endpoint]). *)
+val audio_of
+  :  ?anchor:string
+  -> ?parameters:(string * string) list
+  -> ?key:string
+  -> ?srcs:([< Html_types.source ], 'msg) Node.t list
+  -> ?a:([< Html_types.audio_attrib ], 'msg) Attrib.t list
+  -> ( 'scope
+     , [< Nightmare_service.Method.for_link ]
+     , 'continuation
+     , ([< Html_types.audio_content_fun ], 'msg) Node.t list
+       -> ([> `Audio ], 'msg) Node.t )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
+(** [base_of ?anchor ?parameters ?a endpoint] generates a function expecting the
+    parameters of [endpoint] and returning an HTML element [<base>] (with [href]
+    computed from [endpoint]). *)
+val base_of
+  :  ?anchor:string
+  -> ?parameters:(string * string) list
+  -> ?key:string
+  -> ?a:([< Nightmare_tyxml.Attrib.Without_source.base ], 'msg) Attrib.t list
+  -> ( 'scope
+     , [< Nightmare_service.Method.for_link ]
+     , 'continuation
+     , ([> `Base ], 'msg) Node.t )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
+(** [blockquote_of ?anchor ?parameters ?a endpoint] generates a function
+    expecting the parameters of [endpoint] and returning an HTML element
+    [<blockquote>] (with [cite] computed from [endpoint]). *)
+val blockquote_of
+  :  ?anchor:string
+  -> ?parameters:(string * string) list
+  -> ?key:string
+  -> ?a:
+       ([< Nightmare_tyxml.Attrib.Without_source.blockquote ], 'msg) Attrib.t
+       list
+  -> ( 'scope
+     , [< Nightmare_service.Method.for_link ]
+     , 'continuation
+     , ([< Html_types.blockquote_content_fun ], 'msg) Node.t list
+       -> ([> `Blockquote ], 'msg) Node.t )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
+(** [video_of ?anchor ?parameters ?srcs ?a endpoint] generates a function
+    expecting the parameters of [endpoint] and returning an HTML element
+    [<video>] (with [src] computed from [endpoint]). *)
+val video_of
+  :  ?anchor:string
+  -> ?parameters:(string * string) list
+  -> ?key:string
+  -> ?srcs:([< Html_types.source ], 'msg) Node.t list
+  -> ?a:([< Html_types.video_attrib ], 'msg) Attrib.t list
+  -> ( 'scope
+     , [< Nightmare_service.Method.for_link ]
+     , 'continuation
+     , ([< Html_types.video_content_fun ], 'msg) Node.t list
+       -> ([> `Video ], 'msg) Node.t )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation

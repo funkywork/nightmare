@@ -22,20 +22,67 @@
 
 type (_, +'msg) t = 'msg Vdom.vdom
 
-module WS = Nightmare_tyxml.Attrib.Without_source
-module HT = Html_types
+type ('attrib, 'result, 'msg) leaf =
+  ?key:string -> ?a:('attrib, 'msg) Attrib.t list -> unit -> ('result, 'msg) t
 
-type ('attrib, 'children, 'result, 'msg) star =
+type ('attrib, 'children, 'result, 'msg) one =
+  ?key:string -> ?a:('attrib, 'msg) Attrib.t list -> unit -> ('result, 'msg) t
+
+type ('attrib, 'children, 'result, 'msg) many =
   ?key:string
   -> ?a:('attrib, 'msg) Attrib.t list
   -> ('children, 'msg) t list
   -> ('result, 'msg) t
 
+let remove_node_kind x = x
+
 let elt tag ?key ?a children =
-  let a = Option.map (List.map Attrib.remove_attribute_kind) a in
+  let a = Option.map Attrib.remove_attribute_kinds a in
   Vdom.elt tag ?key ?a children
 ;;
 
 let txt ?key value = Vdom.text ?key value
 let div ?key ?a children = elt "div" ?key ?a children
 let a ?key ?a children = elt "a" ?key ?a children
+let abbr ?key ?a children = elt "abbr" ?key ?a children
+let address ?key ?a children = elt "address" ?key ?a children
+let area ?key ?a () = elt "area" ?key ?a []
+let article ?key ?a children = elt "article" ?key ?a children
+let aside ?key ?a children = elt "aside" ?key ?a children
+
+let audio ?src ?(srcs = []) ?key ?(a = []) children =
+  let children = srcs @ children in
+  let a =
+    (a
+      : ([< Html_types.audio_attrib ], 'msg) Attrib.t list
+      :> ([> Html_types.audio_attrib ], 'msg) Attrib.t list)
+  in
+  let a = Option.fold ~none:a ~some:(fun x -> Attrib.a_src x :: a) src in
+  elt "audio" ?key ~a children
+;;
+
+let video ?src ?(srcs = []) ?key ?(a = []) children =
+  let children = srcs @ children in
+  let a =
+    (a
+      : ([< Html_types.video_attrib ], 'msg) Attrib.t list
+      :> ([> Html_types.video_attrib ], 'msg) Attrib.t list)
+  in
+  let a = Option.fold ~none:a ~some:(fun x -> Attrib.a_src x :: a) src in
+  elt "video" ?key ~a children
+;;
+
+let b ?key ?a children = elt "b" ?key ?a children
+let base ?key ?a () = elt "base" ?key ?a []
+
+let bdi ~dir ?key ?(a = []) children =
+  let a = Attrib.a_dir dir :: a in
+  elt "bdi" ?key ~a children
+;;
+
+let bdo ~dir ?key ?(a = []) children =
+  let a = Attrib.a_dir dir :: a in
+  elt "bdo" ?key ~a children
+;;
+
+let blockquote ?key ?a children = elt "blockquote" ?key ?a children

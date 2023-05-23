@@ -47,6 +47,8 @@ module Without_source : sig
     | `Target
     ]
 
+  type blockquote = Html_types.common
+
   type embed =
     [ Html_types.common
     | `Height

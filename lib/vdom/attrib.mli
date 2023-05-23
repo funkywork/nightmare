@@ -117,11 +117,30 @@ val a_download : ?new_name:string -> unit -> ([> `Download ], 'msg) t
 val a_ping : string list -> ([> `Ping ], 'msg) t
 val a_rel : Html_types.linktypes -> ([> `Rel ], 'msg) t
 val a_mime_type : string -> ([> `Mime_type ], 'msg) t
+val a_coords : int list -> ([> `Coords ], 'msg) t
+val a_shape : [< `Rect | `Circle | `Poly | `Default ] -> ([> `Shape ], 'msg) t
 
 val a_target
   :  [< `Self | `Blank | `Parent | `Top | `Other of string ]
   -> ([> `Target ], 'msg) t
 
+val a_src : string -> ([> `Src ], 'msg) t
+val a_autoplay : unit -> ([> `Autoplay ], 'msg) t
+val a_controls : unit -> ([> `Controls ], 'msg) t
+
+val a_crossorigin
+  :  [< `Anonymous | `Use_credentials ]
+  -> ([> `Crossorigin ], 'msg) t
+
+val a_loop : unit -> ([> `Loop ], 'msg) t
+val a_muted : unit -> ([> `Muted ], 'msg) t
+val a_preload : [< `None | `Metadata | `Auto ] -> ([> `Preload ], 'msg) t
+val a_height : int -> ([> `Height ], 'msg) t
+val a_poster : string -> ([> `Poster ], 'msg) t
+val a_width : int -> ([> `Width ], 'msg) t
+val a_cite : string -> ([> `Cite ], 'msg) t
+
 (** {1 Attribut helpers} *)
 
 val remove_attribute_kind : ('a, 'msg) t -> 'msg Vdom.attribute
+val remove_attribute_kinds : ('a, 'msg) t list -> 'msg Vdom.attribute list

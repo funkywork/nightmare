@@ -35,6 +35,14 @@ let a_of ?anchor ?parameters ?(a = []) endpoint =
     Tyxml.Html.a ~a children)
 ;;
 
+let audio_of ?anchor ?parameters ?srcs ?(a = []) endpoint =
+  Nightmare_service.Endpoint.href_with
+    ?anchor
+    ?parameters
+    endpoint
+    (fun target children -> Tyxml.Html.audio ~src:target ?srcs ~a children)
+;;
+
 let base_of ?(a = []) endpoint =
   Nightmare_service.Endpoint.href_with endpoint (fun target ->
     let a =
@@ -44,6 +52,17 @@ let base_of ?(a = []) endpoint =
            :> [> Html_types.base_attrib ] Tyxml.Html.attrib list)
     in
     Tyxml.Html.base ~a ())
+;;
+
+let blockquote_of ?(a = []) endpoint =
+  Nightmare_service.Endpoint.href_with endpoint (fun target children ->
+    let a =
+      Tyxml.Html.a_cite target
+      :: (a
+           : [< Attrib.Without_source.blockquote ] Tyxml.Html.attrib list
+           :> [> Html_types.blockquote_attrib ] Tyxml.Html.attrib list)
+    in
+    Tyxml.Html.blockquote ~a children)
 ;;
 
 let embed_of ?parameters ?(a = []) endpoint =
@@ -162,6 +181,14 @@ let source_of ?parameters ?(a = []) endpoint =
            :> [> Html_types.source_attrib ] Tyxml.Html.attrib list)
     in
     Tyxml.Html.source ~a ())
+;;
+
+let video_of ?anchor ?parameters ?srcs ?(a = []) endpoint =
+  Nightmare_service.Endpoint.href_with
+    ?anchor
+    ?parameters
+    endpoint
+    (fun target children -> Tyxml.Html.video ~src:target ?srcs ~a children)
 ;;
 
 module Attrib = Attrib

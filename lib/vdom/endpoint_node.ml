@@ -34,3 +34,53 @@ let a_of ?anchor ?parameters ?key ?(a = []) endpoint =
     in
     Node.a ?key ~a children)
 ;;
+
+let audio_of ?anchor ?parameters ?key ?srcs ?(a = []) endpoint =
+  Nightmare_service.Endpoint.href_with
+    ?anchor
+    ?parameters
+    endpoint
+    (fun target children -> Node.audio ~src:target ?key ?srcs ~a children)
+;;
+
+let base_of ?anchor ?parameters ?key ?(a = []) endpoint =
+  Nightmare_service.Endpoint.href_with
+    ?anchor
+    ?parameters
+    endpoint
+    (fun target ->
+    let a =
+      Attrib.a_href target
+      :: (a
+           : ([< Nightmare_tyxml.Attrib.Without_source.base ], 'msg) Attrib.t
+             list
+           :> ([> Html_types.base_attrib ], 'msg) Attrib.t list)
+    in
+    Node.base ?key ~a ())
+;;
+
+let blockquote_of ?anchor ?parameters ?key ?(a = []) endpoint =
+  Nightmare_service.Endpoint.href_with
+    ?anchor
+    ?parameters
+    endpoint
+    (fun target children ->
+    let a =
+      Attrib.a_cite target
+      :: (a
+           : ( [< Nightmare_tyxml.Attrib.Without_source.blockquote ]
+             , 'msg )
+             Attrib.t
+             list
+           :> ([> Html_types.blockquote_attrib ], 'msg) Attrib.t list)
+    in
+    Node.blockquote ?key ~a children)
+;;
+
+let video_of ?anchor ?parameters ?key ?srcs ?(a = []) endpoint =
+  Nightmare_service.Endpoint.href_with
+    ?anchor
+    ?parameters
+    endpoint
+    (fun target children -> Node.video ~src:target ?key ?srcs ~a children)
+;;

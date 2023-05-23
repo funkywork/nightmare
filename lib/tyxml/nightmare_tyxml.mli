@@ -89,6 +89,21 @@ val a_of
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
+(** [audio_of ?anchor ?parameters ?srcs ?a endpoint] generates a function
+    expecting the parameters of [endpoint] and returning an HTML element
+    [<audio>] (with [href] computed from [endpoint]). *)
+val audio_of
+  :  ?anchor:string
+  -> ?parameters:(string * string) list
+  -> ?srcs:[< Html_types.source ] Tyxml.Html.elt list
+  -> ?a:Html_types.audio_attrib Tyxml.Html.attrib list
+  -> ( _
+     , [< Nightmare_service.Method.for_link ]
+     , 'continuation
+     , 'a Tyxml.Html.elt list -> [> 'a Html_types.audio ] Tyxml.Html.elt )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
 (** [base_of ?anchor ?parameters ?a endpoint] generates a function expecting the
     parameters of [endpoint] and returning an HTML element [<base>]. (with
     [href] computed from [endpoint]) *)
@@ -98,6 +113,19 @@ val base_of
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
      , [> Html_types.base ] Tyxml.Html.elt )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
+(** [blockquote_of ?anchor ?parameters ?a endpoint] generates a function
+    expecting the parameters of [endpoint] and returning an HTML element
+    [<blockquote>]. (with [cite] computed from [endpoint]) *)
+val blockquote_of
+  :  ?a:Attrib.Without_source.blockquote Tyxml.Html.attrib list
+  -> ( _
+     , [< Nightmare_service.Method.for_link ]
+     , 'continuation
+     , Html_types.blockquote_content_fun Tyxml.Html.elt list
+       -> [> Html_types.blockquote ] Tyxml.Html.elt )
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
@@ -214,6 +242,21 @@ val source_of
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
      , [> Html_types.source ] Tyxml.Html.elt )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
+(** [video_of ?anchor ?parameters ?srcs ?a endpoint] generates a function
+    expecting the parameters of [endpoint] and returning an HTML element
+    [<video>] (with [href] computed from [endpoint]). *)
+val video_of
+  :  ?anchor:string
+  -> ?parameters:(string * string) list
+  -> ?srcs:[< Html_types.source ] Tyxml.Html.elt list
+  -> ?a:Html_types.video_attrib Tyxml.Html.attrib list
+  -> ( _
+     , [< Nightmare_service.Method.for_link ]
+     , 'continuation
+     , 'a Tyxml.Html.elt list -> [> 'a Html_types.video ] Tyxml.Html.elt )
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 

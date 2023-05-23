@@ -38,6 +38,7 @@ let charlist =
        "")
 ;;
 
+let int_list = List.fold_left (fun acc x -> acc ^ "," ^ string_of_int x) ""
 let tokenize x = String.trim (String.lowercase_ascii x)
 let list_with f = List.fold_left (fun acc x -> concat_with_space acc (f x)) ""
 let string_list = list_with (fun x -> x)
@@ -213,6 +214,51 @@ let a_target value =
     value
 ;;
 
+let a_coords value = to_string int_list "coords" value
+
+let a_shape value =
+  to_string
+    (function
+     | `Rect -> "rect"
+     | `Circle -> "circle"
+     | `Poly -> "poly"
+     | `Default -> "default")
+    "shape"
+    value
+;;
+
+let a_src value = string "src" value
+let a_autoplay () = string "autoplay" ""
+let a_controls () = string "controls" ""
+
+let a_crossorigin value =
+  to_string
+    (function
+     | `Anonymous -> "anonymous"
+     | `Use_credentials -> "user-credentials")
+    "crossorigin"
+    value
+;;
+
+let a_loop () = string "loop" ""
+let a_muted () = string "muted" ""
+
+let a_preload value =
+  to_string
+    (function
+     | `None -> "none"
+     | `Metadata -> "metadata"
+     | `Auto -> "auto")
+    "preload"
+    value
+;;
+
+let a_height value = int "height" value
+let a_width value = int "width" value
+let a_poster value = string "poster" value
+let a_cite value = string "cite" value
+
 (* Util *)
 
 let remove_attribute_kind x = x
+let remove_attribute_kinds x = x

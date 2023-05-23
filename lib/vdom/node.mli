@@ -26,8 +26,7 @@
     type to allows only valid nodes in node children. *)
 type (_, +'msg) t
 
-(** Describes a node that take a list of attributes and a list of nodes (as
-    children).
+(** For the following types, the conventions used are
 
     - ['attrib] is a phantom type that fixes available attributes
     - ['children] is a phantom type that fixes available children
@@ -35,7 +34,18 @@ type (_, +'msg) t
     - ['msg] is the message propagated by the VDom.
     - [?key] is the key for the VDom diffing
     - [?a] is the list of the attributes *)
-type ('attrib, 'children, 'result, 'msg) star =
+
+(** Describes a node that take a list of attributes and have no children. *)
+type ('attrib, 'result, 'msg) leaf =
+  ?key:string -> ?a:('attrib, 'msg) Attrib.t list -> unit -> ('result, 'msg) t
+
+(** Describes a node that take a just one children. *)
+type ('attrib, 'children, 'result, 'msg) one =
+  ?key:string -> ?a:('attrib, 'msg) Attrib.t list -> unit -> ('result, 'msg) t
+
+(** Describes a node that take a list of attributes and a list of nodes (as
+    children). *)
+type ('attrib, 'children, 'result, 'msg) many =
   ?key:string
   -> ?a:('attrib, 'msg) Attrib.t list
   -> ('children, 'msg) t list
@@ -50,7 +60,104 @@ val div
     , [< Html_types.div_content_fun ]
     , [> `Div ]
     , 'msg )
-    star
+    many
 
 (** [a ?key ?a children] produce a [<a>] element. *)
-val a : ([< Html_types.a_attrib ], 'a, 'a Html_types.a, 'msg) star
+val a : ([< Html_types.a_attrib ], 'a, 'a Html_types.a, 'msg) many
+
+(** [abbr ?key ?a children] produce a [<abbr>] element. *)
+val abbr
+  : ( [< Html_types.abbr_attrib ]
+    , [< Html_types.abbr_content_fun ]
+    , [> `Abbr ]
+    , 'msg )
+    many
+
+(** [address ?key ?a children] produce a [<address>] element. *)
+val address
+  : ( [< Html_types.address_attrib ]
+    , [< Html_types.address_content_fun ]
+    , [> `Address ]
+    , 'msg )
+    many
+
+(** [area ?key ?a ()] produce a [<area>] element. *)
+val area : ([< Html_types.area_attrib ], [> `Area ], 'msg) leaf
+
+(** [article ?key ?a children] produce a [<article>] element. *)
+val article
+  : ( [< Html_types.article_attrib ]
+    , [< Html_types.article_content_fun ]
+    , [> `Article ]
+    , 'msg )
+    many
+
+(** [aside ?key ?a children] produce a [<aside>] element. *)
+val aside
+  : ( [< Html_types.aside_attrib ]
+    , [< Html_types.aside_content_fun ]
+    , [> `Aside ]
+    , 'msg )
+    many
+
+(** [audio ?key ?srcs ?a children] produce a [<audio>] element. *)
+val audio
+  :  ?src:string
+  -> ?srcs:([< Html_types.source ], 'msg) t list
+  -> ( [< Html_types.audio_attrib ]
+     , [< Html_types.audio_content_fun ]
+     , [> `Audio ]
+     , 'msg )
+     many
+
+(** [b ?key ?a children] produce a [<b>] element. *)
+val b
+  : ( [< Html_types.b_attrib ]
+    , [< Html_types.b_content_fun ]
+    , [> `B ]
+    , 'msg )
+    many
+
+(** [base ?key ?a ()] produce a [<base>] element. *)
+val base : ([< Html_types.base_attrib ], [> `Base ], 'msg) leaf
+
+(** [bdi ~dir ?key ?a children] produce a [<bdi>] element. *)
+val bdi
+  :  dir:[< `Ltr | `Rtl ]
+  -> ( [< Html_types.bdo_attrib > `Dir ]
+     , [< Html_types.bdo_content_fun ]
+     , [> `Bdo ]
+     , 'msg )
+     many
+(* Using `Bdo related stuff is voluntary. *)
+
+(** [bdo ~dir ?key ?a children] produce a [<bdo>] element. *)
+val bdo
+  :  dir:[< `Ltr | `Rtl ]
+  -> ( [< Html_types.bdo_attrib > `Dir ]
+     , [< Html_types.bdo_content_fun ]
+     , [> `Bdo ]
+     , 'msg )
+     many
+
+(** [blockquote ?key ?a children] produce a [<blockquote>] element. *)
+val blockquote
+  : ( [< Html_types.blockquote_attrib ]
+    , [< Html_types.blockquote_content_fun ]
+    , [> `Blockquote ]
+    , 'msg )
+    many
+
+(** [video ?key ?srcs ?a children] produce a [<video>] element. *)
+val video
+  :  ?src:string
+  -> ?srcs:([< Html_types.source ], 'msg) t list
+  -> ( [< Html_types.video_attrib ]
+     , [< Html_types.video_content_fun ]
+     , [> `Video ]
+     , 'msg )
+     many
+
+(** {1 Node helpers} *)
+
+val remove_node_kind : ('a, 'msg) t -> 'msg Vdom.vdom
