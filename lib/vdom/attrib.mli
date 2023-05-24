@@ -20,7 +20,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-(** Describes HTML attributes *)
+(** Describes HTML attributes using types from TyXML. *)
 
 (** An attribute has the type [('kind, 'message) t], the ['kind] is a phantom
     type to allows only valid attributes in nodes. *)
@@ -125,20 +125,104 @@ val a_target
   -> ([> `Target ], 'msg) t
 
 val a_src : string -> ([> `Src ], 'msg) t
-val a_autoplay : unit -> ([> `Autoplay ], 'msg) t
-val a_controls : unit -> ([> `Controls ], 'msg) t
+val a_autoplay : bool -> ([> `Autoplay ], 'msg) t
+val a_controls : bool -> ([> `Controls ], 'msg) t
 
 val a_crossorigin
   :  [< `Anonymous | `Use_credentials ]
   -> ([> `Crossorigin ], 'msg) t
 
-val a_loop : unit -> ([> `Loop ], 'msg) t
-val a_muted : unit -> ([> `Muted ], 'msg) t
+val a_loop : bool -> ([> `Loop ], 'msg) t
+val a_muted : bool -> ([> `Muted ], 'msg) t
 val a_preload : [< `None | `Metadata | `Auto ] -> ([> `Preload ], 'msg) t
 val a_height : int -> ([> `Height ], 'msg) t
 val a_poster : string -> ([> `Poster ], 'msg) t
 val a_width : int -> ([> `Width ], 'msg) t
 val a_cite : string -> ([> `Cite ], 'msg) t
+val a_autofocus : bool -> ([> `Autofocus ], 'msg) t
+val a_disabled : bool -> ([> `Disabled ], 'msg) t
+val a_form : string -> ([> `Form ], 'msg) t
+val a_formaction : string -> ([> `Formaction ], 'msg) t
+val a_formmethod : [< `GET | `POST ] -> ([> `Method ], 'msg) t
+val a_formenctype : string -> ([> `Formenctype ], 'msg) t
+val a_formnovalidate : bool -> ([> `Formnovalidate ], 'msg) t
+
+val a_formtarget
+  :  [< `Self | `Blank | `Parent | `Top | `Other of string ]
+  -> ([> `Formtarget ], 'msg) t
+
+val a_name : string -> ([> `Name ], 'msg) t
+
+val a_button_type
+  :  [< `Button | `Submit | `Reset ]
+  -> ([> `Button_Type ], 'msg) t
+
+val a_value : string -> ([> `Value ], 'msg) t
+val a_span : int -> ([> `Span ], 'msg) t
+val a_datetime : string -> ([> `Datetime ], 'msg) t
+val a_open : bool -> ([> `Open ], 'msg) t
+val a_accept_charset : string list -> ([> `Accept_charset ], 'msg) t
+val a_autocomplete : bool -> ([> `Autocomplete ], 'msg) t
+val a_action : string -> ([> `Action ], 'msg) t
+val a_enctype : string -> ([> `Enctype ], 'msg) t
+val a_method : [< `GET | `POST ] -> ([> `Method ], 'msg) t
+val a_novalidate : bool -> ([> `Novalidate ], 'msg) t
+
+val a_referrerpolicy
+  :  [< Html_types.referrerpolicy ]
+  -> ([> `Referrerpolicy ], 'msg) t
+
+val a_sandbox : [< Html_types.sandbox_token ] list -> ([> `Sandbox ], 'msg) t
+val a_ismap : bool -> ([> `Ismap ], 'msg) t
+val a_alt : string -> ([> `Alt ], 'msg) t
+val a_accept : string list -> ([> `Accept ], 'msg) t
+val a_checked : bool -> ([> `Checked ], 'msg) t
+val a_list : string -> ([> `List ], 'msg) t
+
+val a_input_max
+  :  [< `Number of int | `Datetime of string ]
+  -> ([> `Input_Max ], 'msg) t
+
+val a_input_min
+  :  [< `Number of int | `Datetime of string ]
+  -> ([> `Input_Min ], 'msg) t
+
+val a_maxlength : int -> ([> `Maxlength ], 'msg) t
+val a_minlength : int -> ([> `Minlength ], 'msg) t
+val a_multiple : bool -> ([> `Multiple ], 'msg) t
+val a_pattern : string -> ([> `Pattern ], 'msg) t
+val a_placeholder : string -> ([> `Placeholder ], 'msg) t
+val a_readonly : bool -> ([> `ReadOnly ], 'msg) t
+val a_required : bool -> ([> `Required ], 'msg) t
+val a_size : int -> ([> `Size ], 'msg) t
+val a_step : float -> ([> `Step ], 'msg) t
+
+val a_input_type
+  :  [< `Url
+     | `Tel
+     | `Text
+     | `Time
+     | `Search
+     | `Password
+     | `Checkbox
+     | `Range
+     | `Radio
+     | `Submit
+     | `Reset
+     | `Number
+     | `Hidden
+     | `Month
+     | `Week
+     | `File
+     | `Email
+     | `Image
+     | `Datetime_local
+     | `Datetime
+     | `Date
+     | `Color
+     | `Button
+     ]
+  -> ([> `Input_Type ], 'msg) t
 
 (** {1 Attribut helpers} *)
 

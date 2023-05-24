@@ -116,6 +116,21 @@ val base_of
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
+(** [button_of ?anchor ?parameters ?srcs ?a endpoint] generates a function
+    expecting the parameters of [endpoint] and returning an HTML element
+    [<button>] (with [action] and [method] computed from [endpoint]). *)
+val button_of
+  :  ?anchor:string
+  -> ?parameters:(string * string) list
+  -> ?a:Attrib.Without_source.button Tyxml.Html.attrib list
+  -> ( _
+     , Nightmare_service.Method.for_form_action
+     , 'continuation
+     , Html_types.button_content_fun Tyxml.Html.elt list
+       -> [> Html_types.button ] Tyxml.Html.elt )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
 (** [blockquote_of ?anchor ?parameters ?a endpoint] generates a function
     expecting the parameters of [endpoint] and returning an HTML element
     [<blockquote>]. (with [cite] computed from [endpoint]) *)
@@ -126,6 +141,19 @@ val blockquote_of
      , 'continuation
      , Html_types.blockquote_content_fun Tyxml.Html.elt list
        -> [> Html_types.blockquote ] Tyxml.Html.elt )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
+(** [del_of ?anchor ?parameters ?a endpoint] generates a function expecting the
+    parameters of [endpoint] and returning an HTML element [<del>]. (with [cite]
+    computed from [endpoint]) *)
+val del_of
+  :  ?a:Attrib.Without_source.del Tyxml.Html.attrib list
+  -> ( _
+     , [< Nightmare_service.Method.for_link ]
+     , 'continuation
+     , 'children Tyxml.Html.elt list
+       -> [> 'children Html_types.del ] Tyxml.Html.elt )
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 

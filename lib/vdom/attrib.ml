@@ -29,6 +29,7 @@ let bool attr value = Vdom.Property (attr, Bool value)
 let int attr value = Vdom.Property (attr, Int value)
 let to_string f attr value = string attr (f value)
 let concat_with_space x y = x ^ " " ^ y
+let concat_with_comma x y = x ^ "," ^ y
 let string_option = to_string (Option.value ~default:"")
 
 let charlist =
@@ -38,10 +39,12 @@ let charlist =
        "")
 ;;
 
-let int_list = List.fold_left (fun acc x -> acc ^ "," ^ string_of_int x) ""
 let tokenize x = String.trim (String.lowercase_ascii x)
 let list_with f = List.fold_left (fun acc x -> concat_with_space acc (f x)) ""
+let list_comma f = List.fold_left (fun acc x -> concat_with_comma acc (f x)) ""
 let string_list = list_with (fun x -> x)
+let string_list_comma = list_comma (fun x -> x)
+let int_list = list_comma string_of_int
 let tokenize_list_with f = list_with (fun x -> x |> f |> tokenize)
 let tokenize_list = tokenize_list_with (fun x -> x)
 let strings = to_string string_list
@@ -228,8 +231,8 @@ let a_shape value =
 ;;
 
 let a_src value = string "src" value
-let a_autoplay () = string "autoplay" ""
-let a_controls () = string "controls" ""
+let a_autoplay value = bool "autoplay" value
+let a_controls value = bool "controls" value
 
 let a_crossorigin value =
   to_string
@@ -240,8 +243,8 @@ let a_crossorigin value =
     value
 ;;
 
-let a_loop () = string "loop" ""
-let a_muted () = string "muted" ""
+let a_loop value = bool "loop" value
+let a_muted value = bool "muted" value
 
 let a_preload value =
   to_string
@@ -257,6 +260,167 @@ let a_height value = int "height" value
 let a_width value = int "width" value
 let a_poster value = string "poster" value
 let a_cite value = string "cite" value
+let a_autofocus value = bool "autofocus" value
+let a_disabled value = bool "disabled" value
+let a_form value = string "form" value
+let a_formaction value = string "formAction" value
+let a_formenctype value = string "formEnctype" value
+let a_formnovalidate value = bool "formNoValidate" value
+
+let a_formtarget value =
+  to_string
+    (function
+     | `Self -> "_self"
+     | `Blank -> "_blank"
+     | `Parent -> "_parent"
+     | `Top -> "_top"
+     | `Other x -> x)
+    "formTarget"
+    value
+;;
+
+let a_name value = to_string tokenize "name" value
+
+let a_button_type value =
+  to_string
+    (function
+     | `Button -> "button"
+     | `Submit -> "submit"
+     | `Reset -> "reset")
+    "type"
+    value
+;;
+
+let a_value value = string "value" value
+let a_span value = int "span" value
+let a_datetime value = string "dateTime" value
+let a_open value = bool "open" value
+let a_accept_charset value = tokens "acceptCharset" value
+
+let a_autocomplete value =
+  to_string
+    (function
+     | true -> "on"
+     | false -> "off")
+    "autocomplete"
+    value
+;;
+
+let a_action value = string "action" value
+let a_enctype value = string "enctype" value
+
+let a_formmethod value =
+  to_string
+    (function
+     | `GET -> "get"
+     | `POST -> "post")
+    "formMethod"
+    value
+;;
+
+let a_method value =
+  to_string
+    (function
+     | `GET -> "get"
+     | `POST -> "post")
+    "method"
+    value
+;;
+
+let a_novalidate value = bool "noValidate" value
+
+let a_referrerpolicy value =
+  to_string
+    (function
+     | `Empty -> ""
+     | `No_referrer -> "no-referrer"
+     | `No_referrer_when_downgrade -> "no-referrer-when-downgrade"
+     | `Origin -> "origin"
+     | `Origin_when_cross_origin -> "origin-when-cross-origin"
+     | `Same_origin -> "same-origin"
+     | `Strict_origin -> "strict-origin"
+     | `Strict_origin_when_cross_origin -> "strict-origin-when-cross-origin"
+     | `Unsafe_url -> "unsafe-url")
+    "referrerPolicy"
+    value
+;;
+
+let a_sandbox value =
+  to_string
+    (tokenize_list_with (function
+      | `Allow_forms -> "allow-forms"
+      | `Allow_pointer_lock -> "allow-pointer-lock"
+      | `Allow_popups -> "allow-popups"
+      | `Allow_top_navigation -> "allow-top-navigation"
+      | `Allow_same_origin -> "allow-same-origin"
+      | `Allow_script -> "allow-scripts"))
+    "sandbox"
+    value
+;;
+
+let a_ismap value = bool "isMap" value
+let a_alt value = string "alt" value
+let a_accept value = to_string string_list_comma "accept" value
+let a_checked value = bool "checked" value
+let a_list value = to_string tokenize "list" value
+
+let a_input_max value =
+  to_string
+    (function
+     | `Number x -> string_of_int x
+     | `Datetime x -> x)
+    "max"
+    value
+;;
+
+let a_input_min value =
+  to_string
+    (function
+     | `Number x -> string_of_int x
+     | `Datetime x -> x)
+    "min"
+    value
+;;
+
+let a_maxlength value = int "maxLength" value
+let a_minlength value = int "minLength" value
+let a_multiple value = bool "multiple" value
+let a_pattern value = string "pattern" value
+let a_placeholder value = string "placeholder" value
+let a_readonly value = bool "readOnly" value
+let a_required value = bool "required" value
+let a_size value = int "size" value
+let a_step value = to_string string_of_float "step" value
+
+let a_input_type value =
+  to_string
+    (function
+     | `Url -> "url"
+     | `Tel -> "tel"
+     | `Text -> "text"
+     | `Time -> "time"
+     | `Search -> "search"
+     | `Password -> "password"
+     | `Checkbox -> "checkbox"
+     | `Range -> "range"
+     | `Radio -> "radio"
+     | `Submit -> "submit"
+     | `Reset -> "reset"
+     | `Number -> "number"
+     | `Hidden -> "hidden"
+     | `Month -> "month"
+     | `Week -> "week"
+     | `File -> "file"
+     | `Email -> "email"
+     | `Image -> "image"
+     | `Datetime_local -> "datetime-local"
+     | `Datetime -> "datetime"
+     | `Date -> "date"
+     | `Color -> "color"
+     | `Button -> "button")
+    "type"
+    value
+;;
 
 (* Util *)
 

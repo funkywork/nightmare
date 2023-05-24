@@ -86,3 +86,69 @@ let bdo ~dir ?key ?(a = []) children =
 ;;
 
 let blockquote ?key ?a children = elt "blockquote" ?key ?a children
+let br ?key ?a () = elt "br" ?key ?a []
+let hr ?key ?a () = elt "hr" ?key ?a []
+let button ?key ?a children = elt "button" ?key ?a children
+let canvas ?key ?a children = elt "canvas" ?key ?a children
+let caption ?key ?a children = elt "caption" ?key ?a children
+let cite ?key ?a children = elt "cite" ?key ?a children
+let code ?key ?a children = elt "code" ?key ?a children
+let col ?key ?a () = elt "col" ?key ?a []
+let colgroup ?key ?a children = elt "colgroup" ?key ?a children
+let datalist ?key ?a children = elt "datalist" ?key ?a children
+let dd ?key ?a children = elt "dd" ?key ?a children
+let del ?key ?a children = elt "del" ?key ?a children
+let details ?key ?a children = elt "details" ?key ?a children
+let dfn ?key ?a children = elt "dfn" ?key ?a children
+let dialog ?key ?a children = elt "dialog" ?key ?a children
+let dl ?key ?a children = elt "dl" ?key ?a children
+let dt ?key ?a children = elt "dt" ?key ?a children
+let em ?key ?a children = elt "em" ?key ?a children
+let embed ?key ?a () = elt "embed" ?key ?a []
+
+let fieldset ?legend ?key ?a children =
+  let children =
+    Option.fold ~none:children ~some:(fun x -> x :: children) legend
+  in
+  elt "fieldset" ?key ?a children
+;;
+
+let figcaption ?key ?a children = elt "figcaption" ?key ?a children
+
+let figure ?figcaption ?key ?a children =
+  let children =
+    Option.fold
+      ~none:children
+      ~some:(function
+        | `Top x -> x :: children
+        | `Bottom x -> children @ [ x ])
+      figcaption
+  in
+  elt "figure" ?key ?a children
+;;
+
+let footer ?key ?a children = elt "footer" ?key ?a children
+let form ?key ?a children = elt "form" ?key ?a children
+let h1 ?key ?a children = elt "h1" ?key ?a children
+let h2 ?key ?a children = elt "h2" ?key ?a children
+let h3 ?key ?a children = elt "h3" ?key ?a children
+let h4 ?key ?a children = elt "h4" ?key ?a children
+let h5 ?key ?a children = elt "h5" ?key ?a children
+let h6 ?key ?a children = elt "h6" ?key ?a children
+let header ?key ?a children = elt "header" ?key ?a children
+let hgroup ?key ?a children = elt "hgroup" ?key ?a children
+let i ?key ?a children = elt "i" ?key ?a children
+let iframe ?key ?a children = elt "iframe" ?key ?a children
+
+let img ~src ~alt ?key ?(a = []) () =
+  let a =
+    Attrib.a_src src
+    :: Attrib.a_alt alt
+    :: (a
+         : ([< Html_types.img_attrib ], 'msg) Attrib.t list
+         :> ([> Html_types.img_attrib | `Src | `Alt ], 'msg) Attrib.t list)
+  in
+  elt "img" ?key ~a []
+;;
+
+let input ?key ?a () = elt "input" ?key ?a []

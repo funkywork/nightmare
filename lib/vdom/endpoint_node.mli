@@ -89,6 +89,102 @@ val blockquote_of
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
+(** [button_of ?anchor ?parameters ?a endpoint] generates a function expecting
+    the parameters of [endpoint] and returning an HTML element [<button>] (with
+    [method] and [formaction] computed from [endpoint]). *)
+val button_of
+  :  ?anchor:string
+  -> ?parameters:(string * string) list
+  -> ?key:string
+  -> ?a:([< Nightmare_tyxml.Attrib.Without_source.button ], 'msg) Attrib.t list
+  -> ( 'scope
+     , Nightmare_service.Method.for_form_action
+     , 'continuation
+     , ([< Html_types.button_content_fun ], 'msg) Node.t list
+       -> ([> `Button ], 'msg) Node.t )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
+(** [del_of ?anchor ?parameters ?a endpoint] generates a function expecting the
+    parameters of [endpoint] and returning an HTML element [<del>] (with [cite]
+    computed from [endpoint]). *)
+val del_of
+  :  ?anchor:string
+  -> ?parameters:(string * string) list
+  -> ?key:string
+  -> ?a:([< Nightmare_tyxml.Attrib.Without_source.del ], 'msg) Attrib.t list
+  -> ( 'scope
+     , [< Nightmare_service.Method.for_link ]
+     , 'continuation
+     , ([< Html_types.del_content_fun ], 'msg) Node.t list
+       -> ([> `Del ], 'msg) Node.t )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
+(** [embed_of ?anchor ?parameters ?a endpoint] generates a function expecting
+    the parameters of [endpoint] and returning an HTML element [<embed>] (with
+    [src] computed from [endpoint]). *)
+val embed_of
+  :  ?anchor:string
+  -> ?parameters:(string * string) list
+  -> ?key:string
+  -> ?a:([< Nightmare_tyxml.Attrib.Without_source.embed ], 'msg) Attrib.t list
+  -> ( 'scope
+     , [< Nightmare_service.Method.for_link ]
+     , 'continuation
+     , ([> `Embed ], 'msg) Node.t )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
+(** [form_of ?anchor ?parameters ?csrf_token ?a endpoint] generates a function
+    expecting the parameters of [endpoint] and returning an HTML element
+    [<form>] (with [method] and [action] computed from [endpoint]). *)
+val form_of
+  :  ?anchor:string
+  -> ?parameters:(string * string) list
+  -> ?csrf_token:string * string
+  -> ?key:string
+  -> ?a:([< Nightmare_tyxml.Attrib.Without_source.form ], 'msg) Attrib.t list
+  -> ( 'scope
+     , Nightmare_service.Method.for_form_action
+     , 'continuation
+     , (Html_types.form_content_fun, 'msg) Node.t list
+       -> ([> `Form ], 'msg) Node.t )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
+(** [iframe_of ?anchor ?parameters ?a endpoint] generates a function expecting
+    the parameters of [endpoint] and returning an HTML element [<iframe>] (with
+    [src] computed from [endpoint]). *)
+val iframe_of
+  :  ?anchor:string
+  -> ?parameters:(string * string) list
+  -> ?key:string
+  -> ?a:([< Nightmare_tyxml.Attrib.Without_source.iframe ], 'msg) Attrib.t list
+  -> ( 'scope
+     , [< Nightmare_service.Method.for_link ]
+     , 'continuation
+     , ([< Html_types.iframe_content_fun ], 'msg) Node.t list
+       -> ([> `Iframe ], 'msg) Node.t )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
+(** [img_of ~alt ?anchor ?parameters ?a endpoint] generates a function expecting
+    the parameters of [endpoint] and returning an HTML element [<img>] (with
+    [src] computed from [endpoint]). *)
+val img_of
+  :  alt:string
+  -> ?anchor:string
+  -> ?parameters:(string * string) list
+  -> ?key:string
+  -> ?a:([< Html_types.img_attrib ], 'msg) Attrib.t list
+  -> ( 'scope
+     , [< Nightmare_service.Method.for_link ]
+     , 'continuation
+     , ([> `Img ], 'msg) Node.t )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
 (** [video_of ?anchor ?parameters ?srcs ?a endpoint] generates a function
     expecting the parameters of [endpoint] and returning an HTML element
     [<video>] (with [src] computed from [endpoint]). *)

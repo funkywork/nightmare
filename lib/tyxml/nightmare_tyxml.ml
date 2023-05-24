@@ -65,6 +65,17 @@ let blockquote_of ?(a = []) endpoint =
     Tyxml.Html.blockquote ~a children)
 ;;
 
+let del_of ?(a = []) endpoint =
+  Nightmare_service.Endpoint.href_with endpoint (fun target children ->
+    let a =
+      Tyxml.Html.a_cite target
+      :: (a
+           : [< Attrib.Without_source.del ] Tyxml.Html.attrib list
+           :> [> Html_types.del_attrib ] Tyxml.Html.attrib list)
+    in
+    Tyxml.Html.del ~a children)
+;;
+
 let embed_of ?parameters ?(a = []) endpoint =
   Nightmare_service.Endpoint.href_with ?parameters endpoint (fun target ->
     let a =
@@ -79,6 +90,26 @@ let embed_of ?parameters ?(a = []) endpoint =
 let endpoint_method_to_tyxml_method = function
   | `GET -> `Get
   | `POST -> `Post
+;;
+
+let button_of ?anchor ?parameters ?(a = []) endpoint =
+  let form_method =
+    Nightmare_service.Endpoint.form_method endpoint
+    |> endpoint_method_to_tyxml_method
+  in
+  Nightmare_service.Endpoint.form_action_with
+    ?anchor
+    ?parameters
+    endpoint
+    (fun target children ->
+    let a =
+      Tyxml.Html.a_formaction target
+      :: Tyxml.Html.a_method form_method
+      :: (a
+           : [< Attrib.Without_source.button ] Tyxml.Html.attrib list
+           :> [> Html_types.button_attrib ] Tyxml.Html.attrib list)
+    in
+    Tyxml.Html.button ~a children)
 ;;
 
 let form_of ?anchor ?parameters ?csrf_token ?(a = []) endpoint =

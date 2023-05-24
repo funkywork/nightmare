@@ -47,7 +47,25 @@ module Without_source : sig
     | `Target
     ]
 
+  type button =
+    [ Html_types.common
+    | `Autofocus
+    | `Disabled
+    | `Form
+    | `Formenctype
+    | `Formnovalidate
+    | `Formtarget
+    | `Name
+    | `Text_Value
+    | `Button_Type
+    ]
+
   type blockquote = Html_types.common
+
+  type del =
+    [ Html_types.common
+    | `Datetime
+    ]
 
   type embed =
     [ Html_types.common
