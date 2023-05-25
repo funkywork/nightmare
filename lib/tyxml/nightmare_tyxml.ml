@@ -76,6 +76,17 @@ let del_of ?(a = []) endpoint =
     Tyxml.Html.del ~a children)
 ;;
 
+let ins_of ?(a = []) endpoint =
+  Nightmare_service.Endpoint.href_with endpoint (fun target children ->
+    let a =
+      Tyxml.Html.a_cite target
+      :: (a
+           : [< Attrib.Without_source.ins ] Tyxml.Html.attrib list
+           :> [> Html_types.ins_attrib ] Tyxml.Html.attrib list)
+    in
+    Tyxml.Html.ins ~a children)
+;;
+
 let embed_of ?parameters ?(a = []) endpoint =
   Nightmare_service.Endpoint.href_with ?parameters endpoint (fun target ->
     let a =

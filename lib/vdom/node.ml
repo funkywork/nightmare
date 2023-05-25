@@ -98,6 +98,7 @@ let colgroup ?key ?a children = elt "colgroup" ?key ?a children
 let datalist ?key ?a children = elt "datalist" ?key ?a children
 let dd ?key ?a children = elt "dd" ?key ?a children
 let del ?key ?a children = elt "del" ?key ?a children
+let ins ?key ?a children = elt "del" ?key ?a children
 let details ?key ?a children = elt "details" ?key ?a children
 let dfn ?key ?a children = elt "dfn" ?key ?a children
 let dialog ?key ?a children = elt "dialog" ?key ?a children
@@ -152,3 +153,7 @@ let img ~src ~alt ?key ?(a = []) () =
 ;;
 
 let input ?key ?a () = elt "input" ?key ?a []
+let kbd ?key ?a children = elt "kbd" ?key ?a children
+let label ?key ?a children = elt "label" ?key ?a children
+let legend ?key ?a children = elt "legend" ?key ?a children
+let li ?key ?a children = elt "li" ?key ?a children

@@ -422,6 +422,9 @@ let a_input_type value =
     value
 ;;
 
+let a_for value = string "htmlFor" value
+let a_int_value value = int "value" value
+
 (* Util *)
 
 let remove_attribute_kind x = x

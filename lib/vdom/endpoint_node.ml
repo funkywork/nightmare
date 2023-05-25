@@ -93,6 +93,22 @@ let del_of ?anchor ?parameters ?key ?(a = []) endpoint =
     Node.del ?key ~a children)
 ;;
 
+let ins_of ?anchor ?parameters ?key ?(a = []) endpoint =
+  Nightmare_service.Endpoint.href_with
+    ?anchor
+    ?parameters
+    endpoint
+    (fun target children ->
+    let a =
+      Attrib.a_cite target
+      :: (a
+           : ([< Nightmare_tyxml.Attrib.Without_source.ins ], 'msg) Attrib.t
+             list
+           :> ([> Html_types.ins_attrib ], 'msg) Attrib.t list)
+    in
+    Node.ins ?key ~a children)
+;;
+
 let embed_of ?anchor ?parameters ?key ?(a = []) endpoint =
   Nightmare_service.Endpoint.href_with
     ?anchor

@@ -229,6 +229,14 @@ val del
     , 'msg )
     many
 
+(** [ins ?key ?a children] produce a [<ins>] element. *)
+val ins
+  : ( [< Html_types.ins_attrib ]
+    , [< Html_types.ins_content_fun ]
+    , [> `Ins ]
+    , 'msg )
+    many
+
 (** [details ?key ?a children] produce a [<details>] element. *)
 val details
   : ( [< Html_types.details_attrib ]
@@ -424,6 +432,38 @@ val img
 
 (** [input ?key ?a ()] produce a [<input>] element. *)
 val input : ([< Html_types.input_attrib ], [> `Input ], 'msg) leaf
+
+(** [kbd ?key ?a children] produce a [<kbd>] element. *)
+val kbd
+  : ( [< Html_types.kbd_attrib ]
+    , [< Html_types.kbd_content_fun ]
+    , [> `Kbd ]
+    , 'msg )
+    many
+
+(** [label ?key ?a children] produce a [<label>] element. *)
+val label
+  : ( [< Html_types.label_attrib ]
+    , [< Html_types.label_content_fun ]
+    , [> `Label ]
+    , 'msg )
+    many
+
+(** [legend ?key ?a children] produce a [<legend>] element. *)
+val legend
+  : ( [< Html_types.legend_attrib ]
+    , [< Html_types.legend_content_fun ]
+    , [> `Legend ]
+    , 'msg )
+    many
+
+(** [li ?key ?a children] produce a [<li>] element. *)
+val li
+  : ( [< Html_types.li_attrib ]
+    , [< Html_types.li_content_fun ]
+    , [> `Li ]
+    , 'msg )
+    many
 
 (** {1 Node helpers} *)
 

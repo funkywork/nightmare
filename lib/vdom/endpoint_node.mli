@@ -121,6 +121,22 @@ val del_of
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
+(** [ins_of ?anchor ?parameters ?a endpoint] generates a function expecting the
+    parameters of [endpoint] and returning an HTML element [<ins>] (with [cite]
+    computed from [endpoint]). *)
+val ins_of
+  :  ?anchor:string
+  -> ?parameters:(string * string) list
+  -> ?key:string
+  -> ?a:([< Nightmare_tyxml.Attrib.Without_source.ins ], 'msg) Attrib.t list
+  -> ( 'scope
+     , [< Nightmare_service.Method.for_link ]
+     , 'continuation
+     , ([< Html_types.ins_content_fun ], 'msg) Node.t list
+       -> ([> `Ins ], 'msg) Node.t )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
 (** [embed_of ?anchor ?parameters ?a endpoint] generates a function expecting
     the parameters of [endpoint] and returning an HTML element [<embed>] (with
     [src] computed from [endpoint]). *)

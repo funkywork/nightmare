@@ -67,6 +67,11 @@ module Without_source : sig
     | `Datetime
     ]
 
+  type ins =
+    [ Html_types.common
+    | `Datetime
+    ]
+
   type embed =
     [ Html_types.common
     | `Height

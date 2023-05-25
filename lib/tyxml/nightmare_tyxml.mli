@@ -131,6 +131,9 @@ val button_of
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
+(* FIXME: we should add <input_of> like <button_of> but it is awaiting for
+   [https://github.com/ocsigen/tyxml/pull/317]. *)
+
 (** [blockquote_of ?anchor ?parameters ?a endpoint] generates a function
     expecting the parameters of [endpoint] and returning an HTML element
     [<blockquote>]. (with [cite] computed from [endpoint]) *)
@@ -154,6 +157,19 @@ val del_of
      , 'continuation
      , 'children Tyxml.Html.elt list
        -> [> 'children Html_types.del ] Tyxml.Html.elt )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
+(** [ins_of ?anchor ?parameters ?a endpoint] generates a function expecting the
+    parameters of [endpoint] and returning an HTML element [<ins>]. (with [cite]
+    computed from [endpoint]) *)
+val ins_of
+  :  ?a:Attrib.Without_source.del Tyxml.Html.attrib list
+  -> ( _
+     , [< Nightmare_service.Method.for_link ]
+     , 'continuation
+     , 'children Tyxml.Html.elt list
+       -> [> 'children Html_types.ins ] Tyxml.Html.elt )
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 

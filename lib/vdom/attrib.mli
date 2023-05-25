@@ -224,6 +224,9 @@ val a_input_type
      ]
   -> ([> `Input_Type ], 'msg) t
 
+val a_for : string -> ([> `Label_for ], 'msg) t
+val a_int_value : int -> ([> `Int_Value ], 'msg) t
+
 (** {1 Attribut helpers} *)
 
 val remove_attribute_kind : ('a, 'msg) t -> 'msg Vdom.attribute
