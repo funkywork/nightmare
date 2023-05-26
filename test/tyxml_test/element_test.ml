@@ -296,7 +296,7 @@ let test_script_of =
         E.media
         "js"
         "front.js"
-        (txt "hello")
+        "hello"
     in
     expected, computed)
 ;;

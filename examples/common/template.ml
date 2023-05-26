@@ -11,7 +11,7 @@ let page ?(use_nightmare_js = false) ~title content =
   let css = link_of ~rel:[ `Stylesheet ] Endpoint.asset "default.css" in
   let head_content =
     if use_nightmare_js
-    then [ css; script_of Endpoint.asset "index.bc.js" (txt "") ]
+    then [ css; script_of Endpoint.asset "index.bc.js" "" ]
     else [ css ]
   in
   html ~a:[ a_lang "en" ] (head node_title head_content) (body body_content)

@@ -226,6 +226,7 @@ val a_input_type
 
 val a_for : string -> ([> `Label_for ], 'msg) t
 val a_int_value : int -> ([> `Int_Value ], 'msg) t
+val a_float_value : float -> ([> `Float_Value ], 'msg) t
 
 val a_media
   :  [ `All
@@ -245,6 +246,25 @@ val a_media
   -> ([> `Media ], 'msg) t
 
 val a_sizes : [< `Any | `List of (int * int) list ] -> ([> `Sizes ], 'msg) t
+val a_min : float -> ([> `Min ], 'msg) t
+val a_max : float -> ([> `Max ], 'msg) t
+val a_low : float -> ([> `Low ], 'msg) t
+val a_high : float -> ([> `High ], 'msg) t
+val a_optimum : float -> ([> `Optimum ], 'msg) t
+val a_data : string -> ([> `Data ], 'msg) t
+val a_usemap : string -> ([> `Usemap ], 'msg) t
+val a_reversed : bool -> ([> `Reversed ], 'msg) t
+val a_start : int -> ([> `Start ], 'msg) t
+val a_label : string -> ([> `Label ], 'msg) t
+val a_selected : bool -> ([> `Selected ], 'msg) t
+val a_output_for : string list -> ([> `Output_for ], 'msg) t
+val a_async : bool -> ([> `Async ], 'msg) t
+val a_defer : bool -> ([> `Defer ], 'msg) t
+val a_integrity : string -> ([> `Integrity ], 'msg) t
+
+val a_script_type
+  :  [< `Javascript | `Module | `Mime of string ]
+  -> ([> `Script_type ], 'msg) t
 
 (** {1 Attribut helpers} *)
 

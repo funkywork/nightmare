@@ -195,6 +195,63 @@ let link_of ~rel ?parameters ?key ?a endpoint =
     Node.link ~rel ~href:target ?key ?a ())
 ;;
 
+let object_of ?parameters ?key ?(a = []) endpoint =
+  Nightmare_service.Endpoint.href_with
+    ?parameters
+    endpoint
+    (fun target children ->
+    let a =
+      Attrib.a_data target
+      :: (a
+           : ([< Nightmare_tyxml.Attrib.Without_source.object_ ], 'msg) Attrib.t
+             list
+           :> ([> Html_types.object__attrib ], 'msg) Attrib.t list)
+    in
+    Node.object_ ?key ~a children)
+;;
+
+let q_of ?anchor ?parameters ?key ?(a = []) endpoint =
+  Nightmare_service.Endpoint.href_with
+    ?anchor
+    ?parameters
+    endpoint
+    (fun target children ->
+    let a =
+      Attrib.a_cite target
+      :: (a
+           : ([< Nightmare_tyxml.Attrib.Without_source.q ], 'msg) Attrib.t list
+           :> ([> Html_types.q_attrib ], 'msg) Attrib.t list)
+    in
+    Node.q ?key ~a children)
+;;
+
+let script_of ?parameters ?key ?(a = []) endpoint =
+  Nightmare_service.Endpoint.href_with
+    ?parameters
+    endpoint
+    (fun target children ->
+    let a =
+      Attrib.a_src target
+      :: (a
+           : ([< Nightmare_tyxml.Attrib.Without_source.script ], 'msg) Attrib.t
+             list
+           :> ([> Html_types.script_attrib ], 'msg) Attrib.t list)
+    in
+    Node.script ?key ~a children)
+;;
+
+let source_of ?parameters ?key ?(a = []) endpoint =
+  Nightmare_service.Endpoint.href_with ?parameters endpoint (fun target ->
+    let a =
+      Attrib.a_src target
+      :: (a
+           : ([< Nightmare_tyxml.Attrib.Without_source.source ], 'msg) Attrib.t
+             list
+           :> ([> Html_types.source_attrib ], 'msg) Attrib.t list)
+    in
+    Node.source ?key ~a ())
+;;
+
 let video_of ?parameters ?key ?srcs ?(a = []) endpoint =
   Nightmare_service.Endpoint.href_with
     ?parameters

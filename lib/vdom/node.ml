@@ -26,7 +26,10 @@ type ('attrib, 'result, 'msg) leaf =
   ?key:string -> ?a:('attrib, 'msg) Attrib.t list -> unit -> ('result, 'msg) t
 
 type ('attrib, 'children, 'result, 'msg) one =
-  ?key:string -> ?a:('attrib, 'msg) Attrib.t list -> unit -> ('result, 'msg) t
+  ?key:string
+  -> ?a:('attrib, 'msg) Attrib.t list
+  -> 'children
+  -> ('result, 'msg) t
 
 type ('attrib, 'children, 'result, 'msg) many =
   ?key:string
@@ -168,3 +171,40 @@ let link ~rel ~href ?key ?(a = []) () =
   in
   elt "link" ?key ~a []
 ;;
+
+let main ?key ?a children = elt "main" ?key ?a children
+let map ?key ?a children = elt "map" ?key ?a children
+let mark ?key ?a children = elt "mark" ?key ?a children
+let menu ?key ?a children = elt "menu" ?key ?a children
+let meter ?key ?a children = elt "meter" ?key ?a children
+let nav ?key ?a children = elt "nav" ?key ?a children
+let object_ ?key ?a children = elt "object" ?key ?a children
+let ol ?key ?a children = elt "ol" ?key ?a children
+let ul ?key ?a children = elt "ul" ?key ?a children
+
+let optgroup ~label ?key ?(a = []) children =
+  elt "optgroup" ?key ~a:(Attrib.a_label label :: a) children
+;;
+
+let option ?key ?a value = elt "option" ?key ?a [ txt value ]
+let output ?key ?a children = elt "output" ?key ?a children
+let p ?key ?a children = elt "p" ?key ?a children
+let picture ~img ?key ?a children = elt "picture" ?key ?a (children @ [ img ])
+let pre ?key ?a children = elt "pre" ?key ?a children
+let progress ?key ?a children = elt "progress" ?key ?a children
+let q ?key ?a children = elt "q" ?key ?a children
+let rp ?key ?a children = elt "rp" ?key ?a children
+let rt ?key ?a children = elt "rt" ?key ?a children
+let ruby ?key ?a children = elt "ruby" ?key ?a children
+let samp ?key ?a children = elt "samp" ?key ?a children
+let script ?key ?a children = elt "script" ?key ?a [ txt children ]
+let section ?key ?a children = elt "section" ?key ?a children
+let select ?key ?a children = elt "select" ?key ?a children
+let small ?key ?a children = elt "small" ?key ?a children
+let source ?key ?a () = elt "source" ?key ?a []
+let span ?key ?a children = elt "span" ?key ?a children
+let strong ?key ?a children = elt "strong" ?key ?a children
+let style ?key ?a children = elt "style" ?key ?a children
+let sub ?key ?a children = elt "sub" ?key ?a children
+let sup ?key ?a children = elt "sup" ?key ?a children
+let summary ?key ?a children = elt "summary" ?key ?a children

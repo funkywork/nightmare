@@ -61,6 +61,7 @@ module Without_source : sig
     ]
 
   type blockquote = Html_types.common
+  type q = Html_types.common
 
   type del =
     [ Html_types.common

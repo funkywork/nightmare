@@ -211,6 +211,65 @@ val link_of
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
+(** [object_of ?parameters ?srcs ?a endpoint] generates a function expecting the
+    parameters of [endpoint] and returning an HTML element [<object>] (with
+    [data] computed from [endpoint]). *)
+val object_of
+  :  ?parameters:(string * string) list
+  -> ?key:string
+  -> ?a:([< Nightmare_tyxml.Attrib.Without_source.object_ ], 'msg) Attrib.t list
+  -> ( 'scope
+     , [< Nightmare_service.Method.for_link ]
+     , 'continuation
+     , (Html_types.object__content, 'msg) Node.t list
+       -> ([> Html_types.object__ ], 'msg) Node.t )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
+(** [q_of ?anchor ?parameters ?a endpoint] generates a function expecting the
+    parameters of [endpoint] and returning an HTML element [<q>] (with [cite]
+    computed from [endpoint]). *)
+val q_of
+  :  ?anchor:string
+  -> ?parameters:(string * string) list
+  -> ?key:string
+  -> ?a:([< Nightmare_tyxml.Attrib.Without_source.q ], 'msg) Attrib.t list
+  -> ( 'scope
+     , [< Nightmare_service.Method.for_link ]
+     , 'continuation
+     , (Html_types.q_content_fun, 'msg) Node.t list -> ([> `Q ], 'msg) Node.t
+     )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
+(** [script_of ?parameters ?srcs ?a endpoint] generates a function expecting the
+    parameters of [endpoint] and returning an HTML element [<script>] (with
+    [src] computed from [endpoint]). *)
+val script_of
+  :  ?parameters:(string * string) list
+  -> ?key:string
+  -> ?a:([< Nightmare_tyxml.Attrib.Without_source.script ], 'msg) Attrib.t list
+  -> ( 'scope
+     , [< Nightmare_service.Method.for_link ]
+     , 'continuation
+     , string -> ([> `Script ], 'msg) Node.t )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
+(** [source_of ?parameters ?srcs ?a endpoint] generates a function expecting the
+    parameters of [endpoint] and returning an HTML element [<source>] (with
+    [src] computed from [endpoint]). *)
+val source_of
+  :  ?parameters:(string * string) list
+  -> ?key:string
+  -> ?a:([< Nightmare_tyxml.Attrib.Without_source.source ], 'msg) Attrib.t list
+  -> ( 'scope
+     , [< Nightmare_service.Method.for_link ]
+     , 'continuation
+     , ([> `Source ], 'msg) Node.t )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
 (** [video_of ?parameters ?srcs ?a endpoint] generates a function expecting the
     parameters of [endpoint] and returning an HTML element [<video>] (with [src]
     computed from [endpoint]). *)

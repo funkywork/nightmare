@@ -27,6 +27,7 @@ let attr key value = Vdom.Attribute (key, value)
 let string attr value = Vdom.Property (attr, String value)
 let bool attr value = Vdom.Property (attr, Bool value)
 let int attr value = Vdom.Property (attr, Int value)
+let float attr value = Vdom.Property (attr, Float value)
 let to_string f attr value = string attr (f value)
 let concat_with_space x y = x ^ " " ^ y
 let concat_with_comma x y = x ^ "," ^ y
@@ -390,7 +391,7 @@ let a_placeholder value = string "placeholder" value
 let a_readonly value = bool "readOnly" value
 let a_required value = bool "required" value
 let a_size value = int "size" value
-let a_step value = to_string string_of_float "step" value
+let a_step value = float "step" value
 
 let a_input_type value =
   to_string
@@ -424,6 +425,7 @@ let a_input_type value =
 
 let a_for value = string "htmlFor" value
 let a_int_value value = int "value" value
+let a_float_value value = float "value" value
 
 let a_media value =
   string
@@ -452,6 +454,32 @@ let a_sizes value =
      | `List l ->
        list_with (fun (w, h) -> string_of_int w ^ "X" ^ string_of_int h) l)
     "sizes"
+    value
+;;
+
+let a_min value = float "min" value
+let a_max value = float "max" value
+let a_low value = float "low" value
+let a_high value = float "high" value
+let a_optimum value = float "optimum" value
+let a_data value = string "data" value
+let a_usemap value = string "usemap" value
+let a_reversed value = bool "reversed" value
+let a_start value = int "start" value
+let a_label value = string "label" value
+let a_selected value = bool "selected" value
+let a_output_for value = tokens "htmlFor" value
+let a_async value = bool "async" value
+let a_defer value = bool "defer" value
+let a_integrity value = string "integrity" value
+
+let a_script_type value =
+  to_string
+    (function
+     | `Javascript -> "application/javascript"
+     | `Module -> "module"
+     | `Mime s -> s)
+    "type"
     value
 ;;
 

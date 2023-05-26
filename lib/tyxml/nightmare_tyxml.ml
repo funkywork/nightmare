@@ -68,6 +68,21 @@ let blockquote_of ?anchor ?parameters ?(a = []) endpoint =
     Tyxml.Html.blockquote ~a children)
 ;;
 
+let q_of ?anchor ?parameters ?(a = []) endpoint =
+  Nightmare_service.Endpoint.href_with
+    ?anchor
+    ?parameters
+    endpoint
+    (fun target children ->
+    let a =
+      Tyxml.Html.a_cite target
+      :: (a
+           : [< Attrib.Without_source.q ] Tyxml.Html.attrib list
+           :> [> Html_types.q_attrib ] Tyxml.Html.attrib list)
+    in
+    Tyxml.Html.q ~a children)
+;;
+
 let del_of ?anchor ?parameters ?(a = []) endpoint =
   Nightmare_service.Endpoint.href_with
     ?anchor
@@ -197,7 +212,7 @@ let link_of ?parameters ~rel ?(a = []) endpoint =
     Tyxml.Html.link ~a ~rel ~href:target ())
 ;;
 
-let object_of ?parameters ?(a = []) ?object_params endpoint =
+let object_of ?parameters ?(a = []) endpoint =
   Nightmare_service.Endpoint.href_with
     ?parameters
     endpoint
@@ -208,7 +223,7 @@ let object_of ?parameters ?(a = []) ?object_params endpoint =
            : [< Attrib.Without_source.object_ ] Tyxml.Html.attrib list
            :> [> Html_types.object__attrib ] Tyxml.Html.attrib list)
     in
-    Tyxml.Html.object_ ?params:object_params ~a children)
+    Tyxml.Html.object_ ~a children)
 ;;
 
 let script_of ?parameters ?(a = []) endpoint =
@@ -222,7 +237,7 @@ let script_of ?parameters ?(a = []) endpoint =
            : [< Attrib.Without_source.script ] Tyxml.Html.attrib list
            :> [> Html_types.script_attrib ] Tyxml.Html.attrib list)
     in
-    Tyxml.Html.script ~a children)
+    Tyxml.Html.script ~a (Tyxml.Html.txt children))
 ;;
 
 let source_of ?parameters ?(a = []) endpoint =

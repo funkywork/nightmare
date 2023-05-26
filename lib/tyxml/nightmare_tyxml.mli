@@ -258,7 +258,6 @@ val link_of
 val object_of
   :  ?parameters:(string * string) list
   -> ?a:Attrib.Without_source.object_ Tyxml.Html.attrib list
-  -> ?object_params:Html_types.param Tyxml.Html.elt list
   -> ( _
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
@@ -276,8 +275,22 @@ val script_of
   -> ( _
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
-     , Html_types.script_content_fun Tyxml.Html.elt
-       -> [> Html_types.script ] Tyxml.Html.elt )
+     , string -> [> Html_types.script ] Tyxml.Html.elt )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
+(** [q_of ?anchor ?parameters ?a endpoint] generates a function expecting the
+    parameters of [endpoint] and returning an HTML element [<q>]. (with [cite]
+    computed from [endpoint]) *)
+val q_of
+  :  ?anchor:string
+  -> ?parameters:(string * string) list
+  -> ?a:Attrib.Without_source.q Tyxml.Html.attrib list
+  -> ( _
+     , [< Nightmare_service.Method.for_link ]
+     , 'continuation
+     , Html_types.q_content_fun Tyxml.Html.elt list
+       -> [> Html_types.q ] Tyxml.Html.elt )
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 

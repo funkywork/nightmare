@@ -41,7 +41,10 @@ type ('attrib, 'result, 'msg) leaf =
 
 (** Describes a node that take a just one children. *)
 type ('attrib, 'children, 'result, 'msg) one =
-  ?key:string -> ?a:('attrib, 'msg) Attrib.t list -> unit -> ('result, 'msg) t
+  ?key:string
+  -> ?a:('attrib, 'msg) Attrib.t list
+  -> 'children
+  -> ('result, 'msg) t
 
 (** Describes a node that take a list of attributes and a list of nodes (as
     children). *)
@@ -470,6 +473,219 @@ val link
   :  rel:Html_types.linktypes
   -> href:string
   -> ([< Nightmare_tyxml.Attrib.Without_source.link ], [> `Link ], 'msg) leaf
+
+(** [main ?key ?a children] produce a [<main>] element. *)
+val main
+  : ( [< Html_types.main_attrib ]
+    , [< Html_types.main_content_fun ]
+    , [> `Main ]
+    , 'msg )
+    many
+
+(** [map ?key ?a children] produce a [<map>] element. *)
+val map
+  : ([< Html_types.map_attrib ], 'children, 'children Html_types.map, 'msg) many
+
+(** [mark ?key ?a children] produce a [<mark>] element. *)
+val mark
+  : ( [< Html_types.mark_attrib ]
+    , [< Html_types.mark_content_fun ]
+    , [> `Mark ]
+    , 'msg )
+    many
+
+(** [menu ?key ?a children] produce a [<menu>] element. *)
+val menu
+  : ( [< Html_types.menu_attrib ]
+    , [< Html_types.li | Html_types.script | Html_types.template ]
+    , [> `Menu ]
+    , 'msg )
+    many
+
+(** [meter ?key ?a children] produce a [<meter>] element. *)
+val meter
+  : ( [< Html_types.meter_attrib ]
+    , [< Html_types.meter_content_fun ]
+    , [> `Meter ]
+    , 'msg )
+    many
+
+(** [nav ?key ?a children] produce a [<nav>] element. *)
+val nav
+  : ( [< Html_types.nav_attrib ]
+    , [< Html_types.nav_content_fun ]
+    , [> `Nav ]
+    , 'msg )
+    many
+
+(** [object_ ?key ?a children] produce a [<object>] element. *)
+val object_
+  : ( [< Html_types.object__attrib ]
+    , Html_types.object__content
+    , [> Html_types.object__ ]
+    , 'msg )
+    many
+
+(** [ol ?key ?a children] produce a [<ol>] element. *)
+val ol
+  : ([< Html_types.ol_attrib ], Html_types.ol_content_fun, [> `Ol ], 'msg) many
+
+(** [ul ?key ?a children] produce a [<ul>] element. *)
+val ul
+  : ([< Html_types.ul_attrib ], Html_types.ul_content_fun, [> `Ul ], 'msg) many
+
+(** [optgroup ?key ?a children] produce a [<optgroup>] element. *)
+val optgroup
+  :  label:string
+  -> ( [< Html_types.optgroup_attrib > `Label ]
+     , Html_types.optgroup_content_fun
+     , [> `Optgroup ]
+     , 'msg )
+     many
+
+(** [option ?key ?a value] produce a [<option>] element. *)
+val option : ([< Html_types.option_attrib ], string, [> `Option ], 'msg) one
+
+(** [output ?key ?a children] produce a [<output>] element. *)
+val output
+  : ( [< Html_types.output_elt_attrib ]
+    , Html_types.output_elt_content_fun
+    , [> `Output ]
+    , 'msg )
+    many
+
+(** [p ?key ?a children] produce a [<p>] element. *)
+val p : ([< Html_types.p_attrib ], Html_types.p_content_fun, [> `P ], 'msg) many
+
+(** [picture ~img ?key ?a children] produce a [<picture>] element. *)
+val picture
+  :  img:([< Html_types.img ], 'msg) t
+  -> ( [< Html_types.picture_attrib ]
+     , Html_types.picture_content_fun
+     , [> `Picture ]
+     , 'msg )
+     many
+
+(** [pre ?key ?a children] produce a [<pre>] element. *)
+val pre
+  : ( [< Html_types.pre_attrib ]
+    , Html_types.pre_content_fun
+    , [> `Pre ]
+    , 'msg )
+    many
+
+(** [progress ?key ?a children] produce a [<progress>] element. *)
+val progress
+  : ( [< Html_types.progress_attrib ]
+    , Html_types.progress_content_fun
+    , [> `Progress ]
+    , 'msg )
+    many
+
+(** [q ?key ?a children] produce a [<q>] element. *)
+val q : ([< Html_types.q_attrib ], Html_types.q_content_fun, [> `Q ], 'msg) many
+
+(** [rp ?key ?a children] produce a [<rp>] element. *)
+val rp
+  : ([< Html_types.rp_attrib ], Html_types.rp_content_fun, [> `Rp ], 'msg) many
+
+(** [rt ?key ?a children] produce a [<rt>] element. *)
+val rt
+  : ([< Html_types.rt_attrib ], Html_types.rt_content_fun, [> `Rt ], 'msg) many
+
+(** [ruby ?key ?a children] produce a [<ruby>] element. *)
+val ruby
+  : ( [< Html_types.ruby_attrib ]
+    , Html_types.ruby_content_fun
+    , [> `Ruby ]
+    , 'msg )
+    many
+
+(** [samp ?key ?a children] produce a [<samp>] element. *)
+val samp
+  : ( [< Html_types.samp_attrib ]
+    , Html_types.samp_content_fun
+    , [> `Samp ]
+    , 'msg )
+    many
+
+(** [script ?key ?a value] produce a [<script>] element. *)
+val script : ([< Html_types.script_attrib ], string, [> `Script ], 'msg) one
+
+(** [section ?key ?a children] produce a [<section>] element. *)
+val section
+  : ( [< Html_types.section_attrib ]
+    , Html_types.section_content_fun
+    , [> `Section ]
+    , 'msg )
+    many
+
+(** [select ?key ?a children] produce a [<select>] element. *)
+val select
+  : ( [< Html_types.select_attrib ]
+    , Html_types.select_content_fun
+    , [> `Select ]
+    , 'msg )
+    many
+
+(** [small ?key ?a children] produce a [<small>] element. *)
+val small
+  : ( [< Html_types.small_attrib ]
+    , Html_types.small_content_fun
+    , [> `Small ]
+    , 'msg )
+    many
+
+(** [source ?key ?a ()] produce a [<source>] element. *)
+val source : ([< Html_types.source_attrib ], [> `Source ], 'msg) leaf
+
+(** [span ?key ?a children] produce a [<span>] element. *)
+val span
+  : ( [< Html_types.span_attrib ]
+    , Html_types.span_content_fun
+    , [> `Span ]
+    , 'msg )
+    many
+
+(** [strong ?key ?a children] produce a [<strong>] element. *)
+val strong
+  : ( [< Html_types.strong_attrib ]
+    , Html_types.strong_content_fun
+    , [> `Strong ]
+    , 'msg )
+    many
+
+(** [style ?key ?a children] produce a [<style>] element. *)
+val style
+  : ( [< Html_types.style_attrib ]
+    , Html_types.style_content_fun
+    , [> `Style ]
+    , 'msg )
+    many
+
+(** [sub ?key ?a children] produce a [<sub>] element. *)
+val sub
+  : ( [< Html_types.sub_attrib ]
+    , Html_types.sub_content_fun
+    , [> `Sub ]
+    , 'msg )
+    many
+
+(** [sup ?key ?a children] produce a [<sup>] element. *)
+val sup
+  : ( [< Html_types.sup_attrib ]
+    , Html_types.sup_content_fun
+    , [> `Sup ]
+    , 'msg )
+    many
+
+(** [summary ?key ?a children] produce a [<summary>] element. *)
+val summary
+  : ( [< Html_types.summary_attrib ]
+    , Html_types.summary_content_fun
+    , [> `Summary ]
+    , 'msg )
+    many
 
 (** {1 Node helpers} *)
 
