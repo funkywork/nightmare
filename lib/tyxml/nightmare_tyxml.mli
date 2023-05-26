@@ -89,12 +89,11 @@ val a_of
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
-(** [audio_of ?anchor ?parameters ?srcs ?a endpoint] generates a function
-    expecting the parameters of [endpoint] and returning an HTML element
-    [<audio>] (with [href] computed from [endpoint]). *)
+(** [audio_of ?parameters ?srcs ?a endpoint] generates a function expecting the
+    parameters of [endpoint] and returning an HTML element [<audio>] (with
+    [href] computed from [endpoint]). *)
 val audio_of
-  :  ?anchor:string
-  -> ?parameters:(string * string) list
+  :  ?parameters:(string * string) list
   -> ?srcs:[< Html_types.source ] Tyxml.Html.elt list
   -> ?a:Html_types.audio_attrib Tyxml.Html.attrib list
   -> ( _
@@ -104,9 +103,9 @@ val audio_of
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
-(** [base_of ?anchor ?parameters ?a endpoint] generates a function expecting the
-    parameters of [endpoint] and returning an HTML element [<base>]. (with
-    [href] computed from [endpoint]) *)
+(** [base_of ?a endpoint] generates a function expecting the parameters of
+    [endpoint] and returning an HTML element [<base>]. (with [href] computed
+    from [endpoint]) *)
 val base_of
   :  ?a:Attrib.Without_source.base Tyxml.Html.attrib list
   -> ( _
@@ -138,7 +137,9 @@ val button_of
     expecting the parameters of [endpoint] and returning an HTML element
     [<blockquote>]. (with [cite] computed from [endpoint]) *)
 val blockquote_of
-  :  ?a:Attrib.Without_source.blockquote Tyxml.Html.attrib list
+  :  ?anchor:string
+  -> ?parameters:(string * string) list
+  -> ?a:Attrib.Without_source.blockquote Tyxml.Html.attrib list
   -> ( _
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
@@ -151,7 +152,9 @@ val blockquote_of
     parameters of [endpoint] and returning an HTML element [<del>]. (with [cite]
     computed from [endpoint]) *)
 val del_of
-  :  ?a:Attrib.Without_source.del Tyxml.Html.attrib list
+  :  ?anchor:string
+  -> ?parameters:(string * string) list
+  -> ?a:Attrib.Without_source.del Tyxml.Html.attrib list
   -> ( _
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
@@ -164,7 +167,9 @@ val del_of
     parameters of [endpoint] and returning an HTML element [<ins>]. (with [cite]
     computed from [endpoint]) *)
 val ins_of
-  :  ?a:Attrib.Without_source.del Tyxml.Html.attrib list
+  :  ?anchor:string
+  -> ?parameters:(string * string) list
+  -> ?a:Attrib.Without_source.del Tyxml.Html.attrib list
   -> ( _
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
@@ -289,12 +294,11 @@ val source_of
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
-(** [video_of ?anchor ?parameters ?srcs ?a endpoint] generates a function
-    expecting the parameters of [endpoint] and returning an HTML element
-    [<video>] (with [href] computed from [endpoint]). *)
+(** [video_of ?parameters ?srcs ?a endpoint] generates a function expecting the
+    parameters of [endpoint] and returning an HTML element [<video>] (with
+    [href] computed from [endpoint]). *)
 val video_of
-  :  ?anchor:string
-  -> ?parameters:(string * string) list
+  :  ?parameters:(string * string) list
   -> ?srcs:[< Html_types.source ] Tyxml.Html.elt list
   -> ?a:Html_types.video_attrib Tyxml.Html.attrib list
   -> ( _

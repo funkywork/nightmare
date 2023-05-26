@@ -227,6 +227,25 @@ val a_input_type
 val a_for : string -> ([> `Label_for ], 'msg) t
 val a_int_value : int -> ([> `Int_Value ], 'msg) t
 
+val a_media
+  :  [ `All
+     | `Aural
+     | `Braille
+     | `Embossed
+     | `Handheld
+     | `Print
+     | `Projection
+     | `Screen
+     | `Speech
+     | `Tty
+     | `Tv
+     | `Raw_mediadesc of string
+     ]
+     list
+  -> ([> `Media ], 'msg) t
+
+val a_sizes : [< `Any | `List of (int * int) list ] -> ([> `Sizes ], 'msg) t
+
 (** {1 Attribut helpers} *)
 
 val remove_attribute_kind : ('a, 'msg) t -> 'msg Vdom.attribute

@@ -425,6 +425,36 @@ let a_input_type value =
 let a_for value = string "htmlFor" value
 let a_int_value value = int "value" value
 
+let a_media value =
+  string
+    "media"
+    (list_comma
+       (function
+        | `All -> "all"
+        | `Aural -> "aural"
+        | `Braille -> "braille"
+        | `Embossed -> "embossed"
+        | `Handheld -> "handheld"
+        | `Print -> "print"
+        | `Projection -> "projection"
+        | `Screen -> "screen"
+        | `Speech -> "speech"
+        | `Tty -> "tty"
+        | `Tv -> "tv"
+        | `Raw_mediadesc s -> s)
+       value)
+;;
+
+let a_sizes value =
+  to_string
+    (function
+     | `Any -> "any"
+     | `List l ->
+       list_with (fun (w, h) -> string_of_int w ^ "X" ^ string_of_int h) l)
+    "sizes"
+    value
+;;
+
 (* Util *)
 
 let remove_attribute_kind x = x

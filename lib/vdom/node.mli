@@ -465,6 +465,12 @@ val li
     , 'msg )
     many
 
+(** [link ~rel ~href ?key ?a ()] produce a [<input>] element. *)
+val link
+  :  rel:Html_types.linktypes
+  -> href:string
+  -> ([< Nightmare_tyxml.Attrib.Without_source.link ], [> `Link ], 'msg) leaf
+
 (** {1 Node helpers} *)
 
 val remove_node_kind : ('a, 'msg) t -> 'msg Vdom.vdom

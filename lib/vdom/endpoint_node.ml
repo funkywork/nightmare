@@ -35,20 +35,15 @@ let a_of ?anchor ?parameters ?key ?(a = []) endpoint =
     Node.a ?key ~a children)
 ;;
 
-let audio_of ?anchor ?parameters ?key ?srcs ?(a = []) endpoint =
+let audio_of ?parameters ?key ?srcs ?(a = []) endpoint =
   Nightmare_service.Endpoint.href_with
-    ?anchor
     ?parameters
     endpoint
     (fun target children -> Node.audio ~src:target ?key ?srcs ~a children)
 ;;
 
-let base_of ?anchor ?parameters ?key ?(a = []) endpoint =
-  Nightmare_service.Endpoint.href_with
-    ?anchor
-    ?parameters
-    endpoint
-    (fun target ->
+let base_of ?key ?(a = []) endpoint =
+  Nightmare_service.Endpoint.href_with endpoint (fun target ->
     let a =
       Attrib.a_href target
       :: (a
@@ -109,12 +104,8 @@ let ins_of ?anchor ?parameters ?key ?(a = []) endpoint =
     Node.ins ?key ~a children)
 ;;
 
-let embed_of ?anchor ?parameters ?key ?(a = []) endpoint =
-  Nightmare_service.Endpoint.href_with
-    ?anchor
-    ?parameters
-    endpoint
-    (fun target ->
+let embed_of ?parameters ?key ?(a = []) endpoint =
+  Nightmare_service.Endpoint.href_with ?parameters endpoint (fun target ->
     let a =
       Attrib.a_src target
       :: (a
@@ -194,17 +185,18 @@ let iframe_of ?anchor ?parameters ?key ?(a = []) endpoint =
     Node.iframe ?key ~a children)
 ;;
 
-let img_of ~alt ?anchor ?parameters ?key ?(a = []) endpoint =
-  Nightmare_service.Endpoint.href_with
-    ?anchor
-    ?parameters
-    endpoint
-    (fun target -> Node.img ~src:target ~alt ?key ~a ())
+let img_of ~alt ?parameters ?key ?(a = []) endpoint =
+  Nightmare_service.Endpoint.href_with ?parameters endpoint (fun target ->
+    Node.img ~src:target ~alt ?key ~a ())
 ;;
 
-let video_of ?anchor ?parameters ?key ?srcs ?(a = []) endpoint =
+let link_of ~rel ?parameters ?key ?a endpoint =
+  Nightmare_service.Endpoint.href_with ?parameters endpoint (fun target ->
+    Node.link ~rel ~href:target ?key ?a ())
+;;
+
+let video_of ?parameters ?key ?srcs ?(a = []) endpoint =
   Nightmare_service.Endpoint.href_with
-    ?anchor
     ?parameters
     endpoint
     (fun target children -> Node.video ~src:target ?key ?srcs ~a children)

@@ -157,3 +157,14 @@ let kbd ?key ?a children = elt "kbd" ?key ?a children
 let label ?key ?a children = elt "label" ?key ?a children
 let legend ?key ?a children = elt "legend" ?key ?a children
 let li ?key ?a children = elt "li" ?key ?a children
+
+let link ~rel ~href ?key ?(a = []) () =
+  let a =
+    Attrib.a_href href
+    :: Attrib.a_rel rel
+    :: (a
+         : ([< Nightmare_tyxml.Attrib.Without_source.link ], 'msg) Attrib.t list
+         :> ([> Html_types.link_attrib ], 'msg) Attrib.t list)
+  in
+  elt "link" ?key ~a []
+;;

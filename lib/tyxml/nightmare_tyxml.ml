@@ -35,9 +35,8 @@ let a_of ?anchor ?parameters ?(a = []) endpoint =
     Tyxml.Html.a ~a children)
 ;;
 
-let audio_of ?anchor ?parameters ?srcs ?(a = []) endpoint =
+let audio_of ?parameters ?srcs ?(a = []) endpoint =
   Nightmare_service.Endpoint.href_with
-    ?anchor
     ?parameters
     endpoint
     (fun target children -> Tyxml.Html.audio ~src:target ?srcs ~a children)
@@ -54,8 +53,12 @@ let base_of ?(a = []) endpoint =
     Tyxml.Html.base ~a ())
 ;;
 
-let blockquote_of ?(a = []) endpoint =
-  Nightmare_service.Endpoint.href_with endpoint (fun target children ->
+let blockquote_of ?anchor ?parameters ?(a = []) endpoint =
+  Nightmare_service.Endpoint.href_with
+    ?anchor
+    ?parameters
+    endpoint
+    (fun target children ->
     let a =
       Tyxml.Html.a_cite target
       :: (a
@@ -65,8 +68,12 @@ let blockquote_of ?(a = []) endpoint =
     Tyxml.Html.blockquote ~a children)
 ;;
 
-let del_of ?(a = []) endpoint =
-  Nightmare_service.Endpoint.href_with endpoint (fun target children ->
+let del_of ?anchor ?parameters ?(a = []) endpoint =
+  Nightmare_service.Endpoint.href_with
+    ?anchor
+    ?parameters
+    endpoint
+    (fun target children ->
     let a =
       Tyxml.Html.a_cite target
       :: (a
@@ -76,8 +83,12 @@ let del_of ?(a = []) endpoint =
     Tyxml.Html.del ~a children)
 ;;
 
-let ins_of ?(a = []) endpoint =
-  Nightmare_service.Endpoint.href_with endpoint (fun target children ->
+let ins_of ?anchor ?parameters ?(a = []) endpoint =
+  Nightmare_service.Endpoint.href_with
+    ?anchor
+    ?parameters
+    endpoint
+    (fun target children ->
     let a =
       Tyxml.Html.a_cite target
       :: (a
@@ -225,9 +236,8 @@ let source_of ?parameters ?(a = []) endpoint =
     Tyxml.Html.source ~a ())
 ;;
 
-let video_of ?anchor ?parameters ?srcs ?(a = []) endpoint =
+let video_of ?parameters ?srcs ?(a = []) endpoint =
   Nightmare_service.Endpoint.href_with
-    ?anchor
     ?parameters
     endpoint
     (fun target children -> Tyxml.Html.video ~src:target ?srcs ~a children)

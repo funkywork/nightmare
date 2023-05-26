@@ -39,12 +39,11 @@ val a_of
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
-(** [audio_of ?anchor ?parameters ?srcs ?a endpoint] generates a function
-    expecting the parameters of [endpoint] and returning an HTML element
-    [<audio>] (with [src] computed from [endpoint]). *)
+(** [audio_of ?parameters ?srcs ?a endpoint] generates a function expecting the
+    parameters of [endpoint] and returning an HTML element [<audio>] (with [src]
+    computed from [endpoint]). *)
 val audio_of
-  :  ?anchor:string
-  -> ?parameters:(string * string) list
+  :  ?parameters:(string * string) list
   -> ?key:string
   -> ?srcs:([< Html_types.source ], 'msg) Node.t list
   -> ?a:([< Html_types.audio_attrib ], 'msg) Attrib.t list
@@ -56,13 +55,11 @@ val audio_of
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
-(** [base_of ?anchor ?parameters ?a endpoint] generates a function expecting the
-    parameters of [endpoint] and returning an HTML element [<base>] (with [href]
-    computed from [endpoint]). *)
+(** [base_of ?a endpoint] generates a function expecting the parameters of
+    [endpoint] and returning an HTML element [<base>] (with [href] computed from
+    [endpoint]). *)
 val base_of
-  :  ?anchor:string
-  -> ?parameters:(string * string) list
-  -> ?key:string
+  :  ?key:string
   -> ?a:([< Nightmare_tyxml.Attrib.Without_source.base ], 'msg) Attrib.t list
   -> ( 'scope
      , [< Nightmare_service.Method.for_link ]
@@ -137,12 +134,11 @@ val ins_of
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
-(** [embed_of ?anchor ?parameters ?a endpoint] generates a function expecting
-    the parameters of [endpoint] and returning an HTML element [<embed>] (with
-    [src] computed from [endpoint]). *)
+(** [embed_of ?parameters ?a endpoint] generates a function expecting the
+    parameters of [endpoint] and returning an HTML element [<embed>] (with [src]
+    computed from [endpoint]). *)
 val embed_of
-  :  ?anchor:string
-  -> ?parameters:(string * string) list
+  :  ?parameters:(string * string) list
   -> ?key:string
   -> ?a:([< Nightmare_tyxml.Attrib.Without_source.embed ], 'msg) Attrib.t list
   -> ( 'scope
@@ -185,12 +181,11 @@ val iframe_of
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
-(** [img_of ~alt ?anchor ?parameters ?a endpoint] generates a function expecting
-    the parameters of [endpoint] and returning an HTML element [<img>] (with
-    [src] computed from [endpoint]). *)
+(** [img_of ~alt ?parameters ?a endpoint] generates a function expecting the
+    parameters of [endpoint] and returning an HTML element [<img>] (with [src]
+    computed from [endpoint]). *)
 val img_of
   :  alt:string
-  -> ?anchor:string
   -> ?parameters:(string * string) list
   -> ?key:string
   -> ?a:([< Html_types.img_attrib ], 'msg) Attrib.t list
@@ -201,12 +196,26 @@ val img_of
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
-(** [video_of ?anchor ?parameters ?srcs ?a endpoint] generates a function
-    expecting the parameters of [endpoint] and returning an HTML element
-    [<video>] (with [src] computed from [endpoint]). *)
-val video_of
-  :  ?anchor:string
+(** [link_of ~rel ?parameters ?a endpoint] generates a function expecting the
+    parameters of [endpoint] and returning an HTML element [<link>] (with [href]
+    computed from [endpoint]). *)
+val link_of
+  :  rel:Html_types.linktypes
   -> ?parameters:(string * string) list
+  -> ?key:string
+  -> ?a:([< Nightmare_tyxml.Attrib.Without_source.link ], 'msg) Attrib.t list
+  -> ( 'scope
+     , [< Nightmare_service.Method.for_link ]
+     , 'continuation
+     , ([> `Link ], 'msg) Node.t )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
+(** [video_of ?parameters ?srcs ?a endpoint] generates a function expecting the
+    parameters of [endpoint] and returning an HTML element [<video>] (with [src]
+    computed from [endpoint]). *)
+val video_of
+  :  ?parameters:(string * string) list
   -> ?key:string
   -> ?srcs:([< Html_types.source ], 'msg) Node.t list
   -> ?a:([< Html_types.video_attrib ], 'msg) Attrib.t list
