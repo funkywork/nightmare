@@ -54,11 +54,19 @@ header > nav {
   border-top: 1px solid #2a2a2a;
 }
 
+header > nav:empty {
+  display: none;
+}
+
 header > nav > ul {
   padding: 0;
   list-style: none;
   display: flex;
   flex-direction: row;
+}
+
+header > nav > ul:empty {
+  display: none;
 }
 
 header > nav > ul > li {

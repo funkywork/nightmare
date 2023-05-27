@@ -2,7 +2,12 @@
 
 let router =
   Nightmare_dream.router
-    ~services:[ Service.root; Service.about; Service.hello ]
+    ~services:
+      [ Service.home
+      ; Service.Simple_routing.home
+      ; Service.Simple_routing.about
+      ; Service.Simple_routing.hello
+      ]
 ;;
 
 let static_path =

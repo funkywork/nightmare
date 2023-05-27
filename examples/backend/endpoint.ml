@@ -1,8 +1,12 @@
 open Nightmare_service.Endpoint
 
 let home () = get root
-let about () = get ~/"about"
-let hello () = get (~/"hello" /: string)
+
+module Simple_routing = struct
+  let home () = get ~/"simple-routing"
+  let about () = get (~/"simple-routing" / "about")
+  let hello () = get (~/"simple-routing" / "hello" /: string)
+end
 
 module External = struct
   let ocaml_v2 action path = outer action "https://v2.ocaml.org/" path
