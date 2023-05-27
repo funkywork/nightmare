@@ -2,6 +2,7 @@ open Js_of_ocaml
 open Nightmare_js
 
 let () = Suspension.allow ()
+let () = Console.log (Promise.resolved 10)
 
 let () =
   Js.export

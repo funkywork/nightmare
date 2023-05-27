@@ -20,43 +20,33 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-(** [Nightmare_js] provides an API for working with the web browser (via
-    [Js_of_ocaml]) and tries to provide bindings missing from the standard
-    [Js_of_ocaml] library. *)
+(** A Dead simple binding for promises. The purpose of this binding is
+    essentially to be converted into a promise [Lwt] and should remain internal. *)
 
-(** {1 Types}
+(** The liaison is incredibly inspired by these different projects:
 
-    Some common type aliases to simplify function signatures. *)
+    - https://github.com/aantron/promise
+    - https://github.com/dbuenzli/brr/blob/master/src/fut.ml#L6
+    - https://github.com/mnxn/promise_jsoo
 
-(**/**)
+    But its reimplementation aims to be as simple as possible (and as
+    comprehensible as possible to the project's maintainers). *)
 
-module Aliases = Aliases
+(** {1 Types} *)
 
-(**/**)
+(** The type that describes a promise. *)
+type +'a t
 
-include module type of Aliases (** @inline *)
+(** The type that describes an error. *)
+type error
 
-(** {2 Modules types} *)
+(** {1 Building promises} *)
 
-module Bindings = Bindings
-module Interfaces = Interfaces
+val pending_with_rejection : unit -> 'a t * ('a -> unit) * (error -> unit)
+val pending : unit -> 'a t * ('a -> unit)
+val resolved : 'a -> 'a t
 
-(** {2 Optional values} *)
+(** {1 Acting on promise} *)
 
-module Optional = Optional
-module Option = Optional.Option
-module Nullable = Optional.Nullable
-module Undefinable = Optional.Undefinable
-
-(** {2 Promise} *)
-
-module Promise = Promise
-
-(** {2 Web Storage API} *)
-
-module Storage = Storage
-
-(** {1 Utils} *)
-
-module Console = Console
-module Suspension = Suspension
+val then_ : ('a -> 'b t) -> 'a t -> 'b t
+val catch : (error -> 'a t) -> 'a t -> 'a t

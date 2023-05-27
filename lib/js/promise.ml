@@ -20,43 +20,36 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-(** [Nightmare_js] provides an API for working with the web browser (via
-    [Js_of_ocaml]) and tries to provide bindings missing from the standard
-    [Js_of_ocaml] library. *)
+type +'a t
+type error
 
-(** {1 Types}
+module Internal = struct
+  external construct
+    :  (('a -> unit) -> (error -> unit) -> unit)
+    -> 'a t
+    = "caml_construct_promise"
 
-    Some common type aliases to simplify function signatures. *)
+  external resolved : 'a -> 'a t = "caml_resolve_promise"
+  external then_ : 'a t -> ('a -> 'b t) -> 'b t = "caml_then_promise"
+  external catch : 'a t -> (error -> 'a t) -> 'a t = "caml_catch_promise"
+end
 
-(**/**)
+let pending_with_rejection () =
+  let resolver = ref ignore
+  and rejecter = ref ignore in
+  let promise =
+    Internal.construct (fun resolve reject ->
+      let () = resolver := resolve in
+      rejecter := reject)
+  in
+  promise, !resolver, !rejecter
+;;
 
-module Aliases = Aliases
+let pending () =
+  let promise, resolver, _ = pending_with_rejection () in
+  promise, resolver
+;;
 
-(**/**)
-
-include module type of Aliases (** @inline *)
-
-(** {2 Modules types} *)
-
-module Bindings = Bindings
-module Interfaces = Interfaces
-
-(** {2 Optional values} *)
-
-module Optional = Optional
-module Option = Optional.Option
-module Nullable = Optional.Nullable
-module Undefinable = Optional.Undefinable
-
-(** {2 Promise} *)
-
-module Promise = Promise
-
-(** {2 Web Storage API} *)
-
-module Storage = Storage
-
-(** {1 Utils} *)
-
-module Console = Console
-module Suspension = Suspension
+let resolved x = Internal.resolved x
+let then_ handler promise = Internal.then_ promise handler
+let catch handler promise = Internal.catch promise handler
