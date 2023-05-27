@@ -23,6 +23,8 @@
 type +'a t
 type error
 
+exception Promise_rejection of error
+
 module Internal = struct
   external construct
     :  (('a -> unit) -> (error -> unit) -> unit)
@@ -31,6 +33,14 @@ module Internal = struct
 
   external resolved : 'a -> 'a t = "caml_resolve_promise"
   external then_ : 'a t -> ('a -> 'b t) -> 'b t = "caml_then_promise"
+
+  external then_with
+    :  'a t
+    -> ('a -> 'b t)
+    -> (error -> 'b t)
+    -> 'b t
+    = "caml_then_with_rejection"
+
   external catch : 'a t -> (error -> 'a t) -> 'a t = "caml_catch_promise"
 end
 
@@ -52,7 +62,21 @@ let pending () =
 
 let resolved x = Internal.resolved x
 let then_ handler promise = Internal.then_ promise handler
+let then' resolve reject promise = Internal.then_with promise resolve reject
 let catch handler promise = Internal.catch promise handler
+
+let as_lwt promise =
+  let lwt_promise, resolver = Lwt.wait () in
+  let resolve value =
+    let () = Lwt.wakeup_later resolver value in
+    resolved ()
+  and reject error =
+    let () = Lwt.wakeup_later_exn resolver (Promise_rejection error) in
+    resolved ()
+  in
+  let _ = then' resolve reject promise in
+  lwt_promise
+;;
 
 module Monad = Preface.Make.Monad.Via_return_and_bind (struct
   type nonrec 'a t = 'a t
