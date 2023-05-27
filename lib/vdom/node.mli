@@ -61,18 +61,23 @@ val txt : ?key:string -> string -> ([> Html_types.txt ], 'msg) t
 val div
   : ( [< Html_types.div_attrib ]
     , [< Html_types.div_content_fun ]
-    , [> `Div ]
+    , [> Html_types.div ]
     , 'msg )
     many
 
 (** [a ?key ?a children] produce a [<a>] element. *)
-val a : ([< Html_types.a_attrib ], 'a, 'a Html_types.a, 'msg) many
+val a
+  : ( [< Html_types.a_attrib ]
+    , [< Html_types.a_content_fun ]
+    , [> Html_types.a_ ]
+    , 'msg )
+    many
 
 (** [abbr ?key ?a children] produce a [<abbr>] element. *)
 val abbr
   : ( [< Html_types.abbr_attrib ]
     , [< Html_types.abbr_content_fun ]
-    , [> `Abbr ]
+    , [> Html_types.abbr ]
     , 'msg )
     many
 
@@ -80,18 +85,18 @@ val abbr
 val address
   : ( [< Html_types.address_attrib ]
     , [< Html_types.address_content_fun ]
-    , [> `Address ]
+    , [> Html_types.address ]
     , 'msg )
     many
 
 (** [area ?key ?a ()] produce a [<area>] element. *)
-val area : ([< Html_types.area_attrib ], [> `Area ], 'msg) leaf
+val area : ([< Html_types.area_attrib ], [> Html_types.area ], 'msg) leaf
 
 (** [article ?key ?a children] produce a [<article>] element. *)
 val article
   : ( [< Html_types.article_attrib ]
     , [< Html_types.article_content_fun ]
-    , [> `Article ]
+    , [> Html_types.article ]
     , 'msg )
     many
 
@@ -99,7 +104,7 @@ val article
 val aside
   : ( [< Html_types.aside_attrib ]
     , [< Html_types.aside_content_fun ]
-    , [> `Aside ]
+    , [> Html_types.aside ]
     , 'msg )
     many
 
@@ -109,7 +114,7 @@ val audio
   -> ?srcs:([< Html_types.source ], 'msg) t list
   -> ( [< Html_types.audio_attrib ]
      , [< Html_types.audio_content_fun ]
-     , [> `Audio ]
+     , [> Html_types.audio_ ]
      , 'msg )
      many
 
@@ -117,7 +122,7 @@ val audio
 val b
   : ( [< Html_types.b_attrib ]
     , [< Html_types.b_content_fun ]
-    , [> `B ]
+    , [> Html_types.b ]
     , 'msg )
     many
 
@@ -129,17 +134,17 @@ val bdi
   :  dir:[< `Ltr | `Rtl ]
   -> ( [< Html_types.bdo_attrib > `Dir ]
      , [< Html_types.bdo_content_fun ]
-     , [> `Bdo ]
+     , [> Html_types.bdo ]
      , 'msg )
      many
-(* Using `Bdo related stuff is voluntary. *)
+(* FIXME: Using `Bdo related stuff is voluntary. *)
 
 (** [bdo ~dir ?key ?a children] produce a [<bdo>] element. *)
 val bdo
   :  dir:[< `Ltr | `Rtl ]
   -> ( [< Html_types.bdo_attrib > `Dir ]
      , [< Html_types.bdo_content_fun ]
-     , [> `Bdo ]
+     , [> Html_types.bdo ]
      , 'msg )
      many
 
@@ -147,21 +152,21 @@ val bdo
 val blockquote
   : ( [< Html_types.blockquote_attrib ]
     , [< Html_types.blockquote_content_fun ]
-    , [> `Blockquote ]
+    , [> Html_types.blockquote ]
     , 'msg )
     many
 
 (** [br ?key ?a ()] produce a [<br>] element. *)
-val br : ([< Html_types.br_attrib ], [> `Br ], 'msg) leaf
+val br : ([< Html_types.br_attrib ], [> Html_types.br ], 'msg) leaf
 
 (** [hr ?key ?a ()] produce a [<hr>] element. *)
-val hr : ([< Html_types.hr_attrib ], [> `Hr ], 'msg) leaf
+val hr : ([< Html_types.hr_attrib ], [> Html_types.hr ], 'msg) leaf
 
 (** [button ?key ?a children] produce a [<button>] element. *)
 val button
   : ( [< Html_types.button_attrib ]
     , [< Html_types.button_content_fun ]
-    , [> `Button ]
+    , [> Html_types.button ]
     , 'msg )
     many
 
@@ -169,7 +174,7 @@ val button
 val canvas
   : ( [< Html_types.canvas_attrib ]
     , [< Html_types.canvas_content_fun ]
-    , [> `Canvas ]
+    , [> Html_types.canvas_ ]
     , 'msg )
     many
 
@@ -177,7 +182,7 @@ val canvas
 val caption
   : ( [< Html_types.caption_attrib ]
     , [< Html_types.caption_content_fun ]
-    , [> `Caption ]
+    , [> Html_types.caption ]
     , 'msg )
     many
 
@@ -185,7 +190,7 @@ val caption
 val cite
   : ( [< Html_types.cite_attrib ]
     , [< Html_types.cite_content_fun ]
-    , [> `Cite ]
+    , [> Html_types.cite ]
     , 'msg )
     many
 
@@ -193,18 +198,18 @@ val cite
 val code
   : ( [< Html_types.code_attrib ]
     , [< Html_types.code_content_fun ]
-    , [> `Code ]
+    , [> Html_types.code ]
     , 'msg )
     many
 
 (** [col ?key ?a ()] produce a [<col>] element. *)
-val col : ([< Html_types.col_attrib ], [> `Col ], 'msg) leaf
+val col : ([< Html_types.col_attrib ], [> Html_types.col ], 'msg) leaf
 
 (** [colgroup ?key ?a children] produce a [<colgroup>] element. *)
 val colgroup
   : ( [< Html_types.colgroup_attrib ]
     , [< Html_types.colgroup_content_fun ]
-    , [> `Colgroup ]
+    , [> Html_types.colgroup ]
     , 'msg )
     many
 
@@ -212,7 +217,7 @@ val colgroup
 val datalist
   : ( [< Html_types.datalist_attrib ]
     , [< Html_types.selectoption ]
-    , [> `Datalist ]
+    , [> Html_types.datalist ]
     , 'msg )
     many
 
@@ -220,7 +225,7 @@ val datalist
 val dd
   : ( [< Html_types.dd_attrib ]
     , [< Html_types.dd_content_fun ]
-    , [> `Dd ]
+    , [> Html_types.dd ]
     , 'msg )
     many
 
@@ -228,7 +233,7 @@ val dd
 val del
   : ( [< Html_types.del_attrib ]
     , [< Html_types.del_content_fun ]
-    , [> `Del ]
+    , [> Html_types.del_ ]
     , 'msg )
     many
 
@@ -236,7 +241,7 @@ val del
 val ins
   : ( [< Html_types.ins_attrib ]
     , [< Html_types.ins_content_fun ]
-    , [> `Ins ]
+    , [> Html_types.ins_ ]
     , 'msg )
     many
 
@@ -244,7 +249,7 @@ val ins
 val details
   : ( [< Html_types.details_attrib ]
     , [< Html_types.details_content_fun ]
-    , [> `Details ]
+    , [> Html_types.details ]
     , 'msg )
     many
 
@@ -252,7 +257,7 @@ val details
 val dfn
   : ( [< Html_types.dfn_attrib ]
     , [< Html_types.dfn_content_fun ]
-    , [> `Dfn ]
+    , [> Html_types.dfn ]
     , 'msg )
     many
 
@@ -261,7 +266,7 @@ val dialog
   : ( [< Html_types.details_attrib ]
     , [< Html_types.details_content_fun ]
     (* FIXME: Need for a new release of TyXML (including <dialog>).  *)
-    , [> `Details ]
+    , [> Html_types.details ]
     , 'msg )
     many
 
@@ -269,7 +274,7 @@ val dialog
 val dl
   : ( [< Html_types.dl_attrib ]
     , [< Html_types.dl_content_fun ]
-    , [> `Dl ]
+    , [> Html_types.dl ]
     , 'msg )
     many
 
@@ -277,7 +282,7 @@ val dl
 val dt
   : ( [< Html_types.dt_attrib ]
     , [< Html_types.dt_content_fun ]
-    , [> `Dt ]
+    , [> Html_types.dt ]
     , 'msg )
     many
 
@@ -285,18 +290,18 @@ val dt
 val em
   : ( [< Html_types.em_attrib ]
     , [< Html_types.em_content_fun ]
-    , [> `Em ]
+    , [> Html_types.em ]
     , 'msg )
     many
 
 (** [embed ?key ?a ()] produce a [<embed>] element. *)
-val embed : ([< Html_types.embed_attrib ], [> `Embed ], 'msg) leaf
+val embed : ([< Html_types.embed_attrib ], [> Html_types.embed ], 'msg) leaf
 
 (** [figcaption ?key ?a children] produce a [<figcaption>] element. *)
 val figcaption
   : ( [< Html_types.figcaption_attrib ]
     , [< Html_types.figcaption_content_fun ]
-    , [> `Figcaption ]
+    , [> Html_types.figcaption ]
     , 'msg )
     many
 
@@ -305,7 +310,7 @@ val fieldset
   :  ?legend:([< Html_types.legend ], 'msg) t
   -> ( [< Html_types.fieldset_attrib ]
      , [< Html_types.fieldset_content_fun ]
-     , [> `Fieldset ]
+     , [> Html_types.fieldset ]
      , 'msg )
      many
 
@@ -317,7 +322,7 @@ val figure
        ]
   -> ( [< Html_types.figcaption_attrib ]
      , [< Html_types.figcaption_content_fun ]
-     , [> `Figure ]
+     , [> Html_types.figure ]
      , 'msg )
      many
 
@@ -325,7 +330,7 @@ val figure
 val footer
   : ( [< Html_types.footer_attrib ]
     , [< Html_types.footer_content_fun ]
-    , [> `Footer ]
+    , [> Html_types.footer ]
     , 'msg )
     many
 
@@ -335,7 +340,7 @@ val video
   -> ?srcs:([< Html_types.source ], 'msg) t list
   -> ( [< Html_types.video_attrib ]
      , [< Html_types.video_content_fun ]
-     , [> `Video ]
+     , [> Html_types.video_ ]
      , 'msg )
      many
 
@@ -343,7 +348,7 @@ val video
 val form
   : ( [< Html_types.form_attrib ]
     , [< Html_types.form_content_fun ]
-    , [> `Form ]
+    , [> Html_types.form ]
     , 'msg )
     many
 
@@ -351,7 +356,7 @@ val form
 val h1
   : ( [< Html_types.h1_attrib ]
     , [< Html_types.h1_content_fun ]
-    , [> `H1 ]
+    , [> Html_types.h1 ]
     , 'msg )
     many
 
@@ -359,7 +364,7 @@ val h1
 val h2
   : ( [< Html_types.h2_attrib ]
     , [< Html_types.h2_content_fun ]
-    , [> `H2 ]
+    , [> Html_types.h2 ]
     , 'msg )
     many
 
@@ -367,7 +372,7 @@ val h2
 val h3
   : ( [< Html_types.h3_attrib ]
     , [< Html_types.h3_content_fun ]
-    , [> `H3 ]
+    , [> Html_types.h3 ]
     , 'msg )
     many
 
@@ -375,7 +380,7 @@ val h3
 val h4
   : ( [< Html_types.h4_attrib ]
     , [< Html_types.h4_content_fun ]
-    , [> `H4 ]
+    , [> Html_types.h4 ]
     , 'msg )
     many
 
@@ -383,7 +388,7 @@ val h4
 val h5
   : ( [< Html_types.h5_attrib ]
     , [< Html_types.h5_content_fun ]
-    , [> `H5 ]
+    , [> Html_types.h5 ]
     , 'msg )
     many
 
@@ -391,7 +396,7 @@ val h5
 val h6
   : ( [< Html_types.h6_attrib ]
     , [< Html_types.h6_content_fun ]
-    , [> `H6 ]
+    , [> Html_types.h6 ]
     , 'msg )
     many
 
@@ -399,7 +404,7 @@ val h6
 val header
   : ( [< Html_types.header_attrib ]
     , [< Html_types.header_content_fun ]
-    , [> `Header ]
+    , [> Html_types.header ]
     , 'msg )
     many
 
@@ -407,7 +412,7 @@ val header
 val hgroup
   : ( [< Html_types.hgroup_attrib ]
     , [< Html_types.hgroup_content_fun ]
-    , [> `Hgroup ]
+    , [> Html_types.hgroup ]
     , 'msg )
     many
 
@@ -415,7 +420,7 @@ val hgroup
 val i
   : ( [< Html_types.i_attrib ]
     , [< Html_types.i_content_fun ]
-    , [> `I ]
+    , [> Html_types.i ]
     , 'msg )
     many
 
@@ -423,7 +428,7 @@ val i
 val iframe
   : ( [< Html_types.iframe_attrib ]
     , [< Html_types.iframe_content_fun ]
-    , [> `Iframe ]
+    , [> Html_types.iframe ]
     , 'msg )
     many
 
@@ -431,16 +436,16 @@ val iframe
 val img
   :  src:string
   -> alt:string
-  -> ([< Html_types.img_attrib ], [> `Img ], 'msg) leaf
+  -> ([< Html_types.img_attrib ], [> Html_types.img ], 'msg) leaf
 
 (** [input ?key ?a ()] produce a [<input>] element. *)
-val input : ([< Html_types.input_attrib ], [> `Input ], 'msg) leaf
+val input : ([< Html_types.input_attrib ], [> Html_types.input ], 'msg) leaf
 
 (** [kbd ?key ?a children] produce a [<kbd>] element. *)
 val kbd
   : ( [< Html_types.kbd_attrib ]
     , [< Html_types.kbd_content_fun ]
-    , [> `Kbd ]
+    , [> Html_types.kbd ]
     , 'msg )
     many
 
@@ -448,7 +453,7 @@ val kbd
 val label
   : ( [< Html_types.label_attrib ]
     , [< Html_types.label_content_fun ]
-    , [> `Label ]
+    , [> Html_types.label ]
     , 'msg )
     many
 
@@ -456,7 +461,7 @@ val label
 val legend
   : ( [< Html_types.legend_attrib ]
     , [< Html_types.legend_content_fun ]
-    , [> `Legend ]
+    , [> Html_types.legend ]
     , 'msg )
     many
 
@@ -464,7 +469,7 @@ val legend
 val li
   : ( [< Html_types.li_attrib ]
     , [< Html_types.li_content_fun ]
-    , [> `Li ]
+    , [> Html_types.li ]
     , 'msg )
     many
 
@@ -472,25 +477,32 @@ val li
 val link
   :  rel:Html_types.linktypes
   -> href:string
-  -> ([< Nightmare_tyxml.Attrib.Without_source.link ], [> `Link ], 'msg) leaf
+  -> ( [< Nightmare_tyxml.Attrib.Without_source.link ]
+     , [> Html_types.link ]
+     , 'msg )
+     leaf
 
 (** [main ?key ?a children] produce a [<main>] element. *)
 val main
   : ( [< Html_types.main_attrib ]
     , [< Html_types.main_content_fun ]
-    , [> `Main ]
+    , [> Html_types.main ]
     , 'msg )
     many
 
 (** [map ?key ?a children] produce a [<map>] element. *)
 val map
-  : ([< Html_types.map_attrib ], 'children, 'children Html_types.map, 'msg) many
+  : ( [< Html_types.map_attrib ]
+    , [< Html_types.map_content_fun ]
+    , [> Html_types.map_ ]
+    , 'msg )
+    many
 
 (** [mark ?key ?a children] produce a [<mark>] element. *)
 val mark
   : ( [< Html_types.mark_attrib ]
     , [< Html_types.mark_content_fun ]
-    , [> `Mark ]
+    , [> Html_types.mark ]
     , 'msg )
     many
 
@@ -498,7 +510,7 @@ val mark
 val menu
   : ( [< Html_types.menu_attrib ]
     , [< Html_types.li | Html_types.script | Html_types.template ]
-    , [> `Menu ]
+    , [> Html_types.menu ]
     , 'msg )
     many
 
@@ -506,7 +518,7 @@ val menu
 val meter
   : ( [< Html_types.meter_attrib ]
     , [< Html_types.meter_content_fun ]
-    , [> `Meter ]
+    , [> Html_types.meter ]
     , 'msg )
     many
 
@@ -514,176 +526,208 @@ val meter
 val nav
   : ( [< Html_types.nav_attrib ]
     , [< Html_types.nav_content_fun ]
-    , [> `Nav ]
+    , [> Html_types.nav ]
     , 'msg )
     many
 
 (** [object_ ?key ?a children] produce a [<object>] element. *)
 val object_
   : ( [< Html_types.object__attrib ]
-    , Html_types.object__content
+    , [< Html_types.object__content ]
     , [> Html_types.object__ ]
     , 'msg )
     many
 
 (** [ol ?key ?a children] produce a [<ol>] element. *)
 val ol
-  : ([< Html_types.ol_attrib ], Html_types.ol_content_fun, [> `Ol ], 'msg) many
+  : ( [< Html_types.ol_attrib ]
+    , [< Html_types.ol_content_fun ]
+    , [> Html_types.ol ]
+    , 'msg )
+    many
 
 (** [ul ?key ?a children] produce a [<ul>] element. *)
 val ul
-  : ([< Html_types.ul_attrib ], Html_types.ul_content_fun, [> `Ul ], 'msg) many
+  : ( [< Html_types.ul_attrib ]
+    , [< Html_types.ul_content_fun ]
+    , [> Html_types.ul ]
+    , 'msg )
+    many
 
 (** [optgroup ?key ?a children] produce a [<optgroup>] element. *)
 val optgroup
   :  label:string
   -> ( [< Html_types.optgroup_attrib > `Label ]
-     , Html_types.optgroup_content_fun
-     , [> `Optgroup ]
+     , [< Html_types.optgroup_content_fun ]
+     , [> Html_types.optgroup ]
      , 'msg )
      many
 
 (** [option ?key ?a value] produce a [<option>] element. *)
-val option : ([< Html_types.option_attrib ], string, [> `Option ], 'msg) one
+val option
+  : ( [< Html_types.option_attrib ]
+    , string
+    , [> Html_types.selectoption ]
+    , 'msg )
+    one
 
 (** [output ?key ?a children] produce a [<output>] element. *)
 val output
   : ( [< Html_types.output_elt_attrib ]
-    , Html_types.output_elt_content_fun
-    , [> `Output ]
+    , [< Html_types.output_elt_content_fun ]
+    , [> Html_types.output_elt ]
     , 'msg )
     many
 
 (** [p ?key ?a children] produce a [<p>] element. *)
-val p : ([< Html_types.p_attrib ], Html_types.p_content_fun, [> `P ], 'msg) many
+val p
+  : ( [< Html_types.p_attrib ]
+    , [< Html_types.p_content_fun ]
+    , [> Html_types.p ]
+    , 'msg )
+    many
 
 (** [picture ~img ?key ?a children] produce a [<picture>] element. *)
 val picture
   :  img:([< Html_types.img ], 'msg) t
   -> ( [< Html_types.picture_attrib ]
-     , Html_types.picture_content_fun
-     , [> `Picture ]
+     , [< Html_types.picture_content_fun ]
+     , [> Html_types.picture ]
      , 'msg )
      many
 
 (** [pre ?key ?a children] produce a [<pre>] element. *)
 val pre
   : ( [< Html_types.pre_attrib ]
-    , Html_types.pre_content_fun
-    , [> `Pre ]
+    , [< Html_types.pre_content_fun ]
+    , [> Html_types.pre ]
     , 'msg )
     many
 
 (** [progress ?key ?a children] produce a [<progress>] element. *)
 val progress
   : ( [< Html_types.progress_attrib ]
-    , Html_types.progress_content_fun
-    , [> `Progress ]
+    , [< Html_types.progress_content_fun ]
+    , [> Html_types.progress ]
     , 'msg )
     many
 
 (** [q ?key ?a children] produce a [<q>] element. *)
-val q : ([< Html_types.q_attrib ], Html_types.q_content_fun, [> `Q ], 'msg) many
+val q
+  : ( [< Html_types.q_attrib ]
+    , [< Html_types.q_content_fun ]
+    , [> Html_types.q ]
+    , 'msg )
+    many
 
 (** [rp ?key ?a children] produce a [<rp>] element. *)
 val rp
-  : ([< Html_types.rp_attrib ], Html_types.rp_content_fun, [> `Rp ], 'msg) many
+  : ( [< Html_types.rp_attrib ]
+    , [< Html_types.rp_content_fun ]
+    , [> Html_types.rp ]
+    , 'msg )
+    many
 
 (** [rt ?key ?a children] produce a [<rt>] element. *)
 val rt
-  : ([< Html_types.rt_attrib ], Html_types.rt_content_fun, [> `Rt ], 'msg) many
+  : ( [< Html_types.rt_attrib ]
+    , [< Html_types.rt_content_fun ]
+    , [> Html_types.rt ]
+    , 'msg )
+    many
 
 (** [ruby ?key ?a children] produce a [<ruby>] element. *)
 val ruby
   : ( [< Html_types.ruby_attrib ]
-    , Html_types.ruby_content_fun
-    , [> `Ruby ]
+    , [< Html_types.ruby_content_fun ]
+    , [> Html_types.ruby ]
     , 'msg )
     many
 
 (** [samp ?key ?a children] produce a [<samp>] element. *)
 val samp
   : ( [< Html_types.samp_attrib ]
-    , Html_types.samp_content_fun
-    , [> `Samp ]
+    , [< Html_types.samp_content_fun ]
+    , [> Html_types.samp ]
     , 'msg )
     many
 
 (** [script ?key ?a value] produce a [<script>] element. *)
-val script : ([< Html_types.script_attrib ], string, [> `Script ], 'msg) one
+val script
+  : ([< Html_types.script_attrib ], string, [> Html_types.script ], 'msg) one
 
 (** [section ?key ?a children] produce a [<section>] element. *)
 val section
   : ( [< Html_types.section_attrib ]
-    , Html_types.section_content_fun
-    , [> `Section ]
+    , [< Html_types.section_content_fun ]
+    , [> Html_types.section ]
     , 'msg )
     many
 
 (** [select ?key ?a children] produce a [<select>] element. *)
 val select
   : ( [< Html_types.select_attrib ]
-    , Html_types.select_content_fun
-    , [> `Select ]
+    , [< Html_types.select_content_fun ]
+    , [> Html_types.select ]
     , 'msg )
     many
 
 (** [small ?key ?a children] produce a [<small>] element. *)
 val small
   : ( [< Html_types.small_attrib ]
-    , Html_types.small_content_fun
-    , [> `Small ]
+    , [< Html_types.small_content_fun ]
+    , [> Html_types.small ]
     , 'msg )
     many
 
 (** [source ?key ?a ()] produce a [<source>] element. *)
-val source : ([< Html_types.source_attrib ], [> `Source ], 'msg) leaf
+val source : ([< Html_types.source_attrib ], [> Html_types.source ], 'msg) leaf
 
 (** [span ?key ?a children] produce a [<span>] element. *)
 val span
   : ( [< Html_types.span_attrib ]
-    , Html_types.span_content_fun
-    , [> `Span ]
+    , [< Html_types.span_content_fun ]
+    , [> Html_types.span ]
     , 'msg )
     many
 
 (** [strong ?key ?a children] produce a [<strong>] element. *)
 val strong
   : ( [< Html_types.strong_attrib ]
-    , Html_types.strong_content_fun
-    , [> `Strong ]
+    , [< Html_types.strong_content_fun ]
+    , [> Html_types.strong ]
     , 'msg )
     many
 
 (** [style ?key ?a children] produce a [<style>] element. *)
 val style
   : ( [< Html_types.style_attrib ]
-    , Html_types.style_content_fun
-    , [> `Style ]
+    , [< Html_types.style_content_fun ]
+    , [> Html_types.style ]
     , 'msg )
     many
 
 (** [sub ?key ?a children] produce a [<sub>] element. *)
 val sub
   : ( [< Html_types.sub_attrib ]
-    , Html_types.sub_content_fun
-    , [> `Sub ]
+    , [< Html_types.sub_content_fun ]
+    , [> Html_types.sub ]
     , 'msg )
     many
 
 (** [sup ?key ?a children] produce a [<sup>] element. *)
 val sup
   : ( [< Html_types.sup_attrib ]
-    , Html_types.sup_content_fun
-    , [> `Sup ]
+    , [< Html_types.sup_content_fun ]
+    , [> Html_types.sup ]
     , 'msg )
     many
 
 (** [summary ?key ?a children] produce a [<summary>] element. *)
 val summary
   : ( [< Html_types.summary_attrib ]
-    , Html_types.summary_content_fun
-    , [> `Summary ]
+    , [< Html_types.summary_content_fun ]
+    , [> Html_types.summary ]
     , 'msg )
     many
 
@@ -695,80 +739,101 @@ val table
   -> ?thead:([< Html_types.thead ], 'msg) t
   -> ?tfoot:([< Html_types.tfoot ], 'msg) t
   -> ( [< Html_types.table_attrib ]
-     , Html_types.table_content_fun
-     , [> `Table ]
+     , [< Html_types.table_content_fun ]
+     , [> Html_types.table ]
      , 'msg )
      many
 
 (** [tbody ?key ?a children] produce a [<tbody>] element. *)
 val tbody
   : ( [< Html_types.tbody_attrib ]
-    , Html_types.tbody_content_fun
-    , [> `Tbody ]
+    , [< Html_types.tbody_content_fun ]
+    , [> Html_types.tbody ]
     , 'msg )
     many
 
 (** [td ?key ?a children] produce a [<td>] element. *)
 val td
-  : ([< Html_types.td_attrib ], Html_types.td_content_fun, [> `Td ], 'msg) many
+  : ( [< Html_types.td_attrib ]
+    , [< Html_types.td_content_fun ]
+    , [> Html_types.td ]
+    , 'msg )
+    many
 
 (** [template ?key ?a children] produce a [<template>] element. *)
 val template
   : ( [< Html_types.template_attrib ]
-    , Html_types.template_content_fun
-    , [> `Template ]
+    , [< Html_types.template_content_fun ]
+    , [> Html_types.template ]
     , 'msg )
     many
 
 (** [textarea ?key ?a value] produce a [<textare>] element. *)
 val textarea
-  : ([< Html_types.textarea_attrib ], string, [> `Textarea ], 'msg) one
+  : ( [< Html_types.textarea_attrib ]
+    , string
+    , [> Html_types.textarea ]
+    , 'msg )
+    one
 
 (** [tfoot ?key ?a children] produce a [<tfoot>] element. *)
 val tfoot
   : ( [< Html_types.tfoot_attrib ]
-    , Html_types.tfoot_content_fun
-    , [> `Tfoot ]
+    , [< Html_types.tfoot_content_fun ]
+    , [> Html_types.tfoot ]
     , 'msg )
     many
 
 (** [th ?key ?a children] produce a [<th>] element. *)
 val th
-  : ([< Html_types.th_attrib ], Html_types.th_content_fun, [> `Th ], 'msg) many
+  : ( [< Html_types.th_attrib ]
+    , [< Html_types.th_content_fun ]
+    , [> Html_types.th ]
+    , 'msg )
+    many
 
 (** [thead ?key ?a children] produce a [<thead>] element. *)
 val thead
   : ( [< Html_types.thead_attrib ]
-    , Html_types.thead_content_fun
-    , [> `Tfoot ]
+    , [< Html_types.thead_content_fun ]
+    , [> Html_types.thead ]
     , 'msg )
     many
 
 (** [time ?key ?a children] produce a [<time>] element. *)
 val time
   : ( [< Html_types.time_attrib ]
-    , Html_types.time_content_fun
-    , [> `Time ]
+    , [< Html_types.time_content_fun ]
+    , [> Html_types.time ]
     , 'msg )
     many
 
 (** [tr ?key ?a children] produce a [<tr>] element. *)
 val tr
-  : ([< Html_types.tr_attrib ], Html_types.tr_content_fun, [> `Tr ], 'msg) many
+  : ( [< Html_types.tr_attrib ]
+    , [< Html_types.tr_content_fun ]
+    , [> Html_types.tr ]
+    , 'msg )
+    many
 
 (** [u ?key ?a children] produce a [<u>] element. *)
-val u : ([< Html_types.u_attrib ], Html_types.u_content_fun, [> `U ], 'msg) many
+val u
+  : ( [< Html_types.u_attrib ]
+    , [< Html_types.u_content_fun ]
+    , [> Html_types.u ]
+    , 'msg )
+    many
 
 (** [var ?key ?a children] produce a [<var>] element. *)
 val var
   : ( [< Html_types.var_attrib ]
-    , Html_types.var_content_fun
-    , [> `Var ]
+    , [< Html_types.var_content_fun ]
+    , [> Html_types.var ]
     , 'msg )
     many
 
 (** [wbr ?key ?a ()] produce a [<wbr>] element. *)
-val wbr : ([< Html_types.wbr_attrib ], [> `Wbr ], 'msg) leaf
+val wbr : ([< Html_types.wbr_attrib ], [> Html_types.wbr ], 'msg) leaf
 
 (** {1 Node helpers} *)
 

@@ -34,8 +34,8 @@ val a_of
   -> ( 'scope
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
-     , ('children, 'msg) Node.t list -> ('children Html_types.a, 'msg) Node.t
-     )
+     , ([< Html_types.a_content_fun ], 'msg) Node.t list
+       -> ([> Html_types.a_ ], 'msg) Node.t )
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
@@ -51,7 +51,7 @@ val audio_of
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
      , ([< Html_types.audio_content_fun ], 'msg) Node.t list
-       -> ([> `Audio ], 'msg) Node.t )
+       -> ([> Html_types.audio_ ], 'msg) Node.t )
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
@@ -64,7 +64,7 @@ val base_of
   -> ( 'scope
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
-     , ([> `Base ], 'msg) Node.t )
+     , ([> Html_types.base ], 'msg) Node.t )
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
@@ -82,7 +82,7 @@ val blockquote_of
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
      , ([< Html_types.blockquote_content_fun ], 'msg) Node.t list
-       -> ([> `Blockquote ], 'msg) Node.t )
+       -> ([> Html_types.blockquote ], 'msg) Node.t )
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
@@ -98,7 +98,7 @@ val button_of
      , Nightmare_service.Method.for_form_action
      , 'continuation
      , ([< Html_types.button_content_fun ], 'msg) Node.t list
-       -> ([> `Button ], 'msg) Node.t )
+       -> ([> Html_types.button ], 'msg) Node.t )
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
@@ -114,7 +114,7 @@ val del_of
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
      , ([< Html_types.del_content_fun ], 'msg) Node.t list
-       -> ([> `Del ], 'msg) Node.t )
+       -> ([> Html_types.del_ ], 'msg) Node.t )
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
@@ -130,7 +130,7 @@ val ins_of
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
      , ([< Html_types.ins_content_fun ], 'msg) Node.t list
-       -> ([> `Ins ], 'msg) Node.t )
+       -> ([> Html_types.ins_ ], 'msg) Node.t )
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
@@ -144,7 +144,7 @@ val embed_of
   -> ( 'scope
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
-     , ([> `Embed ], 'msg) Node.t )
+     , ([> Html_types.embed ], 'msg) Node.t )
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
@@ -177,7 +177,7 @@ val iframe_of
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
      , ([< Html_types.iframe_content_fun ], 'msg) Node.t list
-       -> ([> `Iframe ], 'msg) Node.t )
+       -> ([> Html_types.iframe ], 'msg) Node.t )
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
@@ -192,7 +192,7 @@ val img_of
   -> ( 'scope
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
-     , ([> `Img ], 'msg) Node.t )
+     , ([> Html_types.img ], 'msg) Node.t )
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
@@ -207,7 +207,7 @@ val link_of
   -> ( 'scope
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
-     , ([> `Link ], 'msg) Node.t )
+     , ([> Html_types.link ], 'msg) Node.t )
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
@@ -237,8 +237,8 @@ val q_of
   -> ( 'scope
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
-     , (Html_types.q_content_fun, 'msg) Node.t list -> ([> `Q ], 'msg) Node.t
-     )
+     , ([< Html_types.q_content_fun ], 'msg) Node.t list
+       -> ([> Html_types.q ], 'msg) Node.t )
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
@@ -252,7 +252,7 @@ val script_of
   -> ( 'scope
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
-     , string -> ([> `Script ], 'msg) Node.t )
+     , string -> ([> Html_types.script ], 'msg) Node.t )
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
@@ -266,7 +266,7 @@ val source_of
   -> ( 'scope
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
-     , ([> `Source ], 'msg) Node.t )
+     , ([> Html_types.source ], 'msg) Node.t )
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
@@ -282,6 +282,6 @@ val video_of
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
      , ([< Html_types.video_content_fun ], 'msg) Node.t list
-       -> ([> `Video ], 'msg) Node.t )
+       -> (Html_types.video_, 'msg) Node.t )
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
