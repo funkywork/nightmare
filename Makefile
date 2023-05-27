@@ -1,4 +1,4 @@
-.PHONY: all test build clean check-lint lint doc utop
+.PHONY: all test build clean check-lint lint doc utop example
 
 all: build
 
@@ -51,11 +51,7 @@ dev-deps:
 deps:
 	opam install . --deps-only --with-doc --with-test -y
 
-# Examples
+# Example
 
-example-simple-routing:
-	dune exec examples/simple-routing/app.exe
-
-example-simple-js-interaction:
-	dune build examples/simple-js-interaction/js/index.bc.js
-	dune exec examples/simple-js-interaction/app.exe
+example:
+	dune exec examples/backend/main.exe

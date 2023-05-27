@@ -3,18 +3,18 @@ open Nightmare_tyxml
 
 open struct
   let page =
-    Common.Template.default
+    Template.default
       ~example_title:"Simple routing"
       ~example_subtitle:"A very simple example of routing using services"
       ~links:
-        [ a_of Endpoint.root [ txt "Home" ]
+        [ a_of Endpoint.home [ txt "Home" ]
         ; a_of Endpoint.hello "Alice" [ txt "Say hello to Alice" ]
         ; a_of Endpoint.about [ txt "About" ]
         ]
   ;;
 end
 
-let root _request =
+let home _request =
   page
     ~title:"Home"
     ~page_title:"Welcome to your Nightmare App"
@@ -41,7 +41,7 @@ let about _request =
     ; ul
         [ li
             [ a_of
-                Common.Endpoint.github_repository
+                Endpoint.External.github_repository
                 "aantron"
                 "dream"
                 [ txt "Dream" ]
@@ -49,7 +49,7 @@ let about _request =
             ]
         ; li
             [ a_of
-                Common.Endpoint.github_repository
+                Endpoint.External.github_repository
                 "ocsigen"
                 "tyxml"
                 [ txt "TyXML" ]
@@ -57,7 +57,7 @@ let about _request =
             ]
         ; li
             [ a_of
-                Common.Endpoint.github_repository
+                Endpoint.External.github_repository
                 "funkywork"
                 "nightmare"
                 [ txt "Nightmare.Service, Nightmare_dream and Nightmare_tyxml" ]

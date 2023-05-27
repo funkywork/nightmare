@@ -1,3 +1,0 @@
-(library
- (name common)
- (libraries dream tyxml nightmare.service nightmare-dream nightmare-tyxml))
