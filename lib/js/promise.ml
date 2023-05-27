@@ -53,3 +53,13 @@ let pending () =
 let resolved x = Internal.resolved x
 let then_ handler promise = Internal.then_ promise handler
 let catch handler promise = Internal.catch promise handler
+
+module Monad = Preface.Make.Monad.Via_return_and_bind (struct
+  type nonrec 'a t = 'a t
+
+  let return x = resolved x
+  let bind f x = then_ f x
+end)
+
+module Applicative = Preface.Make.Applicative.From_monad (Monad)
+module Functor = Applicative

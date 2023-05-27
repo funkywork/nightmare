@@ -50,3 +50,9 @@ val resolved : 'a -> 'a t
 
 val then_ : ('a -> 'b t) -> 'a t -> 'b t
 val catch : (error -> 'a t) -> 'a t -> 'a t
+
+(** {1 Interfaces} *)
+
+module Functor : Preface.Specs.FUNCTOR with type 'a t = 'a t
+module Applicative : Preface.Specs.APPLICATIVE with type 'a t = 'a t
+module Monad : Preface.Specs.MONAD with type 'a t = 'a t
