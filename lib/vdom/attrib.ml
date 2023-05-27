@@ -483,6 +483,32 @@ let a_script_type value =
     value
 ;;
 
+let a_colspan value = int "colspan" value
+let a_rowspan value = int "rowspan" value
+let a_headers value = tokens "headers" value
+let a_cols value = int "cols" value
+let a_rows value = int "rows" value
+
+let a_wrap value =
+  to_string
+    (function
+     | `Soft -> "soft"
+     | `Hard -> "hard")
+    "wrap"
+    value
+;;
+
+let a_scope value =
+  to_string
+    (function
+     | `Row -> "row"
+     | `Col -> "col"
+     | `Rowgroup -> "rowgroup"
+     | `Colgroup -> "colgroup")
+    "scope"
+    value
+;;
+
 (* Util *)
 
 let remove_attribute_kind x = x

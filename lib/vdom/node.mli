@@ -687,6 +687,89 @@ val summary
     , 'msg )
     many
 
+(** [table ?caption ?columns ?thead ?tfoot ?key ?a children] produce a [<table>]
+    element. *)
+val table
+  :  ?caption:([< Html_types.caption ], 'msg) t
+  -> ?columns:([< Html_types.colgroup ], 'msg) t
+  -> ?thead:([< Html_types.thead ], 'msg) t
+  -> ?tfoot:([< Html_types.tfoot ], 'msg) t
+  -> ( [< Html_types.table_attrib ]
+     , Html_types.table_content_fun
+     , [> `Table ]
+     , 'msg )
+     many
+
+(** [tbody ?key ?a children] produce a [<tbody>] element. *)
+val tbody
+  : ( [< Html_types.tbody_attrib ]
+    , Html_types.tbody_content_fun
+    , [> `Tbody ]
+    , 'msg )
+    many
+
+(** [td ?key ?a children] produce a [<td>] element. *)
+val td
+  : ([< Html_types.td_attrib ], Html_types.td_content_fun, [> `Td ], 'msg) many
+
+(** [template ?key ?a children] produce a [<template>] element. *)
+val template
+  : ( [< Html_types.template_attrib ]
+    , Html_types.template_content_fun
+    , [> `Template ]
+    , 'msg )
+    many
+
+(** [textarea ?key ?a value] produce a [<textare>] element. *)
+val textarea
+  : ([< Html_types.textarea_attrib ], string, [> `Textarea ], 'msg) one
+
+(** [tfoot ?key ?a children] produce a [<tfoot>] element. *)
+val tfoot
+  : ( [< Html_types.tfoot_attrib ]
+    , Html_types.tfoot_content_fun
+    , [> `Tfoot ]
+    , 'msg )
+    many
+
+(** [th ?key ?a children] produce a [<th>] element. *)
+val th
+  : ([< Html_types.th_attrib ], Html_types.th_content_fun, [> `Th ], 'msg) many
+
+(** [thead ?key ?a children] produce a [<thead>] element. *)
+val thead
+  : ( [< Html_types.thead_attrib ]
+    , Html_types.thead_content_fun
+    , [> `Tfoot ]
+    , 'msg )
+    many
+
+(** [time ?key ?a children] produce a [<time>] element. *)
+val time
+  : ( [< Html_types.time_attrib ]
+    , Html_types.time_content_fun
+    , [> `Time ]
+    , 'msg )
+    many
+
+(** [tr ?key ?a children] produce a [<tr>] element. *)
+val tr
+  : ([< Html_types.tr_attrib ], Html_types.tr_content_fun, [> `Tr ], 'msg) many
+
+(** [u ?key ?a children] produce a [<u>] element. *)
+val u : ([< Html_types.u_attrib ], Html_types.u_content_fun, [> `U ], 'msg) many
+
+(** [var ?key ?a children] produce a [<var>] element. *)
+val var
+  : ( [< Html_types.var_attrib ]
+    , Html_types.var_content_fun
+    , [> `Var ]
+    , 'msg )
+    many
+
+(** [wbr ?key ?a ()] produce a [<wbr>] element. *)
+val wbr : ([< Html_types.wbr_attrib ], [> `Wbr ], 'msg) leaf
+
 (** {1 Node helpers} *)
 
 val remove_node_kind : ('a, 'msg) t -> 'msg Vdom.vdom

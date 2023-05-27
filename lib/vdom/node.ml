@@ -208,3 +208,32 @@ let style ?key ?a children = elt "style" ?key ?a children
 let sub ?key ?a children = elt "sub" ?key ?a children
 let sup ?key ?a children = elt "sup" ?key ?a children
 let summary ?key ?a children = elt "summary" ?key ?a children
+
+let table ?caption ?columns ?thead ?tfoot ?key ?a children =
+  let children =
+    Option.fold ~none:children ~some:(fun x -> children @ [ x ]) tfoot
+  in
+  let children =
+    Option.fold ~none:children ~some:(fun x -> x :: children) thead
+  in
+  let children =
+    Option.fold ~none:children ~some:(fun x -> x :: children) columns
+  in
+  let children =
+    Option.fold ~none:children ~some:(fun x -> x :: children) caption
+  in
+  elt "table" ?key ?a children
+;;
+
+let tbody ?key ?a children = elt "tbody" ?key ?a children
+let tfoot ?key ?a children = elt "tfoot" ?key ?a children
+let thead ?key ?a children = elt "thead" ?key ?a children
+let td ?key ?a children = elt "td" ?key ?a children
+let template ?key ?a children = elt "template" ?key ?a children
+let textarea ?key ?a value = elt "textarea" ?key ?a [ txt value ]
+let th ?key ?a children = elt "th" ?key ?a children
+let time ?key ?a children = elt "time" ?key ?a children
+let tr ?key ?a children = elt "tr" ?key ?a children
+let u ?key ?a children = elt "u" ?key ?a children
+let var ?key ?a children = elt "var" ?key ?a children
+let wbr ?key ?a () = elt "wbr" ?key ?a []

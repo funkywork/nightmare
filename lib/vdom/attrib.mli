@@ -266,6 +266,14 @@ val a_script_type
   :  [< `Javascript | `Module | `Mime of string ]
   -> ([> `Script_type ], 'msg) t
 
+val a_colspan : int -> ([> `Colspan ], 'msg) t
+val a_rowspan : int -> ([> `Rowspan ], 'msg) t
+val a_headers : string list -> ([> `Headers ], 'msg) t
+val a_cols : int -> ([> `Cols ], 'msg) t
+val a_rows : int -> ([> `Rows ], 'msg) t
+val a_wrap : [< `Soft | `Hard ] -> ([> `Wrap ], 'msg) t
+val a_scope : [< `Row | `Col | `Rowgroup | `Colgroup ] -> ([> `Scope ], 'msg) t
+
 (** {1 Attribut helpers} *)
 
 val remove_attribute_kind : ('a, 'msg) t -> 'msg Vdom.attribute
