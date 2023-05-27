@@ -42,6 +42,7 @@ module Internal = struct
     = "caml_then_with_rejection"
 
   external catch : 'a t -> (error -> 'a t) -> 'a t = "caml_catch_promise"
+  external set_timeout : int -> unit t = "caml_set_timeout_promise"
 end
 
 let pending_with_rejection () =
@@ -77,6 +78,8 @@ let as_lwt promise =
   let _ = then' resolve reject promise in
   lwt_promise
 ;;
+
+let set_timeout duration = Internal.set_timeout duration
 
 module Monad = Preface.Make.Monad.Via_return_and_bind (struct
   type nonrec 'a t = 'a t

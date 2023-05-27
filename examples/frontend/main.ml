@@ -2,7 +2,6 @@ open Js_of_ocaml
 open Nightmare_js
 
 let () = Suspension.allow ()
-let () = Console.log (Promise.resolved 10)
 
 let () =
   Js.export
@@ -18,6 +17,7 @@ let () =
          let id = Js.to_string id in
          Nightmare_js_vdom.mount_to ~id (fun _ ->
            let () = Console.(string info) @@ "Mounting " ^ id in
-           Lwt.return Counter_vdom.app)
+           let app = Counter_vdom.app () in
+           Lwt.return app)
     end)
 ;;

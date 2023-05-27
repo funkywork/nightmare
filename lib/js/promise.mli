@@ -51,6 +51,10 @@ val resolved : 'a -> 'a t
 val then_ : ('a -> 'b t) -> 'a t -> 'b t
 val catch : (error -> 'a t) -> 'a t -> 'a t
 
+(** {1 Predefined promises} *)
+
+val set_timeout : int -> unit t
+
 (** {1 Lwt interop} *)
 
 val as_lwt : 'a t -> 'a Lwt.t
