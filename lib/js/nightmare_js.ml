@@ -31,3 +31,4 @@ module Undefinable = Optional.Undefinable
 module Console = Console
 module Storage = Storage
 module Suspension = Suspension
+module Promise = Promise

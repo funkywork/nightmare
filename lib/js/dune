@@ -4,5 +4,7 @@
  (libraries preface js_of_ocaml-compiler.runtime lwt js_of_ocaml-lwt)
  (modules_without_implementation aliases interfaces bindings)
  (modes byte)
+ (js_of_ocaml
+  (javascript_files stubs/caml_promise_stubs.js))
  (preprocess
   (pps js_of_ocaml-ppx)))
