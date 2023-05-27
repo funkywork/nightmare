@@ -1,11 +1,16 @@
 let page ~title content =
   let page_title = "Nightmare example -" ^ title in
   let open Tyxml.Html in
+  let open Nightmare_tyxml in
   let node_title = title (txt page_title) in
   html
     ~a:[ a_lang "en" ]
-    (head node_title [ link ~rel:[ `Stylesheet ] ~href:"/priv/style.css" () ])
-    (body content)
+    (head
+       node_title
+       [ link_of ~rel:[ `Stylesheet ] Endpoint.priv "style.css"
+       ; script_of Endpoint.priv "main.bc.js" ""
+       ])
+    (body (content @ [ script (txt "nightmare_js.mount();") ]))
 ;;
 
 let default

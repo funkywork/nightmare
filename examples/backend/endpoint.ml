@@ -1,6 +1,7 @@
 open Nightmare_service.Endpoint
 
 let home () = get root
+let priv () = get @@ (~/"priv" /: string)
 
 module Simple_routing = struct
   let home () = get ~/"simple-routing"

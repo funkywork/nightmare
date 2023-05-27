@@ -54,4 +54,5 @@ deps:
 # Example
 
 example:
+	dune build examples/frontend/main.bc.js
 	dune exec examples/backend/main.exe

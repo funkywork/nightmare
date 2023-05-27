@@ -43,6 +43,7 @@ val allow : unit -> unit
        </script>
       </div>
       <script>console.log(3);</script>
+      <script>nightmare_js.mount();</script>
     ]}
 
     Will be displayed in the development console: [3, 1, 2] because the

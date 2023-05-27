@@ -9,7 +9,12 @@ let home _request =
     ~page_title:"A list of examples"
     ~page_subtitle:"A more or less organised list of examples using Nightmare"
     ~links:[]
-    [ ul [ li [ a_of Endpoint.Simple_routing.home [ txt "Simple routing" ] ] ] ]
+    [ ul [ li [ a_of Endpoint.Simple_routing.home [ txt "Simple routing" ] ] ]
+    ; script
+        (txt
+           "nightmare_js.suspend(function () { \
+            nightmare_example.helloToConsole('visitor'); });")
+    ]
 ;;
 
 module Simple_routing = struct
