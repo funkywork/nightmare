@@ -31,80 +31,108 @@
     Allowing to avoid that a given attribute overwrites the one computed by the
     endpoint. *)
 
-type a =
-  [ Html_types.common
-  | `Hreflang
-  | `Media
-  | `Rel
-  | `Target
-  | `Mime_type
-  | `Download
-  ]
+module Without_source : sig
+  type a =
+    [ Html_types.common
+    | `Hreflang
+    | `Media
+    | `Rel
+    | `Target
+    | `Mime_type
+    | `Download
+    ]
 
-type base =
-  [ Html_types.common
-  | `Target
-  ]
+  type base =
+    [ Html_types.common
+    | `Target
+    ]
 
-type embed =
-  [ Html_types.common
-  | `Height
-  | `Mime_type
-  | `Width
-  ]
+  type button =
+    [ Html_types.common
+    | `Autofocus
+    | `Disabled
+    | `Form
+    | `Formenctype
+    | `Formnovalidate
+    | `Formtarget
+    | `Name
+    | `Text_Value
+    | `Button_Type
+    ]
 
-type form =
-  [ Html_types.common
-  | `Accept_charset
-  | `Enctype
-  | `Name
-  | `Target
-  | `Autocomplete
-  | `Novalidate
-  ]
+  type blockquote = Html_types.common
+  type q = Html_types.common
 
-type iframe =
-  [ Html_types.common
-  | `Allowfullscreen
-  | `Allowpaymentrequest
-  | `Name
-  | `Sandbox
-  | `Seamless
-  | `Width
-  | `Height
-  | `Referrerpolicy
-  ]
+  type del =
+    [ Html_types.common
+    | `Datetime
+    ]
 
-type link =
-  [ Html_types.common
-  | Html_types.subressource_integrity
-  | `Hreflang
-  | `Media
-  | `Sizes
-  | `Mime_type
-  ]
+  type ins =
+    [ Html_types.common
+    | `Datetime
+    ]
 
-type object_ =
-  [ Html_types.common
-  | `Form
-  | `Mime_type
-  | `Height
-  | `Width
-  | `Name
-  | `Usemap
-  ]
+  type embed =
+    [ Html_types.common
+    | `Height
+    | `Mime_type
+    | `Width
+    ]
 
-type script =
-  [ Html_types.common
-  | Html_types.subressource_integrity
-  | `Async
-  | `Charset
-  | `Defer
-  | `Mime_type
-  ]
+  type form =
+    [ Html_types.common
+    | `Accept_charset
+    | `Enctype
+    | `Name
+    | `Target
+    | `Autocomplete
+    | `Novalidate
+    ]
 
-type source =
-  [ Html_types.common
-  | `Mime_type
-  | `Media
-  ]
+  type iframe =
+    [ Html_types.common
+    | `Allowfullscreen
+    | `Allowpaymentrequest
+    | `Name
+    | `Sandbox
+    | `Seamless
+    | `Width
+    | `Height
+    | `Referrerpolicy
+    ]
+
+  type link =
+    [ Html_types.common
+    | Html_types.subressource_integrity
+    | `Hreflang
+    | `Media
+    | `Sizes
+    | `Mime_type
+    ]
+
+  type object_ =
+    [ Html_types.common
+    | `Form
+    | `Mime_type
+    | `Height
+    | `Width
+    | `Name
+    | `Usemap
+    ]
+
+  type script =
+    [ Html_types.common
+    | Html_types.subressource_integrity
+    | `Async
+    | `Charset
+    | `Defer
+    | `Mime_type
+    ]
+
+  type source =
+    [ Html_types.common
+    | `Mime_type
+    | `Media
+    ]
+end

@@ -20,39 +20,37 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-(** [Nightmare_js] provides an API for working with the web browser (via
-    [Js_of_ocaml]) and tries to provide bindings missing from the standard
-    [Js_of_ocaml] library. *)
+open Js_of_ocaml
 
-(** {1 Types}
+let start f =
+  let open Lwt.Syntax in
+  let* _ = Js_of_ocaml_lwt.Lwt_js_events.onload () in
+  let+ () = f () in
+  ()
+;;
 
-    Some common type aliases to simplify function signatures. *)
+let context =
+  object%js (self)
+    val nightmare_internal =
+      object%js
+        val suspending = Js.array [||]
+      end
 
-(**/**)
+    method suspend f = self##.nightmare_internal##.suspending##push f |> ignore
 
-module Aliases = Aliases
+    method mount =
+      let suspension =
+        self##.nightmare_internal##.suspending
+        |> Js.to_array
+        |> Array.fold_left
+             (fun chain task () ->
+               let open Lwt.Syntax in
+               let+ () = chain () in
+               Js.Unsafe.fun_call task [||])
+             (fun () -> Lwt.return_unit)
+      in
+      start suspension
+  end
+;;
 
-(**/**)
-
-include module type of Aliases (** @inline *)
-
-(** {2 Modules types} *)
-
-module Bindings = Bindings
-module Interfaces = Interfaces
-
-(** {2 Optional values} *)
-
-module Optional = Optional
-module Option = Optional.Option
-module Nullable = Optional.Nullable
-module Undefinable = Optional.Undefinable
-
-(** {2 Web Storage API} *)
-
-module Storage = Storage
-
-(** {1 Utils} *)
-
-module Console = Console
-module Suspension = Suspension
+let allow () = Js.export "nightmare_js" context

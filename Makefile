@@ -1,4 +1,4 @@
-.PHONY: all test build clean check-lint lint doc utop
+.PHONY: all test build clean check-lint lint doc utop example
 
 all: build
 
@@ -50,3 +50,9 @@ dev-deps:
 # in the OPAM description files.
 deps:
 	opam install . --deps-only --with-doc --with-test -y
+
+# Example
+
+example:
+	dune build examples/frontend/main.bc.js
+	dune exec examples/backend/main.exe

@@ -1,4 +1,4 @@
 (library
- (public_name nightmare_dream)
+ (public_name nightmare-dream)
  (name nightmare_dream)
  (libraries dream nightmare.service))

@@ -1,5 +1,5 @@
 (executable
- (name index)
+ (name main)
  (modes js)
  (preprocess
   (pps js_of_ocaml-ppx))
@@ -7,5 +7,6 @@
   (flags :standard))
  (promote
   (until-clean)
-  (into "../"))
- (libraries nightmare_js))
+  (into "../priv")
+  (only main.bc.js))
+ (libraries nightmare_js nightmare_js-vdom))

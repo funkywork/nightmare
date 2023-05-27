@@ -1,11 +1,16 @@
 let page ~title content =
   let page_title = "Nightmare example -" ^ title in
   let open Tyxml.Html in
+  let open Nightmare_tyxml in
   let node_title = title (txt page_title) in
   html
     ~a:[ a_lang "en" ]
-    (head node_title [ link ~rel:[ `Stylesheet ] ~href:"/priv/default.css" () ])
-    (body content)
+    (head
+       node_title
+       [ link_of ~rel:[ `Stylesheet ] Endpoint.priv "style.css"
+       ; script_of Endpoint.priv "main.bc.js" ""
+       ])
+    (body (content @ [ script (txt "nightmare_js.mount();") ]))
 ;;
 
 let default
@@ -31,7 +36,9 @@ let default
         [ div
             [ span [ txt "Proudly powered by" ]
             ; br ()
-            ; a_of Endpoint.ocaml_org [ img_of Endpoint.ocaml_logo ]
+            ; a_of
+                Endpoint.External.ocaml_org
+                [ img_of Endpoint.External.ocaml_logo ]
             ]
         ]
     ]

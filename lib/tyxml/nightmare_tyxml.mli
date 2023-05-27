@@ -81,7 +81,7 @@
 val a_of
   :  ?anchor:string
   -> ?parameters:(string * string) list
-  -> ?a:Attrib.a Tyxml.Html.attrib list
+  -> ?a:Attrib.Without_source.a Tyxml.Html.attrib list
   -> ( _
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
@@ -89,15 +89,92 @@ val a_of
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
-(** [base_of ?anchor ?parameters ?a endpoint] generates a function expecting the
-    parameters of [endpoint] and returning an HTML element [<base>]. (with
-    [href] computed from [endpoint]) *)
+(** [audio_of ?parameters ?srcs ?a endpoint] generates a function expecting the
+    parameters of [endpoint] and returning an HTML element [<audio>] (with
+    [href] computed from [endpoint]). *)
+val audio_of
+  :  ?parameters:(string * string) list
+  -> ?srcs:[< Html_types.source ] Tyxml.Html.elt list
+  -> ?a:Html_types.audio_attrib Tyxml.Html.attrib list
+  -> ( _
+     , [< Nightmare_service.Method.for_link ]
+     , 'continuation
+     , 'a Tyxml.Html.elt list -> [> 'a Html_types.audio ] Tyxml.Html.elt )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
+(** [base_of ?a endpoint] generates a function expecting the parameters of
+    [endpoint] and returning an HTML element [<base>]. (with [href] computed
+    from [endpoint]) *)
 val base_of
-  :  ?a:Attrib.base Tyxml.Html.attrib list
-  -> ( 'scope_
+  :  ?a:Attrib.Without_source.base Tyxml.Html.attrib list
+  -> ( _
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
      , [> Html_types.base ] Tyxml.Html.elt )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
+(** [button_of ?anchor ?parameters ?srcs ?a endpoint] generates a function
+    expecting the parameters of [endpoint] and returning an HTML element
+    [<button>] (with [action] and [method] computed from [endpoint]). *)
+val button_of
+  :  ?anchor:string
+  -> ?parameters:(string * string) list
+  -> ?a:Attrib.Without_source.button Tyxml.Html.attrib list
+  -> ( _
+     , Nightmare_service.Method.for_form_action
+     , 'continuation
+     , Html_types.button_content_fun Tyxml.Html.elt list
+       -> [> Html_types.button ] Tyxml.Html.elt )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
+(* FIXME: we should add <input_of> like <button_of> but it is awaiting for
+   [https://github.com/ocsigen/tyxml/pull/317]. *)
+
+(** [blockquote_of ?anchor ?parameters ?a endpoint] generates a function
+    expecting the parameters of [endpoint] and returning an HTML element
+    [<blockquote>]. (with [cite] computed from [endpoint]) *)
+val blockquote_of
+  :  ?anchor:string
+  -> ?parameters:(string * string) list
+  -> ?a:Attrib.Without_source.blockquote Tyxml.Html.attrib list
+  -> ( _
+     , [< Nightmare_service.Method.for_link ]
+     , 'continuation
+     , Html_types.blockquote_content_fun Tyxml.Html.elt list
+       -> [> Html_types.blockquote ] Tyxml.Html.elt )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
+(** [del_of ?anchor ?parameters ?a endpoint] generates a function expecting the
+    parameters of [endpoint] and returning an HTML element [<del>]. (with [cite]
+    computed from [endpoint]) *)
+val del_of
+  :  ?anchor:string
+  -> ?parameters:(string * string) list
+  -> ?a:Attrib.Without_source.del Tyxml.Html.attrib list
+  -> ( _
+     , [< Nightmare_service.Method.for_link ]
+     , 'continuation
+     , 'children Tyxml.Html.elt list
+       -> [> 'children Html_types.del ] Tyxml.Html.elt )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
+(** [ins_of ?anchor ?parameters ?a endpoint] generates a function expecting the
+    parameters of [endpoint] and returning an HTML element [<ins>]. (with [cite]
+    computed from [endpoint]) *)
+val ins_of
+  :  ?anchor:string
+  -> ?parameters:(string * string) list
+  -> ?a:Attrib.Without_source.del Tyxml.Html.attrib list
+  -> ( _
+     , [< Nightmare_service.Method.for_link ]
+     , 'continuation
+     , 'children Tyxml.Html.elt list
+       -> [> 'children Html_types.ins ] Tyxml.Html.elt )
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
@@ -106,8 +183,8 @@ val base_of
     [src] computed from [endpoint]) *)
 val embed_of
   :  ?parameters:(string * string) list
-  -> ?a:Attrib.embed Tyxml.Html.attrib list
-  -> ( 'scope_
+  -> ?a:Attrib.Without_source.embed Tyxml.Html.attrib list
+  -> ( _
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
      , [> Html_types.embed ] Tyxml.Html.elt )
@@ -123,8 +200,8 @@ val form_of
   :  ?anchor:string
   -> ?parameters:(string * string) list
   -> ?csrf_token:string * string
-  -> ?a:Attrib.form Tyxml.Html.attrib list
-  -> ( 'scope_
+  -> ?a:Attrib.Without_source.form Tyxml.Html.attrib list
+  -> ( _
      , Nightmare_service.Method.for_form_action
      , 'continuation
      , Html_types.form_content_fun Tyxml.Html.elt list
@@ -138,7 +215,7 @@ val form_of
 val iframe_of
   :  ?anchor:string
   -> ?parameters:(string * string) list
-  -> ?a:Attrib.iframe Tyxml.Html.attrib list
+  -> ?a:Attrib.Without_source.iframe Tyxml.Html.attrib list
   -> ( _
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
@@ -167,7 +244,7 @@ val img_of
 val link_of
   :  ?parameters:(string * string) list
   -> rel:Html_types.linktypes
-  -> ?a:Attrib.link Tyxml.Html.attrib list
+  -> ?a:Attrib.Without_source.link Tyxml.Html.attrib list
   -> ( _
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
@@ -180,8 +257,7 @@ val link_of
     [<object>] (with [data] computed from [endpoint]). *)
 val object_of
   :  ?parameters:(string * string) list
-  -> ?a:Attrib.object_ Tyxml.Html.attrib list
-  -> ?object_params:Html_types.param Tyxml.Html.elt list
+  -> ?a:Attrib.Without_source.object_ Tyxml.Html.attrib list
   -> ( _
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
@@ -195,12 +271,26 @@ val object_of
     [src] computed from [endpoint]). *)
 val script_of
   :  ?parameters:(string * string) list
-  -> ?a:Attrib.script Tyxml.Html.attrib list
+  -> ?a:Attrib.Without_source.script Tyxml.Html.attrib list
   -> ( _
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
-     , Html_types.script_content_fun Tyxml.Html.elt
-       -> [> Html_types.script ] Tyxml.Html.elt )
+     , string -> [> Html_types.script ] Tyxml.Html.elt )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
+(** [q_of ?anchor ?parameters ?a endpoint] generates a function expecting the
+    parameters of [endpoint] and returning an HTML element [<q>]. (with [cite]
+    computed from [endpoint]) *)
+val q_of
+  :  ?anchor:string
+  -> ?parameters:(string * string) list
+  -> ?a:Attrib.Without_source.q Tyxml.Html.attrib list
+  -> ( _
+     , [< Nightmare_service.Method.for_link ]
+     , 'continuation
+     , Html_types.q_content_fun Tyxml.Html.elt list
+       -> [> Html_types.q ] Tyxml.Html.elt )
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
@@ -209,11 +299,25 @@ val script_of
     [src] computed from [endpoint]). *)
 val source_of
   :  ?parameters:(string * string) list
-  -> ?a:Attrib.source Tyxml.Html.attrib list
+  -> ?a:Attrib.Without_source.source Tyxml.Html.attrib list
   -> ( _
      , [< Nightmare_service.Method.for_link ]
      , 'continuation
      , [> Html_types.source ] Tyxml.Html.elt )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
+
+(** [video_of ?parameters ?srcs ?a endpoint] generates a function expecting the
+    parameters of [endpoint] and returning an HTML element [<video>] (with
+    [href] computed from [endpoint]). *)
+val video_of
+  :  ?parameters:(string * string) list
+  -> ?srcs:[< Html_types.source ] Tyxml.Html.elt list
+  -> ?a:Html_types.video_attrib Tyxml.Html.attrib list
+  -> ( _
+     , [< Nightmare_service.Method.for_link ]
+     , 'continuation
+     , 'a Tyxml.Html.elt list -> [> 'a Html_types.video ] Tyxml.Html.elt )
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
