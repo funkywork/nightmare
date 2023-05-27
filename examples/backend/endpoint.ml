@@ -9,6 +9,11 @@ module Simple_routing = struct
   let hello () = get (~/"simple-routing" / "hello" /: string)
 end
 
+module Counter_vdom = struct
+  let home () = get ~/"counter-vdom"
+  let about () = get (~/"counter-vdom" / "about")
+end
+
 module External = struct
   let ocaml_v2 action path = outer action "https://v2.ocaml.org/" path
   let ocaml_org () = outer get "https://ocaml.org" root

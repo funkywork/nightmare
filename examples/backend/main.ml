@@ -7,6 +7,8 @@ let router =
       ; Service.Simple_routing.home
       ; Service.Simple_routing.about
       ; Service.Simple_routing.hello
+      ; Service.Counter_vdom.home
+      ; Service.Counter_vdom.about
       ]
 ;;
 

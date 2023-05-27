@@ -9,7 +9,14 @@ let home _request =
     ~page_title:"A list of examples"
     ~page_subtitle:"A more or less organised list of examples using Nightmare"
     ~links:[]
-    [ ul [ li [ a_of Endpoint.Simple_routing.home [ txt "Simple routing" ] ] ]
+    [ ul
+        [ li [ a_of Endpoint.Simple_routing.home [ txt "Simple routing" ] ]
+        ; li
+            [ a_of
+                Endpoint.Counter_vdom.home
+                [ txt "The classical counter using VDom" ]
+            ]
+        ]
     ; script
         (txt
            "nightmare_js.suspend(function () { \
@@ -80,7 +87,7 @@ module Simple_routing = struct
                   Endpoint.External.github_repository
                   "funkywork"
                   "nightmare"
-                  [ txt "Nightmare.Service, Nightmare_dream and Nightmare_tyxml"
+                  [ txt "Nightmare.service, Nightmare-dream and Nightmare-tyxml"
                   ]
               ; span
                   [ txt
@@ -112,6 +119,98 @@ module Simple_routing = struct
       ; ul
           [ li [ a_of hello "Bob" [ txt "Say hello to Bob" ] ]
           ; li [ a_of hello "Carol" [ txt "Say hello to Carol" ] ]
+          ]
+      ]
+  ;;
+end
+
+module Counter_vdom = struct
+  open struct
+    open Endpoint.Counter_vdom
+
+    let page =
+      Template.default
+        ~example_title:"Simple counter using VDom"
+        ~example_subtitle:"A very simple example of counter using VDom"
+        ~links:
+          [ a_of Endpoint.home [ txt "Index" ]
+          ; a_of home [ txt "Home" ]
+          ; a_of about [ txt "About" ]
+          ]
+    ;;
+  end
+
+  let home _request =
+    page
+      ~title:"Home"
+      ~page_title:"Welcome to your Nightmare App"
+      ~page_subtitle:"This is the entry point of the application"
+      [ p
+          [ txt
+              "You are on a very simple page that simply demonstrates the use \
+               of services to build a router and links between pages."
+          ]
+      ; div ~a:[ a_id "simple-counter-app" ] [ txt "Loading the application" ]
+      ; script
+          (txt
+             {js|
+             nightmare_js.suspend(function(){
+               nightmare_example.mountCounterVdom('simple-counter-app');
+             });|js})
+      ]
+  ;;
+
+  let about _request =
+    page
+      ~title:"About"
+      ~page_title:"About your Nightmare App"
+      ~page_subtitle:"More information about this example"
+      [ p
+          [ txt
+              "This is a very simple example that mounts an application in a \
+               div described using ocaml-vdom."
+          ]
+      ; p [ txt "This example uses these different libraries:" ]
+      ; ul
+          [ li
+              [ a_of
+                  Endpoint.External.github_repository
+                  "aantron"
+                  "dream"
+                  [ txt "Dream" ]
+              ; span [ txt " - As a low-level web framework" ]
+              ]
+          ; li
+              [ a_of
+                  Endpoint.External.github_repository
+                  "ocsigen"
+                  "tyxml"
+                  [ txt "TyXML" ]
+              ; span [ txt " - To build statically validated HTML nodes" ]
+              ]
+          ; li
+              [ a_of
+                  Endpoint.External.github_repository
+                  "lexifi"
+                  "ocaml-vdom"
+                  [ txt "OCaml-VDom" ]
+              ; span [ txt " - To build a SPA using Virtual DOM" ]
+              ]
+          ; li
+              [ a_of
+                  Endpoint.External.github_repository
+                  "funkywork"
+                  "nightmare"
+                  [ txt
+                      "Nightmare.service, Nightmare-dream and Nightmare-tyxml \
+                       and Nightmare_js-vdom"
+                  ]
+              ; span
+                  [ txt
+                      " - To describe the services and provide the glue \
+                       between Dream, TyXML and Nightmare"
+                  ]
+              ]
           ]
       ]
   ;;

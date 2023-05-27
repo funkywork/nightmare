@@ -11,5 +11,12 @@ let () =
        method helloToConsole message =
          let message = "Hello, " ^ Js.to_string message ^ " !" in
          Console.(string log) message
+
+       (* Mount the Counter Example *)
+       method mountCounterVdom id =
+         let id = Js.to_string id in
+         Nightmare_js_vdom.mount_to ~id (fun _ ->
+           let () = Console.(string info) @@ "Mounting " ^ id in
+           Lwt.return Counter_vdom.app)
     end)
 ;;

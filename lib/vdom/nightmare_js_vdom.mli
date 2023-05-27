@@ -24,6 +24,43 @@
     having some differences, the API for describing nodes and attributes is very
     similar to Tyxml (and shares many signatures), *)
 
+(** [app ~init ~update ~view ()] initialize an application that can propagate
+    messages and commands. *)
+val app
+  :  init:'model * 'msg Vdom.Cmd.t
+  -> update:('model -> 'msg -> 'model * 'msg Vdom.Cmd.t)
+  -> view:('model -> ('kind, 'msg) Node.t)
+  -> unit
+  -> ('model, 'msg) Vdom.app
+
+(** [simple_app ~init ~update ~view ()] initialize an application that can
+    propagate messages. *)
+val simple_app
+  :  init:'model
+  -> update:('model -> 'msg -> 'model)
+  -> view:('model -> ('kind, 'msg) Node.t)
+  -> unit
+  -> ('model, 'msg) Vdom.app
+
+(** {1 Mounting an application} *)
+
+(** [append_to ~id ~not_found f] will append the application returned by [f]
+    into the element referenced by [id]. If the [element] does not exists,
+    [not_found] will be fired. *)
+val append_to
+  :  id:string
+  -> ?not_found:(id:string -> unit Lwt.t)
+  -> (Js_browser.Element.t -> ('model, 'msg) Vdom.app Lwt.t)
+  -> unit Lwt.t
+
+(** [mount_to ~id ~not_found f] same of [append_to] but it removes all children
+    of the target. *)
+val mount_to
+  :  id:string
+  -> ?not_found:(id:string -> unit Lwt.t)
+  -> (Js_browser.Element.t -> ('model, 'msg) Vdom.app Lwt.t)
+  -> unit Lwt.t
+
 (** {1 Types} *)
 
 (** {2 Html elements} *)
