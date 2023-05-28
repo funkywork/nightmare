@@ -22,8 +22,6 @@
 
 module Aliases = Aliases
 include Aliases
-module Bindings = Bindings
-module Interfaces = Interfaces
 module Optional = Optional
 module Option = Optional.Option
 module Nullable = Optional.Nullable
