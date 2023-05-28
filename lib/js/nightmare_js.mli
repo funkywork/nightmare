@@ -36,10 +36,10 @@ module Aliases = Aliases
 
 include module type of Aliases (** @inline *)
 
-(** {2 Modules types} *)
+(* (\** {2 Modules types} *\) *)
 
-module Bindings = Bindings
-module Interfaces = Interfaces
+(* module Bindings = Bindings *)
+(* module Interfaces = Interfaces *)
 
 (** {2 Optional values} *)
 
