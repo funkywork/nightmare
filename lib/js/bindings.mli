@@ -41,3 +41,24 @@ class type console_hook =
     method timeLog : 'a. js_string t -> 'a -> unit meth
     method table : 'a. 'a -> js_string t js_array t or_undefined -> unit meth
   end
+
+(** {1 Fetch API}
+
+    A rough attempt to make a binding for fetch.
+    {{:https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API} MDN
+      documentation} *)
+
+class type http_headers =
+  object
+    method append : js_string t -> js_string t -> unit meth
+    method delete : js_string t -> unit meth
+    method get : js_string t -> js_string t opt meth
+    method has : js_string t -> bool t meth
+    method set : js_string t -> js_string t -> unit meth
+  end
+
+class type fetch_options =
+  object
+    method _method : js_string t readonly_prop
+    method headers : http_headers t or_undefined readonly_prop
+  end

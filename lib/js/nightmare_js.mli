@@ -47,6 +47,10 @@ module Undefinable = Optional.Undefinable
 
 module Promise = Promise
 
+(** {2 Http} *)
+
+module Headers = Headers
+
 (** {2 Web Storage API} *)
 
 module Storage = Storage

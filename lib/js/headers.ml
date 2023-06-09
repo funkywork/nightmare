@@ -20,14 +20,48 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-module Aliases = Aliases
-include Aliases
-module Optional = Optional
-module Option = Optional.Option
-module Nullable = Optional.Nullable
-module Undefinable = Optional.Undefinable
-module Console = Console
-module Storage = Storage
-module Suspension = Suspension
-module Promise = Promise
-module Headers = Headers
+open Js_of_ocaml
+open Optional
+
+type t = Bindings.http_headers Js.t
+
+let constr : (unit -> t) Js.constr = Js.Unsafe.global##._Headers
+
+let append headers ~key ~value =
+  let key = Js.string key
+  and value = Js.string value in
+  let () = headers##append key value in
+  headers
+;;
+
+let delete headers ~key =
+  let key = Js.string key in
+  let () = headers##delete key in
+  headers
+;;
+
+let get headers ~key =
+  let key = Js.string key in
+  let open Nullable in
+  Js.to_string <$> headers##get key |> to_option
+;;
+
+let has headers ~key =
+  let key = Js.string key in
+  headers##has key |> Js.to_bool
+;;
+
+let set headers ~key ~value =
+  let key = Js.string key
+  and value = Js.string value in
+  let () = headers##set key value in
+  headers
+;;
+
+let make args =
+  let headers = new%js constr () in
+  List.fold_left
+    (fun headers (key, value) -> append headers ~key ~value)
+    headers
+    args
+;;
