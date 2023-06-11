@@ -20,46 +20,32 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-(** [Nightmare_js] provides an API for working with the web browser (via
-    [Js_of_ocaml]) and tries to provide bindings missing from the standard
-    [Js_of_ocaml] library. *)
+(** JavaScript's usual stream binding. *)
 
-(** {1 Types}
+open Js_of_ocaml
 
-    Some common type aliases to simplify function signatures. *)
+module Reader : sig
+  (** A [Reader] represents a default reader that can be used to read stream
+      data supplied from a network (such as a fetch request). *)
 
-(**/**)
+  type 'a t = 'a Bindings.readable_stream_default_reader Js.t
 
-module Aliases = Aliases
+  val is_closed : 'a t -> bool
+  val cancel : ?reason:string -> 'a t -> unit Lwt.t
+  val close : 'a t -> unit Lwt.t
+  val read : 'a t -> (bool * 'a) Lwt.t
+  val read_string : 'a t -> (bool * string) Lwt.t
+  val release_lock : 'a t -> unit
+end
 
-(**/**)
+module Readable : sig
+  (** The ReadableStream interface of the Streams API represents a readable
+      stream of byte data. The Fetch API offers a concrete instance of a
+      ReadableStream through the body property of a Response object. *)
 
-include module type of Aliases (** @inline *)
+  type 'a t = 'a Bindings.readable_stream Js.t
 
-(** {2 Optional values} *)
-
-module Optional = Optional
-module Option = Optional.Option
-module Nullable = Optional.Nullable
-module Undefinable = Optional.Undefinable
-
-(** {2 Promise} *)
-
-module Promise = Promise
-
-(** {2 Streaming} *)
-
-module Stream = Stream
-
-(** {2 Http} *)
-
-module Headers = Headers
-
-(** {2 Web Storage API} *)
-
-module Storage = Storage
-
-(** {1 Utils} *)
-
-module Console = Console
-module Suspension = Suspension
+  val is_locked : 'a t -> bool
+  val cancel : ?reason:string -> 'a t -> unit Lwt.t
+  val get_reader : 'a t -> 'a Reader.t
+end

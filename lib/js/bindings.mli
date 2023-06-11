@@ -48,6 +48,39 @@ class type console_hook =
     {{:https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API} MDN
       documentation} *)
 
+class type ['a] readable_stream_result =
+  object
+    method _done : bool t readonly_prop
+    method value : 'a readonly_prop
+  end
+
+class type ['a] readable_stream_default_reader =
+  object
+    method closed : bool t readonly_prop
+    method cancel : js_string t or_undefined -> unit Promise.t meth
+    method close : unit Promise.t meth
+    method read : 'a readable_stream_result t Promise.t meth
+    method releaseLock : unit meth
+  end
+
+class type ['a] readable_stream =
+  object
+    method locked : bool t readonly_prop
+    method cancel : js_string t or_undefined -> unit Promise.t meth
+    method getReader : 'a readable_stream_default_reader t meth
+  end
+
+class type blob =
+  object
+    method size : int readonly_prop
+    method _type : js_string t readonly_prop
+    method arrayBuffer : Typed_array.arrayBuffer t Promise.t meth
+    method slice : int -> int -> blob t meth
+    method slice_withContentType : int -> int -> js_string t -> blob t meth
+    method stream : Typed_array.uint8Array t readable_stream t meth
+    method text : js_string t Promise.t meth
+  end
+
 class type http_headers =
   object
     method append : js_string t -> js_string t -> unit meth

@@ -30,4 +30,5 @@ module Console = Console
 module Storage = Storage
 module Suspension = Suspension
 module Promise = Promise
+module Stream = Stream
 module Headers = Headers
