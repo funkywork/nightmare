@@ -32,3 +32,6 @@ module Suspension = Suspension
 module Promise = Promise
 module Stream = Stream
 module Headers = Headers
+module Blob = Blob
+module Form_data = Form_data
+module Url_search_params = Url_search_params

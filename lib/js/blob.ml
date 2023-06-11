@@ -20,49 +20,40 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-(** [Nightmare_js] provides an API for working with the web browser (via
-    [Js_of_ocaml]) and tries to provide bindings missing from the standard
-    [Js_of_ocaml] library. *)
+open Js_of_ocaml
 
-(** {1 Types}
+type t = Bindings.blob Js.t
 
-    Some common type aliases to simplify function signatures. *)
+let size b = b##.size
+let content_type b = b##._type |> Js.to_string
+let array_buffer b = b##arrayBuffer |> Promise.as_lwt
 
-(**/**)
+let slice ?content_type ~start ~stop b =
+  let open Optional.Option in
+  let content_type = Js.string <$> content_type |> to_optdef in
+  b##slice start stop content_type
+;;
 
-module Aliases = Aliases
+let stream b = b##stream
 
-(**/**)
+let text b =
+  let open Lwt.Syntax in
+  let+ tarr = b##text |> Promise.as_lwt in
+  Js.to_string tarr
+;;
 
-include module type of Aliases (** @inline *)
+let constr = Js.Unsafe.global##._Blob
 
-(** {2 Optional values} *)
-
-module Optional = Optional
-module Option = Optional.Option
-module Nullable = Optional.Nullable
-module Undefinable = Optional.Undefinable
-
-(** {2 Promise} *)
-
-module Promise = Promise
-
-(** {2 Streaming} *)
-
-module Stream = Stream
-
-(** {2 Http} *)
-
-module Headers = Headers
-module Blob = Blob
-module Form_data = Form_data
-module Url_search_params = Url_search_params
-
-(** {2 Web Storage API} *)
-
-module Storage = Storage
-
-(** {1 Utils} *)
-
-module Console = Console
-module Suspension = Suspension
+let make ?content_type values =
+  let open Optional.Option in
+  let content_type =
+    (fun ct ->
+      object%js
+        val _type = Js.string ct
+      end)
+    <$> content_type
+    |> to_optdef
+  in
+  let values = Util.from_list_to_js_array Js.string values in
+  new%js constr values content_type
+;;

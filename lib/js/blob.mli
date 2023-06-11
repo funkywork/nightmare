@@ -20,49 +20,18 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-(** [Nightmare_js] provides an API for working with the web browser (via
-    [Js_of_ocaml]) and tries to provide bindings missing from the standard
-    [Js_of_ocaml] library. *)
+(** The Blob object represents a blob, which is a file-like object of immutable,
+    raw data; they can be read as text or binary data, or converted into a
+    ReadableStream so its methods can be used for processing the data. *)
 
-(** {1 Types}
+open Js_of_ocaml
 
-    Some common type aliases to simplify function signatures. *)
+type t = Bindings.blob Js.t
 
-(**/**)
-
-module Aliases = Aliases
-
-(**/**)
-
-include module type of Aliases (** @inline *)
-
-(** {2 Optional values} *)
-
-module Optional = Optional
-module Option = Optional.Option
-module Nullable = Optional.Nullable
-module Undefinable = Optional.Undefinable
-
-(** {2 Promise} *)
-
-module Promise = Promise
-
-(** {2 Streaming} *)
-
-module Stream = Stream
-
-(** {2 Http} *)
-
-module Headers = Headers
-module Blob = Blob
-module Form_data = Form_data
-module Url_search_params = Url_search_params
-
-(** {2 Web Storage API} *)
-
-module Storage = Storage
-
-(** {1 Utils} *)
-
-module Console = Console
-module Suspension = Suspension
+val size : t -> int
+val content_type : t -> string
+val array_buffer : t -> Typed_array.arrayBuffer Js.t Lwt.t
+val slice : ?content_type:string -> start:int -> stop:int -> t -> t
+val stream : t -> Typed_array.uint8Array Js.t Stream.Readable.t
+val text : t -> string Lwt.t
+val make : ?content_type:string -> string list -> t

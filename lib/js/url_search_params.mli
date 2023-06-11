@@ -20,49 +20,27 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-(** [Nightmare_js] provides an API for working with the web browser (via
-    [Js_of_ocaml]) and tries to provide bindings missing from the standard
-    [Js_of_ocaml] library. *)
+(** The [Url_search_params] interface defines utility methods to work with the
+    query string of a URL. *)
 
-(** {1 Types}
+open Js_of_ocaml
 
-    Some common type aliases to simplify function signatures. *)
+(** {1 Types} *)
 
-(**/**)
+type t = Bindings.url_search_params Js.t
 
-module Aliases = Aliases
+(** {1 Constructing Url Search Params object} *)
 
-(**/**)
+(** [make query_string] build a new [Url Search Params] object. *)
+val make : string -> t
 
-include module type of Aliases (** @inline *)
+(** {1 Acting on Url Search Params} *)
 
-(** {2 Optional values} *)
-
-module Optional = Optional
-module Option = Optional.Option
-module Nullable = Optional.Nullable
-module Undefinable = Optional.Undefinable
-
-(** {2 Promise} *)
-
-module Promise = Promise
-
-(** {2 Streaming} *)
-
-module Stream = Stream
-
-(** {2 Http} *)
-
-module Headers = Headers
-module Blob = Blob
-module Form_data = Form_data
-module Url_search_params = Url_search_params
-
-(** {2 Web Storage API} *)
-
-module Storage = Storage
-
-(** {1 Utils} *)
-
-module Console = Console
-module Suspension = Suspension
+val append : t -> key:string -> value:string -> t
+val delete : t -> key:string -> t
+val set : t -> key:string -> value:string -> t
+val get : t -> key:string -> string option
+val get_all : t -> key:string -> string list
+val has : t -> key:string -> bool
+val to_string : t -> string
+val sort : t -> t

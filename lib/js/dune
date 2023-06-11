@@ -1,7 +1,7 @@
 (library
  (public_name nightmare_js)
  (name nightmare_js)
- (libraries preface js_of_ocaml-compiler.runtime lwt js_of_ocaml-lwt)
+ (libraries preface nightmare.service js_of_ocaml-compiler.runtime lwt js_of_ocaml-lwt)
  (modules_without_implementation aliases interfaces bindings)
  (modes byte)
  (js_of_ocaml

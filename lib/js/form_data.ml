@@ -20,49 +20,53 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-(** [Nightmare_js] provides an API for working with the web browser (via
-    [Js_of_ocaml]) and tries to provide bindings missing from the standard
-    [Js_of_ocaml] library. *)
+open Js_of_ocaml
+open Optional
 
-(** {1 Types}
+type t = Bindings.form_data Js.t
 
-    Some common type aliases to simplify function signatures. *)
+let constr : (unit -> t) Js.constr = Js.Unsafe.global##._FormData
 
-(**/**)
+let append form_data ~key ~value =
+  let key = Js.string key
+  and value = Js.string value in
+  let () = form_data##append key value in
+  form_data
+;;
 
-module Aliases = Aliases
+let delete form_data ~key =
+  let key = Js.string key in
+  let () = form_data##delete key in
+  form_data
+;;
 
-(**/**)
+let get form_data ~key =
+  let key = Js.string key in
+  let open Nullable in
+  Js.to_string <$> form_data##get key |> to_option
+;;
 
-include module type of Aliases (** @inline *)
+let get_all form_data ~key =
+  let key = Js.string key in
+  form_data##getAll key |> Js.to_array |> Array.to_list |> List.map Js.to_string
+;;
 
-(** {2 Optional values} *)
+let has form_data ~key =
+  let key = Js.string key in
+  form_data##has key |> Js.to_bool
+;;
 
-module Optional = Optional
-module Option = Optional.Option
-module Nullable = Optional.Nullable
-module Undefinable = Optional.Undefinable
+let set form_data ~key ~value =
+  let key = Js.string key
+  and value = Js.string value in
+  let () = form_data##set key value in
+  form_data
+;;
 
-(** {2 Promise} *)
-
-module Promise = Promise
-
-(** {2 Streaming} *)
-
-module Stream = Stream
-
-(** {2 Http} *)
-
-module Headers = Headers
-module Blob = Blob
-module Form_data = Form_data
-module Url_search_params = Url_search_params
-
-(** {2 Web Storage API} *)
-
-module Storage = Storage
-
-(** {1 Utils} *)
-
-module Console = Console
-module Suspension = Suspension
+let make args =
+  let form_data = new%js constr () in
+  List.fold_left
+    (fun form_data (key, value) -> append form_data ~key ~value)
+    form_data
+    args
+;;

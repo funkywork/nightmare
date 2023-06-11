@@ -75,8 +75,7 @@ class type blob =
     method size : int readonly_prop
     method _type : js_string t readonly_prop
     method arrayBuffer : Typed_array.arrayBuffer t Promise.t meth
-    method slice : int -> int -> blob t meth
-    method slice_withContentType : int -> int -> js_string t -> blob t meth
+    method slice : int -> int -> js_string t or_undefined -> blob t meth
     method stream : Typed_array.uint8Array t readable_stream t meth
     method text : js_string t Promise.t meth
   end
@@ -90,8 +89,48 @@ class type http_headers =
     method set : js_string t -> js_string t -> unit meth
   end
 
+class type form_data =
+  object
+    inherit http_headers
+    method getAll : js_string t -> js_string t js_array t meth
+  end
+
+class type url_search_params =
+  object
+    inherit form_data
+    method toString : js_string t meth
+    method sort : unit meth
+  end
+
+type fetch_body
+
 class type fetch_options =
   object
     method _method : js_string t readonly_prop
     method headers : http_headers t or_undefined readonly_prop
+    method body : fetch_body t or_undefined readonly_prop
+    method mode : js_string t or_undefined readonly_prop
+    method credentials : js_string t or_undefined readonly_prop
+    method cache : js_string t or_undefined readonly_prop
+    method redirect : js_string t or_undefined readonly_prop
+    method referrer : js_string t or_undefined readonly_prop
+    method referrerPolicy : js_string t or_undefined readonly_prop
+    method integrity : js_string t or_undefined readonly_prop
+    method keepalive : bool t or_undefined readonly_prop
+  end
+
+class type fetch_response =
+  object
+    method headers : http_headers t readonly_prop
+    method ok : bool t readonly_prop
+    method redirected : bool t readonly_prop
+    method status : int readonly_prop
+    method statusText : js_string t readonly_prop
+    method _type : js_string t readonly_prop
+    method url : js_string t readonly_prop
+    method body : Typed_array.int8Array t readable_stream t readonly_prop
+    method text : js_string t Promise.t meth
+    method arrayBuffer : Typed_array.arrayBuffer t Promise.t meth
+    method blob : blob t Promise.t meth
+    method formData : form_data t Promise.t meth
   end
