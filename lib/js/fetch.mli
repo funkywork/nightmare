@@ -33,6 +33,7 @@ type body =
   | `FormData of Form_data.t
   | `UrlSearchParams of Url_search_params.t
   | `String of string
+  | `ReadableStream of Typed_array.uint8Array Js.t Stream.Readable.t
   ]
 
 type mode =
@@ -125,6 +126,104 @@ val get
 
 val head
   :  ?headers:Headers.t
+  -> ?mode:mode
+  -> ?credentials:credentials
+  -> ?cache:cache
+  -> ?redirect:redirect
+  -> ?referrer:referrer
+  -> ?referrer_policy:referrer_policy
+  -> ?integrity:string
+  -> ?keepalive:bool
+  -> string
+  -> Response.t Lwt.t
+
+val post
+  :  ?headers:Headers.t
+  -> ?body:body
+  -> ?mode:mode
+  -> ?credentials:credentials
+  -> ?cache:cache
+  -> ?redirect:redirect
+  -> ?referrer:referrer
+  -> ?referrer_policy:referrer_policy
+  -> ?integrity:string
+  -> ?keepalive:bool
+  -> string
+  -> Response.t Lwt.t
+
+val put
+  :  ?headers:Headers.t
+  -> ?body:body
+  -> ?mode:mode
+  -> ?credentials:credentials
+  -> ?cache:cache
+  -> ?redirect:redirect
+  -> ?referrer:referrer
+  -> ?referrer_policy:referrer_policy
+  -> ?integrity:string
+  -> ?keepalive:bool
+  -> string
+  -> Response.t Lwt.t
+
+val delete
+  :  ?headers:Headers.t
+  -> ?body:body
+  -> ?mode:mode
+  -> ?credentials:credentials
+  -> ?cache:cache
+  -> ?redirect:redirect
+  -> ?referrer:referrer
+  -> ?referrer_policy:referrer_policy
+  -> ?integrity:string
+  -> ?keepalive:bool
+  -> string
+  -> Response.t Lwt.t
+
+val connect
+  :  ?headers:Headers.t
+  -> ?body:body
+  -> ?mode:mode
+  -> ?credentials:credentials
+  -> ?cache:cache
+  -> ?redirect:redirect
+  -> ?referrer:referrer
+  -> ?referrer_policy:referrer_policy
+  -> ?integrity:string
+  -> ?keepalive:bool
+  -> string
+  -> Response.t Lwt.t
+
+val options
+  :  ?headers:Headers.t
+  -> ?body:body
+  -> ?mode:mode
+  -> ?credentials:credentials
+  -> ?cache:cache
+  -> ?redirect:redirect
+  -> ?referrer:referrer
+  -> ?referrer_policy:referrer_policy
+  -> ?integrity:string
+  -> ?keepalive:bool
+  -> string
+  -> Response.t Lwt.t
+
+val trace
+  :  ?headers:Headers.t
+  -> ?body:body
+  -> ?mode:mode
+  -> ?credentials:credentials
+  -> ?cache:cache
+  -> ?redirect:redirect
+  -> ?referrer:referrer
+  -> ?referrer_policy:referrer_policy
+  -> ?integrity:string
+  -> ?keepalive:bool
+  -> string
+  -> Response.t Lwt.t
+
+val patch
+  :  ?headers:Headers.t
+  -> ?body:body
   -> ?mode:mode
   -> ?credentials:credentials
   -> ?cache:cache

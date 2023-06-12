@@ -27,6 +27,7 @@ type body =
   | `FormData of Form_data.t
   | `UrlSearchParams of Url_search_params.t
   | `String of string
+  | `ReadableStream of Typed_array.uint8Array Js.t Stream.Readable.t
   ]
 
 type mode =
@@ -88,6 +89,7 @@ let pack_body x : Bindings.fetch_body Js.t =
   | `FormData f -> Js.Unsafe.coerce f
   | `UrlSearchParams p -> Js.Unsafe.coerce p
   | `String x -> Js.Unsafe.coerce (Js.string x)
+  | `ReadableStream s -> Js.Unsafe.coerce s
 ;;
 
 let mode_to_string = function
@@ -209,3 +211,10 @@ let fetch
 
 let get = fetch ~method_:`GET ?body:None
 let head = fetch ~method_:`HEAD ?body:None
+let post = fetch ~method_:`POST
+let put = fetch ~method_:`PUT
+let delete = fetch ~method_:`DELETE
+let connect = fetch ~method_:`CONNECT
+let options = fetch ~method_:`OPTIONS
+let trace = fetch ~method_:`TRACE
+let patch = fetch ~method_:`PATCH
