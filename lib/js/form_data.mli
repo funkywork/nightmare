@@ -20,19 +20,25 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-module Aliases = Aliases
-include Aliases
-module Optional = Optional
-module Option = Optional.Option
-module Nullable = Optional.Nullable
-module Undefinable = Optional.Undefinable
-module Console = Console
-module Storage = Storage
-module Suspension = Suspension
-module Promise = Promise
-module Stream = Stream
-module Headers = Headers
-module Blob = Blob
-module Form_data = Form_data
-module Url_search_params = Url_search_params
-module Fetch = Fetch
+(** The [Form_data] interface provides a way to construct a set of key/value
+    pairs representing form fields and their values). *)
+
+open Js_of_ocaml
+
+(** {1 Types} *)
+
+type t = Bindings.form_data Js.t
+
+(** {1 Constructing Form_data object} *)
+
+(** [make key_value_list] build a new [Form_data] object. *)
+val make : (string * string) list -> t
+
+(** {1 Acting on Form_data} *)
+
+val append : t -> key:string -> value:string -> t
+val delete : t -> key:string -> t
+val set : t -> key:string -> value:string -> t
+val get : t -> key:string -> string option
+val get_all : t -> key:string -> string list
+val has : t -> key:string -> bool

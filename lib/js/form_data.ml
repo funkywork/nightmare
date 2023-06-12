@@ -20,19 +20,53 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-module Aliases = Aliases
-include Aliases
-module Optional = Optional
-module Option = Optional.Option
-module Nullable = Optional.Nullable
-module Undefinable = Optional.Undefinable
-module Console = Console
-module Storage = Storage
-module Suspension = Suspension
-module Promise = Promise
-module Stream = Stream
-module Headers = Headers
-module Blob = Blob
-module Form_data = Form_data
-module Url_search_params = Url_search_params
-module Fetch = Fetch
+open Js_of_ocaml
+open Optional
+
+type t = Bindings.form_data Js.t
+
+let constr : (unit -> t) Js.constr = Js.Unsafe.global##._FormData
+
+let append form_data ~key ~value =
+  let key = Js.string key
+  and value = Js.string value in
+  let () = form_data##append key value in
+  form_data
+;;
+
+let delete form_data ~key =
+  let key = Js.string key in
+  let () = form_data##delete key in
+  form_data
+;;
+
+let get form_data ~key =
+  let key = Js.string key in
+  let open Nullable in
+  Js.to_string <$> form_data##get key |> to_option
+;;
+
+let get_all form_data ~key =
+  let key = Js.string key in
+  form_data##getAll key |> Js.to_array |> Array.to_list |> List.map Js.to_string
+;;
+
+let has form_data ~key =
+  let key = Js.string key in
+  form_data##has key |> Js.to_bool
+;;
+
+let set form_data ~key ~value =
+  let key = Js.string key
+  and value = Js.string value in
+  let () = form_data##set key value in
+  form_data
+;;
+
+let make args =
+  let form_data = new%js constr () in
+  List.fold_left
+    (fun form_data (key, value) -> append form_data ~key ~value)
+    form_data
+    args
+;;

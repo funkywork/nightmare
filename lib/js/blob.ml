@@ -20,19 +20,40 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-module Aliases = Aliases
-include Aliases
-module Optional = Optional
-module Option = Optional.Option
-module Nullable = Optional.Nullable
-module Undefinable = Optional.Undefinable
-module Console = Console
-module Storage = Storage
-module Suspension = Suspension
-module Promise = Promise
-module Stream = Stream
-module Headers = Headers
-module Blob = Blob
-module Form_data = Form_data
-module Url_search_params = Url_search_params
-module Fetch = Fetch
+open Js_of_ocaml
+
+type t = Bindings.blob Js.t
+
+let size b = b##.size
+let content_type b = b##._type |> Js.to_string
+let array_buffer b = b##arrayBuffer |> Promise.as_lwt
+
+let slice ?content_type ~start ~stop b =
+  let open Optional.Option in
+  let content_type = Js.string <$> content_type |> to_optdef in
+  b##slice start stop content_type
+;;
+
+let stream b = b##stream
+
+let text b =
+  let open Lwt.Syntax in
+  let+ tarr = b##text |> Promise.as_lwt in
+  Js.to_string tarr
+;;
+
+let constr = Js.Unsafe.global##._Blob
+
+let make ?content_type values =
+  let open Optional.Option in
+  let content_type =
+    (fun ct ->
+      object%js
+        val _type = Js.string ct
+      end)
+    <$> content_type
+    |> to_optdef
+  in
+  let values = Util.from_list_to_js_array Js.string values in
+  new%js constr values content_type
+;;

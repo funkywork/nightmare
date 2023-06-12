@@ -20,19 +20,18 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-module Aliases = Aliases
-include Aliases
-module Optional = Optional
-module Option = Optional.Option
-module Nullable = Optional.Nullable
-module Undefinable = Optional.Undefinable
-module Console = Console
-module Storage = Storage
-module Suspension = Suspension
-module Promise = Promise
-module Stream = Stream
-module Headers = Headers
-module Blob = Blob
-module Form_data = Form_data
-module Url_search_params = Url_search_params
-module Fetch = Fetch
+(** The Blob object represents a blob, which is a file-like object of immutable,
+    raw data; they can be read as text or binary data, or converted into a
+    ReadableStream so its methods can be used for processing the data. *)
+
+open Js_of_ocaml
+
+type t = Bindings.blob Js.t
+
+val size : t -> int
+val content_type : t -> string
+val array_buffer : t -> Typed_array.arrayBuffer Js.t Lwt.t
+val slice : ?content_type:string -> start:int -> stop:int -> t -> t
+val stream : t -> Typed_array.uint8Array Js.t Stream.Readable.t
+val text : t -> string Lwt.t
+val make : ?content_type:string -> string list -> t

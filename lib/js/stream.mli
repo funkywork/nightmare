@@ -20,19 +20,32 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-module Aliases = Aliases
-include Aliases
-module Optional = Optional
-module Option = Optional.Option
-module Nullable = Optional.Nullable
-module Undefinable = Optional.Undefinable
-module Console = Console
-module Storage = Storage
-module Suspension = Suspension
-module Promise = Promise
-module Stream = Stream
-module Headers = Headers
-module Blob = Blob
-module Form_data = Form_data
-module Url_search_params = Url_search_params
-module Fetch = Fetch
+(** JavaScript's usual stream binding. *)
+
+open Js_of_ocaml
+
+module Reader : sig
+  (** A [Reader] represents a default reader that can be used to read stream
+      data supplied from a network (such as a fetch request). *)
+
+  type 'a t = 'a Bindings.readable_stream_default_reader Js.t
+
+  val is_closed : 'a t -> bool
+  val cancel : ?reason:string -> 'a t -> unit Lwt.t
+  val close : 'a t -> unit Lwt.t
+  val read : 'a t -> (bool * 'a) Lwt.t
+  val read_string : 'a t -> (bool * string) Lwt.t
+  val release_lock : 'a t -> unit
+end
+
+module Readable : sig
+  (** The ReadableStream interface of the Streams API represents a readable
+      stream of byte data. The Fetch API offers a concrete instance of a
+      ReadableStream through the body property of a Response object. *)
+
+  type 'a t = 'a Bindings.readable_stream Js.t
+
+  val is_locked : 'a t -> bool
+  val cancel : ?reason:string -> 'a t -> unit Lwt.t
+  val get_reader : 'a t -> 'a Reader.t
+end

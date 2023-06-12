@@ -20,19 +20,24 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-module Aliases = Aliases
-include Aliases
-module Optional = Optional
-module Option = Optional.Option
-module Nullable = Optional.Nullable
-module Undefinable = Optional.Undefinable
-module Console = Console
-module Storage = Storage
-module Suspension = Suspension
-module Promise = Promise
-module Stream = Stream
-module Headers = Headers
-module Blob = Blob
-module Form_data = Form_data
-module Url_search_params = Url_search_params
-module Fetch = Fetch
+(** A very simple binding of HTTP headers in JavaScript (mainly implemented to
+    build the [fetch] function). *)
+
+open Js_of_ocaml
+
+(** {1 Types} *)
+
+type t = Bindings.http_headers Js.t
+
+(** {1 Constructing Headers object} *)
+
+(** [make key_value_list] build a new [Headers] object. *)
+val make : (string * string) list -> t
+
+(** {1 Acting on headers} *)
+
+val append : t -> key:string -> value:string -> t
+val delete : t -> key:string -> t
+val set : t -> key:string -> value:string -> t
+val get : t -> key:string -> string option
+val has : t -> key:string -> bool

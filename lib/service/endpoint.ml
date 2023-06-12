@@ -136,12 +136,14 @@ let render_parameters = function
     Option.fold ~none:"" ~some:(fun qs -> "?" ^ qs) query_string
 ;;
 
-let href_with ?anchor ?parameters endpoint handler =
+let gen_link ?anchor ?parameters endpoint handler =
   let anchor = render_anchor anchor
   and query_string = render_parameters parameters in
   handle_path_with endpoint (fun link ->
     handler @@ link ^ query_string ^ anchor)
 ;;
+
+let href_with = gen_link
 
 let href ?anchor ?parameters endpoint =
   href_with ?anchor ?parameters endpoint (fun x -> x)
@@ -185,3 +187,18 @@ module Variables = Path.Preset
 include Path.Preset
 
 let root = Path.root
+
+let method_of : type scope. (scope, Method.t, _, _) wrapped -> [> Method.t ] =
+ fun endpoint ->
+  let (Inner x | Outer (_, x)) = endpoint () in
+  match x with
+  | GET _ -> `GET
+  | POST _ -> `POST
+  | PUT _ -> `PUT
+  | DELETE _ -> `DELETE
+  | HEAD _ -> `HEAD
+  | CONNECT _ -> `CONNECT
+  | OPTIONS _ -> `OPTIONS
+  | TRACE _ -> `TRACE
+  | PATCH _ -> `PATCH
+;;

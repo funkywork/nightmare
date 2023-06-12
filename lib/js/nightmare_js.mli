@@ -47,6 +47,18 @@ module Undefinable = Optional.Undefinable
 
 module Promise = Promise
 
+(** {2 Streaming} *)
+
+module Stream = Stream
+
+(** {2 Http} *)
+
+module Headers = Headers
+module Blob = Blob
+module Form_data = Form_data
+module Url_search_params = Url_search_params
+module Fetch = Fetch
+
 (** {2 Web Storage API} *)
 
 module Storage = Storage

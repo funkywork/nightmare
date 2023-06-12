@@ -20,19 +20,27 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. *)
 
-module Aliases = Aliases
-include Aliases
-module Optional = Optional
-module Option = Optional.Option
-module Nullable = Optional.Nullable
-module Undefinable = Optional.Undefinable
-module Console = Console
-module Storage = Storage
-module Suspension = Suspension
-module Promise = Promise
-module Stream = Stream
-module Headers = Headers
-module Blob = Blob
-module Form_data = Form_data
-module Url_search_params = Url_search_params
-module Fetch = Fetch
+(** The [Url_search_params] interface defines utility methods to work with the
+    query string of a URL. *)
+
+open Js_of_ocaml
+
+(** {1 Types} *)
+
+type t = Bindings.url_search_params Js.t
+
+(** {1 Constructing Url Search Params object} *)
+
+(** [make query_string] build a new [Url Search Params] object. *)
+val make : string -> t
+
+(** {1 Acting on Url Search Params} *)
+
+val append : t -> key:string -> value:string -> t
+val delete : t -> key:string -> t
+val set : t -> key:string -> value:string -> t
+val get : t -> key:string -> string option
+val get_all : t -> key:string -> string list
+val has : t -> key:string -> bool
+val to_string : t -> string
+val sort : t -> t

@@ -10,11 +10,21 @@ let home _request =
     ~page_subtitle:"A more or less organised list of examples using Nightmare"
     ~links:[]
     [ ul
-        [ li [ a_of Endpoint.Simple_routing.home [ txt "Simple routing" ] ]
+        [ li
+            [ a_of Shared.Endpoint.Simple_routing.home [ txt "Simple routing" ]
+            ]
         ; li
             [ a_of
-                Endpoint.Counter_vdom.home
+                Shared.Endpoint.Counter_vdom.home
                 [ txt "The classical counter using VDom" ]
+            ]
+        ; li
+            [ a_of
+                Shared.Endpoint.Server_side_counter.home
+                [ txt
+                    "A simple counter using VDom that compute the state on the \
+                     server-side"
+                ]
             ]
         ]
     ; script
@@ -26,14 +36,14 @@ let home _request =
 
 module Simple_routing = struct
   open struct
-    open Endpoint.Simple_routing
+    open Shared.Endpoint.Simple_routing
 
     let page =
       Template.default
         ~example_title:"Simple routing"
         ~example_subtitle:"A very simple example of routing using services"
         ~links:
-          [ a_of Endpoint.home [ txt "Index" ]
+          [ a_of Shared.Endpoint.home [ txt "Index" ]
           ; a_of home [ txt "Home" ]
           ; a_of hello "Alice" [ txt "Say hello to Alice" ]
           ; a_of about [ txt "About" ]
@@ -68,7 +78,7 @@ module Simple_routing = struct
       ; ul
           [ li
               [ a_of
-                  Endpoint.External.github_repository
+                  Shared.Endpoint.External.github_repository
                   "aantron"
                   "dream"
                   [ txt "Dream" ]
@@ -76,7 +86,7 @@ module Simple_routing = struct
               ]
           ; li
               [ a_of
-                  Endpoint.External.github_repository
+                  Shared.Endpoint.External.github_repository
                   "ocsigen"
                   "tyxml"
                   [ txt "TyXML" ]
@@ -84,7 +94,7 @@ module Simple_routing = struct
               ]
           ; li
               [ a_of
-                  Endpoint.External.github_repository
+                  Shared.Endpoint.External.github_repository
                   "funkywork"
                   "nightmare"
                   [ txt "Nightmare.service, Nightmare-dream and Nightmare-tyxml"
@@ -100,7 +110,7 @@ module Simple_routing = struct
   ;;
 
   let hello name _request =
-    let open Endpoint.Simple_routing in
+    let open Shared.Endpoint.Simple_routing in
     page
       ~title:"Hello"
       ~page_title:("Hello " ^ name)
@@ -126,14 +136,14 @@ end
 
 module Counter_vdom = struct
   open struct
-    open Endpoint.Counter_vdom
+    open Shared.Endpoint.Counter_vdom
 
     let page =
       Template.default
         ~example_title:"Simple counter using VDom"
         ~example_subtitle:"A very simple example of counter using VDom"
         ~links:
-          [ a_of Endpoint.home [ txt "Index" ]
+          [ a_of Shared.Endpoint.home [ txt "Index" ]
           ; a_of home [ txt "Home" ]
           ; a_of about [ txt "About" ]
           ]
@@ -148,7 +158,7 @@ module Counter_vdom = struct
       [ p
           [ txt
               "You are on a very simple page that simply demonstrates the use \
-               of services to build a router and links between pages."
+               of ocaml-vdom inside of Nightmare."
           ]
       ; div ~a:[ a_id "simple-counter-app" ] [ txt "Loading the application" ]
       ; script
@@ -174,7 +184,7 @@ module Counter_vdom = struct
       ; ul
           [ li
               [ a_of
-                  Endpoint.External.github_repository
+                  Shared.Endpoint.External.github_repository
                   "aantron"
                   "dream"
                   [ txt "Dream" ]
@@ -182,7 +192,7 @@ module Counter_vdom = struct
               ]
           ; li
               [ a_of
-                  Endpoint.External.github_repository
+                  Shared.Endpoint.External.github_repository
                   "ocsigen"
                   "tyxml"
                   [ txt "TyXML" ]
@@ -190,7 +200,7 @@ module Counter_vdom = struct
               ]
           ; li
               [ a_of
-                  Endpoint.External.github_repository
+                  Shared.Endpoint.External.github_repository
                   "lexifi"
                   "ocaml-vdom"
                   [ txt "OCaml-VDom" ]
@@ -198,7 +208,102 @@ module Counter_vdom = struct
               ]
           ; li
               [ a_of
-                  Endpoint.External.github_repository
+                  Shared.Endpoint.External.github_repository
+                  "funkywork"
+                  "nightmare"
+                  [ txt
+                      "Nightmare.service, Nightmare-dream and Nightmare-tyxml \
+                       and Nightmare_js-vdom"
+                  ]
+              ; span
+                  [ txt
+                      " - To describe the services and provide the glue \
+                       between Dream, TyXML and Nightmare"
+                  ]
+              ]
+          ]
+      ]
+  ;;
+end
+
+module Server_side_counter = struct
+  open struct
+    open Shared.Endpoint.Server_side_counter
+
+    let page =
+      Template.default
+        ~example_title:"Simple server-side counter using VDom"
+        ~example_subtitle:
+          "A very simple example of counter that is computed on the \
+           server-side,  using VDom"
+        ~links:
+          [ a_of Shared.Endpoint.home [ txt "Index" ]
+          ; a_of home [ txt "Home" ]
+          ; a_of about [ txt "About" ]
+          ]
+    ;;
+  end
+
+  let home _request =
+    page
+      ~title:"Home"
+      ~page_title:"Welcome to your Nightmare App"
+      ~page_subtitle:"This is the entry point of the application"
+      [ p
+          [ txt
+              "This is the a similar example of simple counter but the counter \
+               is computed on the server-side"
+          ]
+      ; div ~a:[ a_id "simple-counter-app" ] [ txt "Loading the application" ]
+      ; script
+          (txt
+             {js|
+             nightmare_js.suspend(function(){
+               nightmare_example.mountServerCounterVdom('simple-counter-app');
+             });|js})
+      ]
+  ;;
+
+  let about _request =
+    page
+      ~title:"About"
+      ~page_title:"About your Nightmare App"
+      ~page_subtitle:"More information about this example"
+      [ p
+          [ txt
+              "This is a very simple example that mounts an application in a \
+               div described using ocaml-vdom and that uses [fetch] for making \
+               async request to the server"
+          ]
+      ; p [ txt "This example uses these different libraries:" ]
+      ; ul
+          [ li
+              [ a_of
+                  Shared.Endpoint.External.github_repository
+                  "aantron"
+                  "dream"
+                  [ txt "Dream" ]
+              ; span [ txt " - As a low-level web framework" ]
+              ]
+          ; li
+              [ a_of
+                  Shared.Endpoint.External.github_repository
+                  "ocsigen"
+                  "tyxml"
+                  [ txt "TyXML" ]
+              ; span [ txt " - To build statically validated HTML nodes" ]
+              ]
+          ; li
+              [ a_of
+                  Shared.Endpoint.External.github_repository
+                  "lexifi"
+                  "ocaml-vdom"
+                  [ txt "OCaml-VDom" ]
+              ; span [ txt " - To build a SPA using Virtual DOM" ]
+              ]
+          ; li
+              [ a_of
+                  Shared.Endpoint.External.github_repository
                   "funkywork"
                   "nightmare"
                   [ txt
