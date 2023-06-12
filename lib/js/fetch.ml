@@ -218,3 +218,37 @@ let connect = fetch ~method_:`CONNECT
 let options = fetch ~method_:`OPTIONS
 let trace = fetch ~method_:`TRACE
 let patch = fetch ~method_:`PATCH
+
+let fetch_from ?parameters endpoint =
+  let method_ = Nightmare_service.Endpoint.method_of endpoint in
+  Nightmare_service.Endpoint.gen_link
+    ?parameters
+    endpoint
+    (fun
+      target
+      ?headers
+      ?body
+      ?mode
+      ?credentials
+      ?cache
+      ?redirect
+      ?referrer
+      ?referrer_policy
+      ?integrity
+      ?keepalive
+      ()
+    ->
+    fetch
+      ~method_
+      ?headers
+      ?body
+      ?mode
+      ?credentials
+      ?cache
+      ?redirect
+      ?referrer
+      ?referrer_policy
+      ?integrity
+      ?keepalive
+      target)
+;;

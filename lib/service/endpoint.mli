@@ -231,6 +231,14 @@ val form_action_with
   -> (string -> 'witness)
   -> 'continuation
 
+(** [gen_link] is like [href_with] but with relexed constraints on methods.*)
+val gen_link
+  :  ?anchor:string
+  -> ?parameters:(string * string) list
+  -> (_, [< Method.t ], 'continuation, 'witness) wrapped
+  -> (string -> 'witness)
+  -> 'continuation
+
 (** {1 Scanning and interpreting}
 
     After being able to generate links (for [a] tags or as a form action) it is
@@ -277,3 +285,6 @@ include module type of Path.Preset (** @closed *)
 (** [root] returns the root of a {{!type:t} path}. Every path starts with a
     root. *)
 val root : ('witness, 'witness) Path.t
+
+(** [method_of enpoint] returns the method of the endpoint. *)
+val method_of : (_, Method.t, _, _) wrapped -> [> Method.t ]

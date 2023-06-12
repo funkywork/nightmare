@@ -234,3 +234,25 @@ val patch
   -> ?keepalive:bool
   -> string
   -> Response.t Lwt.t
+
+(** {2 Fetch from endpoint} *)
+
+val fetch_from
+  :  ?parameters:(string * string) list
+  -> ( _
+     , Nightmare_service.Method.t
+     , 'continuation
+     , ?headers:Headers.t
+       -> ?body:body
+       -> ?mode:mode
+       -> ?credentials:credentials
+       -> ?cache:cache
+       -> ?redirect:redirect
+       -> ?referrer:referrer
+       -> ?referrer_policy:referrer_policy
+       -> ?integrity:string
+       -> ?keepalive:bool
+       -> unit
+       -> Response.t Lwt.t )
+     Nightmare_service.Endpoint.wrapped
+  -> 'continuation
