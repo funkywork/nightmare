@@ -1,3 +1,9 @@
 (executable
  (name main)
- (libraries dream tyxml nightmare.service nightmare_dream nightmare_tyxml))
+ (libraries
+  dream
+  tyxml
+  nightmare.service
+  nightmare_dream
+  nightmare_tyxml
+  shared))

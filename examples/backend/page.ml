@@ -10,15 +10,17 @@ let home _request =
     ~page_subtitle:"A more or less organised list of examples using Nightmare"
     ~links:[]
     [ ul
-        [ li [ a_of Endpoint.Simple_routing.home [ txt "Simple routing" ] ]
+        [ li
+            [ a_of Shared.Endpoint.Simple_routing.home [ txt "Simple routing" ]
+            ]
         ; li
             [ a_of
-                Endpoint.Counter_vdom.home
+                Shared.Endpoint.Counter_vdom.home
                 [ txt "The classical counter using VDom" ]
             ]
         ; li
             [ a_of
-                Endpoint.Server_side_counter.home
+                Shared.Endpoint.Server_side_counter.home
                 [ txt
                     "A simple counter using VDom that compute the state on the \
                      server-side"
@@ -34,14 +36,14 @@ let home _request =
 
 module Simple_routing = struct
   open struct
-    open Endpoint.Simple_routing
+    open Shared.Endpoint.Simple_routing
 
     let page =
       Template.default
         ~example_title:"Simple routing"
         ~example_subtitle:"A very simple example of routing using services"
         ~links:
-          [ a_of Endpoint.home [ txt "Index" ]
+          [ a_of Shared.Endpoint.home [ txt "Index" ]
           ; a_of home [ txt "Home" ]
           ; a_of hello "Alice" [ txt "Say hello to Alice" ]
           ; a_of about [ txt "About" ]
@@ -76,7 +78,7 @@ module Simple_routing = struct
       ; ul
           [ li
               [ a_of
-                  Endpoint.External.github_repository
+                  Shared.Endpoint.External.github_repository
                   "aantron"
                   "dream"
                   [ txt "Dream" ]
@@ -84,7 +86,7 @@ module Simple_routing = struct
               ]
           ; li
               [ a_of
-                  Endpoint.External.github_repository
+                  Shared.Endpoint.External.github_repository
                   "ocsigen"
                   "tyxml"
                   [ txt "TyXML" ]
@@ -92,7 +94,7 @@ module Simple_routing = struct
               ]
           ; li
               [ a_of
-                  Endpoint.External.github_repository
+                  Shared.Endpoint.External.github_repository
                   "funkywork"
                   "nightmare"
                   [ txt "Nightmare.service, Nightmare-dream and Nightmare-tyxml"
@@ -108,7 +110,7 @@ module Simple_routing = struct
   ;;
 
   let hello name _request =
-    let open Endpoint.Simple_routing in
+    let open Shared.Endpoint.Simple_routing in
     page
       ~title:"Hello"
       ~page_title:("Hello " ^ name)
@@ -134,14 +136,14 @@ end
 
 module Counter_vdom = struct
   open struct
-    open Endpoint.Counter_vdom
+    open Shared.Endpoint.Counter_vdom
 
     let page =
       Template.default
         ~example_title:"Simple counter using VDom"
         ~example_subtitle:"A very simple example of counter using VDom"
         ~links:
-          [ a_of Endpoint.home [ txt "Index" ]
+          [ a_of Shared.Endpoint.home [ txt "Index" ]
           ; a_of home [ txt "Home" ]
           ; a_of about [ txt "About" ]
           ]
@@ -182,7 +184,7 @@ module Counter_vdom = struct
       ; ul
           [ li
               [ a_of
-                  Endpoint.External.github_repository
+                  Shared.Endpoint.External.github_repository
                   "aantron"
                   "dream"
                   [ txt "Dream" ]
@@ -190,7 +192,7 @@ module Counter_vdom = struct
               ]
           ; li
               [ a_of
-                  Endpoint.External.github_repository
+                  Shared.Endpoint.External.github_repository
                   "ocsigen"
                   "tyxml"
                   [ txt "TyXML" ]
@@ -198,7 +200,7 @@ module Counter_vdom = struct
               ]
           ; li
               [ a_of
-                  Endpoint.External.github_repository
+                  Shared.Endpoint.External.github_repository
                   "lexifi"
                   "ocaml-vdom"
                   [ txt "OCaml-VDom" ]
@@ -206,7 +208,7 @@ module Counter_vdom = struct
               ]
           ; li
               [ a_of
-                  Endpoint.External.github_repository
+                  Shared.Endpoint.External.github_repository
                   "funkywork"
                   "nightmare"
                   [ txt
@@ -226,7 +228,7 @@ end
 
 module Server_side_counter = struct
   open struct
-    open Endpoint.Server_side_counter
+    open Shared.Endpoint.Server_side_counter
 
     let page =
       Template.default
@@ -235,7 +237,7 @@ module Server_side_counter = struct
           "A very simple example of counter that is computed on the \
            server-side,  using VDom"
         ~links:
-          [ a_of Endpoint.home [ txt "Index" ]
+          [ a_of Shared.Endpoint.home [ txt "Index" ]
           ; a_of home [ txt "Home" ]
           ; a_of about [ txt "About" ]
           ]
@@ -277,7 +279,7 @@ module Server_side_counter = struct
       ; ul
           [ li
               [ a_of
-                  Endpoint.External.github_repository
+                  Shared.Endpoint.External.github_repository
                   "aantron"
                   "dream"
                   [ txt "Dream" ]
@@ -285,7 +287,7 @@ module Server_side_counter = struct
               ]
           ; li
               [ a_of
-                  Endpoint.External.github_repository
+                  Shared.Endpoint.External.github_repository
                   "ocsigen"
                   "tyxml"
                   [ txt "TyXML" ]
@@ -293,7 +295,7 @@ module Server_side_counter = struct
               ]
           ; li
               [ a_of
-                  Endpoint.External.github_repository
+                  Shared.Endpoint.External.github_repository
                   "lexifi"
                   "ocaml-vdom"
                   [ txt "OCaml-VDom" ]
@@ -301,7 +303,7 @@ module Server_side_counter = struct
               ]
           ; li
               [ a_of
-                  Endpoint.External.github_repository
+                  Shared.Endpoint.External.github_repository
                   "funkywork"
                   "nightmare"
                   [ txt

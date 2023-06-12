@@ -9,4 +9,4 @@
   (until-clean)
   (into "../priv")
   (only main.bc.js))
- (libraries nightmare_js nightmare_js-vdom))
+ (libraries nightmare_js nightmare_js-vdom shared))

@@ -39,14 +39,6 @@ let view value =
 
 let init = Vdom.return ~c:[ Get_value (fun x -> Replace_value x) ] 0
 
-open struct
-  open Nightmare_service.Endpoint
-
-  let value () = get (~/"server-side-counter" / "get")
-  let increment () = post (~/"server-side-counter" / "incr")
-  let decrement () = post (~/"server-side-counter" / "decr")
-end
-
 let register () =
   let open Vdom_blit in
   let handler =
@@ -56,7 +48,10 @@ let register () =
             let () =
               Lwt.async (fun () ->
                 let open Lwt.Syntax in
-                let+ _ = Nightmare_js.Fetch.from increment in
+                let+ _ =
+                  Nightmare_js.Fetch.from
+                    Shared.Endpoint.Server_side_counter.increment
+                in
                 Cmd.send_msg ctx msg)
             in
             true
@@ -64,7 +59,10 @@ let register () =
             let () =
               Lwt.async (fun () ->
                 let open Lwt.Syntax in
-                let+ _ = Nightmare_js.Fetch.from decrement in
+                let+ _ =
+                  Nightmare_js.Fetch.from
+                    Shared.Endpoint.Server_side_counter.decrement
+                in
                 Cmd.send_msg ctx msg)
             in
             true
@@ -72,7 +70,10 @@ let register () =
             let () =
               Lwt.async (fun () ->
                 let open Lwt.Syntax in
-                let* response = Nightmare_js.Fetch.from value in
+                let* response =
+                  Nightmare_js.Fetch.from
+                    Shared.Endpoint.Server_side_counter.value
+                in
                 let+ text = Nightmare_js.Fetch.Response.text response in
                 let result = Option.value ~default:0 (int_of_string_opt text) in
                 Cmd.send_msg ctx (handler result))

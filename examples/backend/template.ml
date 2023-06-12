@@ -7,8 +7,8 @@ let page ~title content =
     ~a:[ a_lang "en" ]
     (head
        node_title
-       [ link_of ~rel:[ `Stylesheet ] Endpoint.priv "style.css"
-       ; script_of Endpoint.priv "main.bc.js" ""
+       [ link_of ~rel:[ `Stylesheet ] Shared.Endpoint.priv "style.css"
+       ; script_of Shared.Endpoint.priv "main.bc.js" ""
        ])
     (body (content @ [ script (txt "nightmare_js.mount();") ]))
 ;;
@@ -37,8 +37,8 @@ let default
             [ span [ txt "Proudly powered by" ]
             ; br ()
             ; a_of
-                Endpoint.External.ocaml_org
-                [ img_of Endpoint.External.ocaml_logo ]
+                Shared.Endpoint.External.ocaml_org
+                [ img_of Shared.Endpoint.External.ocaml_logo ]
             ]
         ]
     ]
