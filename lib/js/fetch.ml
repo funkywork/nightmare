@@ -22,6 +22,14 @@
 
 open Js_of_ocaml
 
+type response_type =
+  [ `Basic
+  | `Cors
+  | `Error
+  | `Opaque
+  | `Opaque_redirect
+  ]
+
 type body =
   [ `Blob of Blob.t
   | `FormData of Form_data.t
@@ -133,10 +141,6 @@ let referrer_policy_to_string = function
   | `Unsafe_url -> "unsafe-url"
 ;;
 
-module Response = struct
-  type t = Bindings.fetch_response Js.t
-end
-
 let make_options
   method_
   headers
@@ -219,25 +223,22 @@ let options = fetch ~method_:`OPTIONS
 let trace = fetch ~method_:`TRACE
 let patch = fetch ~method_:`PATCH
 
-let fetch_from ?parameters endpoint =
+let from
+  ?parameters
+  ?headers
+  ?body
+  ?mode
+  ?credentials
+  ?cache
+  ?redirect
+  ?referrer
+  ?referrer_policy
+  ?integrity
+  ?keepalive
+  endpoint
+  =
   let method_ = Nightmare_service.Endpoint.method_of endpoint in
-  Nightmare_service.Endpoint.gen_link
-    ?parameters
-    endpoint
-    (fun
-      target
-      ?headers
-      ?body
-      ?mode
-      ?credentials
-      ?cache
-      ?redirect
-      ?referrer
-      ?referrer_policy
-      ?integrity
-      ?keepalive
-      ()
-    ->
+  Nightmare_service.Endpoint.gen_link ?parameters endpoint (fun target ->
     fetch
       ~method_
       ?headers
@@ -252,3 +253,36 @@ let fetch_from ?parameters endpoint =
       ?keepalive
       target)
 ;;
+
+module Response = struct
+  type t = Bindings.fetch_response Js.t
+
+  let headers response = response##.headers
+  let is_ok response = response##.ok |> Js.to_bool
+  let is_redirected response = response##.redirected |> Js.to_bool
+  let status response = response##.status
+
+  let type_ response =
+    match
+      String.lowercase_ascii @@ String.trim @@ Js.to_string response##._type
+    with
+    | "basic" -> `Basic
+    | "cors" -> `Cors
+    | "opaque" -> `Opaque
+    | "opaqueredirect" -> `Opaque_redirect
+    | _ -> `Error
+  ;;
+
+  let url response = response##.url |> Js.to_string
+  let body response = response##.body
+
+  let text response =
+    let open Lwt.Syntax in
+    let+ result = response##text |> Promise.as_lwt in
+    Js.to_string result
+  ;;
+
+  let array_buffer response = response##arrayBuffer |> Promise.as_lwt
+  let blob response = response##blob |> Promise.as_lwt
+  let form_data response = response##formData |> Promise.as_lwt
+end

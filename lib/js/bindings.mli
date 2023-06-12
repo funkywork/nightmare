@@ -128,7 +128,7 @@ class type fetch_response =
     method statusText : js_string t readonly_prop
     method _type : js_string t readonly_prop
     method url : js_string t readonly_prop
-    method body : Typed_array.int8Array t readable_stream t readonly_prop
+    method body : Typed_array.uint8Array t readable_stream t readonly_prop
     method text : js_string t Promise.t meth
     method arrayBuffer : Typed_array.arrayBuffer t Promise.t meth
     method blob : blob t Promise.t meth

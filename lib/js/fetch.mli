@@ -77,6 +77,14 @@ type referrer_policy =
   | `Unsafe_url
   ]
 
+type response_type =
+  [ `Basic
+  | `Cors
+  | `Error
+  | `Opaque
+  | `Opaque_redirect
+  ]
+
 (** {1 Response} *)
 
 module Response : sig
@@ -84,6 +92,18 @@ module Response : sig
       request. *)
 
   type t = Bindings.fetch_response Js.t
+
+  val headers : t -> Headers.t
+  val is_ok : t -> bool
+  val is_redirected : t -> bool
+  val status : t -> int
+  val type_ : t -> response_type
+  val url : t -> string
+  val body : t -> Typed_array.uint8Array Js.t Stream.Readable.t
+  val text : t -> string Lwt.t
+  val array_buffer : t -> Typed_array.arrayBuffer Js.t Lwt.t
+  val blob : t -> Blob.t Lwt.t
+  val form_data : t -> Form_data.t Lwt.t
 end
 
 (** {1 API} *)
@@ -237,22 +257,21 @@ val patch
 
 (** {2 Fetch from endpoint} *)
 
-val fetch_from
+val from
   :  ?parameters:(string * string) list
+  -> ?headers:Headers.t
+  -> ?body:body
+  -> ?mode:mode
+  -> ?credentials:credentials
+  -> ?cache:cache
+  -> ?redirect:redirect
+  -> ?referrer:referrer
+  -> ?referrer_policy:referrer_policy
+  -> ?integrity:string
+  -> ?keepalive:bool
   -> ( _
      , Nightmare_service.Method.t
      , 'continuation
-     , ?headers:Headers.t
-       -> ?body:body
-       -> ?mode:mode
-       -> ?credentials:credentials
-       -> ?cache:cache
-       -> ?redirect:redirect
-       -> ?referrer:referrer
-       -> ?referrer_policy:referrer_policy
-       -> ?integrity:string
-       -> ?keepalive:bool
-       -> unit
-       -> Response.t Lwt.t )
+     , Response.t Lwt.t )
      Nightmare_service.Endpoint.wrapped
   -> 'continuation
