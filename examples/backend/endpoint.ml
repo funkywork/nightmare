@@ -14,6 +14,14 @@ module Counter_vdom = struct
   let about () = get (~/"counter-vdom" / "about")
 end
 
+module Server_side_counter = struct
+  let home () = get ~/"server-side-counter"
+  let about () = get (~/"server-side-counter" / "about")
+  let value () = get (~/"server-side-counter" / "get")
+  let increment () = post (~/"server-side-counter" / "incr")
+  let decrement () = post (~/"server-side-counter" / "decr")
+end
+
 module External = struct
   let ocaml_v2 action path = outer action "https://v2.ocaml.org/" path
   let ocaml_org () = outer get "https://ocaml.org" root

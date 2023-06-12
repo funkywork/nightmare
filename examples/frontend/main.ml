@@ -19,5 +19,13 @@ let () =
            let () = Console.(string info) @@ "Mounting " ^ id in
            let app = Counter_vdom.app () in
            Lwt.return app)
+
+       (* Mount the Server Side counter example *)
+       method mountServerCounterVdom id =
+         let id = Js.to_string id in
+         Nightmare_js_vdom.mount_to ~id (fun _ ->
+           let () = Console.(string info) @@ "Mounting " ^ id in
+           let app = Server_counter_vdom.app () in
+           Lwt.return app)
     end)
 ;;
