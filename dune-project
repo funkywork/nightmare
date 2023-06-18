@@ -14,6 +14,17 @@
 ;; Packages description
 
 (package
+ (name nightmare-test)
+ (synopsis "Test utilities for Nightmare")
+ (description "Some shortcuts for writting test for a Nightmare application (or library)")
+ (depends
+  (ocaml (>= 5.0.0))
+  (dune (>= 3.0.0))
+  (lwt (>= 5.6.1))
+  (odoc :with-doc)
+  alcotest))
+
+(package
  (name nightmare)
  (synopsis "An ad-hoc framework for writing web application using OCaml")
  (description "An ad-hoc framework (that should fit well with Dream) for writting OCaml web application")
@@ -23,7 +34,8 @@
   (lwt (>= 5.6.1))
   (preface (>= 1.0.0))
   (odoc :with-doc)
-  (alcotest :with-test)))
+  (alcotest :with-test)
+  (nightmare-test (and (= :version) :with-test))))
 
 (package
  (name nightmare-dream)
