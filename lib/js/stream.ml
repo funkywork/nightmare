@@ -42,14 +42,15 @@ module Reader = struct
     is_done, value
   ;;
 
-  let decoder =
-    let constr = Js.Unsafe.global##.__TextDecoder in
+  let new_decoder () =
+    let constr = Js.Unsafe.global##._TextDecoder in
     new%js constr
   ;;
 
   let read_string r =
     let open Lwt.Syntax in
     let+ is_done, result = read r in
+    let decoder = new_decoder () in
     let str_result = decoder##decode result in
     is_done, str_result |> Js.to_string
   ;;
