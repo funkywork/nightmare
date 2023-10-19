@@ -51,14 +51,14 @@ let variable_name : type a. a variable -> string = function
 ;;
 
 let variable_to_string : type a. a variable -> a -> _ =
- fun fragment value ->
+  fun fragment value ->
   match fragment with
   | Record { to_string; _ } -> to_string value
   | Module (module M) -> M.fragment_to_string value
 ;;
 
 let variable_from_string : type a. a variable -> string -> a option =
- fun fragment value ->
+  fun fragment value ->
   match fragment with
   | Record { from_string; _ } -> from_string value
   | Module (module M) -> M.fragment_from_string value
@@ -109,7 +109,7 @@ let pp ppf path =
     : type continuation witness.
       string list -> (continuation, witness) t -> string list
     =
-   fun acc -> function
+    fun acc -> function
     | Root -> acc
     | Const (path_xs, x) -> aux (x :: acc) path_xs
     | Var (path_xs, fr) -> aux ((":" ^ variable_name fr) :: acc) path_xs
@@ -124,7 +124,7 @@ let sprintf_with path handler =
     : type continuation witness.
       (string list -> witness) -> (continuation, witness) t -> continuation
     =
-   fun continue -> function
+    fun continue -> function
     | Root -> continue []
     | Const (path_xs, x) -> aux (fun xs -> continue (x :: xs)) path_xs
     | Var (path_xs, fr) ->
@@ -144,7 +144,7 @@ let sscanf path uri =
       -> continuation
       -> normal_form option
     =
-   fun continue path fragments ->
+    fun continue path fragments ->
     match path, fragments with
     | Root, [] -> fun x -> Some (continue x)
     | Const (path_xs, x), fragment :: uri_xs ->

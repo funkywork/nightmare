@@ -60,10 +60,10 @@ let a_accesskey = charlist "accesskey"
 let a_autocapitalize value =
   to_string
     (function
-     | `None -> "none"
-     | `Sentences -> "sentences"
-     | `Words -> "words"
-     | `Characters -> "characters")
+      | `None -> "none"
+      | `Sentences -> "sentences"
+      | `Words -> "words"
+      | `Characters -> "characters")
     "autocapitalize"
     value
 ;;
@@ -74,9 +74,9 @@ let a_contenteditable value = bool "contentEditable" value
 let a_dir value =
   to_string
     (function
-     | `Rtl -> "rtl"
-     | `Ltr -> "ltr"
-     | `Auto -> "auto")
+      | `Rtl -> "rtl"
+      | `Ltr -> "ltr"
+      | `Auto -> "auto")
     "dir"
     value
 ;;
@@ -86,13 +86,13 @@ let a_draggable value = bool "draggable" value
 let a_enterkeyhint value =
   to_string
     (function
-     | `Enter -> "enter"
-     | `Done -> "done"
-     | `Go -> "go"
-     | `Next -> "next"
-     | `Previous -> "previous"
-     | `Search -> "search"
-     | `Send -> "send")
+      | `Enter -> "enter"
+      | `Done -> "done"
+      | `Go -> "go"
+      | `Next -> "next"
+      | `Previous -> "previous"
+      | `Search -> "search"
+      | `Send -> "send")
     "enterkeyhint"
     value
 ;;
@@ -100,8 +100,8 @@ let a_enterkeyhint value =
 let a_hidden value =
   to_string
     (function
-     | `Hidden -> "hidden"
-     | `Until_found -> "until-found")
+      | `Hidden -> "hidden"
+      | `Until_found -> "until-found")
     "hidden"
     value
 ;;
@@ -112,14 +112,14 @@ let a_inert value = bool "inert" value
 let a_inputmode value =
   to_string
     (function
-     | `None -> "none"
-     | `Text -> "text"
-     | `Decimal -> "decimal"
-     | `Numeric -> "numeric"
-     | `Tel -> "tel"
-     | `Search -> "search"
-     | `Email -> "email"
-     | `Url -> "url")
+      | `None -> "none"
+      | `Text -> "text"
+      | `Decimal -> "decimal"
+      | `Numeric -> "numeric"
+      | `Tel -> "tel"
+      | `Search -> "search"
+      | `Email -> "email"
+      | `Url -> "url")
     "inputMode"
     value
 ;;
@@ -175,31 +175,39 @@ let a_ping value = strings "ping" value
 let a_rel value =
   tokens_with
     (function
-     | `Alternate -> "alternate"
-     | `Archives -> "archives"
-     | `Author -> "author"
-     | `Bookmark -> "bookmark"
-     | `Canonical -> "canonical"
-     | `External -> "external"
-     | `First -> "first"
-     | `Help -> "help"
-     | `Icon -> "icon"
-     | `Index -> "index"
-     | `Last -> "last"
-     | `License -> "license"
-     | `Next -> "next"
-     | `Nofollow -> "nofollow"
-     | `Noreferrer -> "noreferrer"
-     | `Noopener -> "noopener"
-     | `Pingback -> "pingback"
-     | `Prefetch -> "prefetch"
-     | `Prev -> "prev"
-     | `Search -> "search"
-     | `Stylesheet -> "stylesheet"
-     | `Sidebar -> "sidebar"
-     | `Tag -> "tag"
-     | `Up -> "up"
-     | `Other s -> s)
+      | `Alternate -> "alternate"
+      | `Archives -> "archives"
+      | `Author -> "author"
+      | `Bookmark -> "bookmark"
+      | `Canonical -> "canonical"
+      | `Dns_prefetch -> "dns-prefetch"
+      | `External -> "external"
+      | `First -> "first"
+      | `Help -> "help"
+      | `Icon -> "icon"
+      | `Index -> "index"
+      | `Last -> "last"
+      | `License -> "license"
+      | `Manifest -> "manifest"
+      | `Me -> "me"
+      | `Modulepreload -> "modulepreload"
+      | `Next -> "next"
+      | `Nofollow -> "nofollow"
+      | `Noreferrer -> "noreferrer"
+      | `Noopener -> "noopener"
+      | `Opener -> "opener"
+      | `Pingback -> "pingback"
+      | `Preconnect -> "preconnect"
+      | `Prefetch -> "prefetch"
+      | `Prev -> "prev"
+      | `Preload -> "preload"
+      | `Prerender -> "prerender"
+      | `Search -> "search"
+      | `Stylesheet -> "stylesheet"
+      | `Sidebar -> "sidebar"
+      | `Tag -> "tag"
+      | `Up -> "up"
+      | `Other s -> s)
     "rel"
     value
 ;;
@@ -209,11 +217,11 @@ let a_mime_type value = string "type" value
 let a_target value =
   to_string
     (function
-     | `Self -> "_self"
-     | `Blank -> "_blank"
-     | `Parent -> "_parent"
-     | `Top -> "_top"
-     | `Other x -> x)
+      | `Self -> "_self"
+      | `Blank -> "_blank"
+      | `Parent -> "_parent"
+      | `Top -> "_top"
+      | `Other x -> x)
     "target"
     value
 ;;
@@ -223,10 +231,10 @@ let a_coords value = to_string int_list "coords" value
 let a_shape value =
   to_string
     (function
-     | `Rect -> "rect"
-     | `Circle -> "circle"
-     | `Poly -> "poly"
-     | `Default -> "default")
+      | `Rect -> "rect"
+      | `Circle -> "circle"
+      | `Poly -> "poly"
+      | `Default -> "default")
     "shape"
     value
 ;;
@@ -238,8 +246,8 @@ let a_controls value = bool "controls" value
 let a_crossorigin value =
   to_string
     (function
-     | `Anonymous -> "anonymous"
-     | `Use_credentials -> "user-credentials")
+      | `Anonymous -> "anonymous"
+      | `Use_credentials -> "user-credentials")
     "crossorigin"
     value
 ;;
@@ -250,9 +258,9 @@ let a_muted value = bool "muted" value
 let a_preload value =
   to_string
     (function
-     | `None -> "none"
-     | `Metadata -> "metadata"
-     | `Auto -> "auto")
+      | `None -> "none"
+      | `Metadata -> "metadata"
+      | `Auto -> "auto")
     "preload"
     value
 ;;
@@ -271,11 +279,11 @@ let a_formnovalidate value = bool "formNoValidate" value
 let a_formtarget value =
   to_string
     (function
-     | `Self -> "_self"
-     | `Blank -> "_blank"
-     | `Parent -> "_parent"
-     | `Top -> "_top"
-     | `Other x -> x)
+      | `Self -> "_self"
+      | `Blank -> "_blank"
+      | `Parent -> "_parent"
+      | `Top -> "_top"
+      | `Other x -> x)
     "formTarget"
     value
 ;;
@@ -285,9 +293,9 @@ let a_name value = to_string tokenize "name" value
 let a_button_type value =
   to_string
     (function
-     | `Button -> "button"
-     | `Submit -> "submit"
-     | `Reset -> "reset")
+      | `Button -> "button"
+      | `Submit -> "submit"
+      | `Reset -> "reset")
     "type"
     value
 ;;
@@ -301,8 +309,8 @@ let a_accept_charset value = tokens "acceptCharset" value
 let a_autocomplete value =
   to_string
     (function
-     | true -> "on"
-     | false -> "off")
+      | true -> "on"
+      | false -> "off")
     "autocomplete"
     value
 ;;
@@ -313,8 +321,8 @@ let a_enctype value = string "enctype" value
 let a_formmethod value =
   to_string
     (function
-     | `GET -> "get"
-     | `POST -> "post")
+      | `GET -> "get"
+      | `POST -> "post")
     "formMethod"
     value
 ;;
@@ -322,8 +330,8 @@ let a_formmethod value =
 let a_method value =
   to_string
     (function
-     | `GET -> "get"
-     | `POST -> "post")
+      | `GET -> "get"
+      | `POST -> "post")
     "method"
     value
 ;;
@@ -333,15 +341,15 @@ let a_novalidate value = bool "noValidate" value
 let a_referrerpolicy value =
   to_string
     (function
-     | `Empty -> ""
-     | `No_referrer -> "no-referrer"
-     | `No_referrer_when_downgrade -> "no-referrer-when-downgrade"
-     | `Origin -> "origin"
-     | `Origin_when_cross_origin -> "origin-when-cross-origin"
-     | `Same_origin -> "same-origin"
-     | `Strict_origin -> "strict-origin"
-     | `Strict_origin_when_cross_origin -> "strict-origin-when-cross-origin"
-     | `Unsafe_url -> "unsafe-url")
+      | `Empty -> ""
+      | `No_referrer -> "no-referrer"
+      | `No_referrer_when_downgrade -> "no-referrer-when-downgrade"
+      | `Origin -> "origin"
+      | `Origin_when_cross_origin -> "origin-when-cross-origin"
+      | `Same_origin -> "same-origin"
+      | `Strict_origin -> "strict-origin"
+      | `Strict_origin_when_cross_origin -> "strict-origin-when-cross-origin"
+      | `Unsafe_url -> "unsafe-url")
     "referrerPolicy"
     value
 ;;
@@ -368,8 +376,8 @@ let a_list value = to_string tokenize "list" value
 let a_input_max value =
   to_string
     (function
-     | `Number x -> string_of_int x
-     | `Datetime x -> x)
+      | `Number x -> string_of_int x
+      | `Datetime x -> x)
     "max"
     value
 ;;
@@ -377,8 +385,8 @@ let a_input_max value =
 let a_input_min value =
   to_string
     (function
-     | `Number x -> string_of_int x
-     | `Datetime x -> x)
+      | `Number x -> string_of_int x
+      | `Datetime x -> x)
     "min"
     value
 ;;
@@ -396,29 +404,29 @@ let a_step value = float "step" value
 let a_input_type value =
   to_string
     (function
-     | `Url -> "url"
-     | `Tel -> "tel"
-     | `Text -> "text"
-     | `Time -> "time"
-     | `Search -> "search"
-     | `Password -> "password"
-     | `Checkbox -> "checkbox"
-     | `Range -> "range"
-     | `Radio -> "radio"
-     | `Submit -> "submit"
-     | `Reset -> "reset"
-     | `Number -> "number"
-     | `Hidden -> "hidden"
-     | `Month -> "month"
-     | `Week -> "week"
-     | `File -> "file"
-     | `Email -> "email"
-     | `Image -> "image"
-     | `Datetime_local -> "datetime-local"
-     | `Datetime -> "datetime"
-     | `Date -> "date"
-     | `Color -> "color"
-     | `Button -> "button")
+      | `Url -> "url"
+      | `Tel -> "tel"
+      | `Text -> "text"
+      | `Time -> "time"
+      | `Search -> "search"
+      | `Password -> "password"
+      | `Checkbox -> "checkbox"
+      | `Range -> "range"
+      | `Radio -> "radio"
+      | `Submit -> "submit"
+      | `Reset -> "reset"
+      | `Number -> "number"
+      | `Hidden -> "hidden"
+      | `Month -> "month"
+      | `Week -> "week"
+      | `File -> "file"
+      | `Email -> "email"
+      | `Image -> "image"
+      | `Datetime_local -> "datetime-local"
+      | `Datetime -> "datetime"
+      | `Date -> "date"
+      | `Color -> "color"
+      | `Button -> "button")
     "type"
     value
 ;;
@@ -432,27 +440,27 @@ let a_media value =
     "media"
     (list_comma
        (function
-        | `All -> "all"
-        | `Aural -> "aural"
-        | `Braille -> "braille"
-        | `Embossed -> "embossed"
-        | `Handheld -> "handheld"
-        | `Print -> "print"
-        | `Projection -> "projection"
-        | `Screen -> "screen"
-        | `Speech -> "speech"
-        | `Tty -> "tty"
-        | `Tv -> "tv"
-        | `Raw_mediadesc s -> s)
+         | `All -> "all"
+         | `Aural -> "aural"
+         | `Braille -> "braille"
+         | `Embossed -> "embossed"
+         | `Handheld -> "handheld"
+         | `Print -> "print"
+         | `Projection -> "projection"
+         | `Screen -> "screen"
+         | `Speech -> "speech"
+         | `Tty -> "tty"
+         | `Tv -> "tv"
+         | `Raw_mediadesc s -> s)
        value)
 ;;
 
 let a_sizes value =
   to_string
     (function
-     | `Any -> "any"
-     | `List l ->
-       list_with (fun (w, h) -> string_of_int w ^ "X" ^ string_of_int h) l)
+      | `Any -> "any"
+      | `List l ->
+        list_with (fun (w, h) -> string_of_int w ^ "X" ^ string_of_int h) l)
     "sizes"
     value
 ;;
@@ -476,9 +484,9 @@ let a_integrity value = string "integrity" value
 let a_script_type value =
   to_string
     (function
-     | `Javascript -> "application/javascript"
-     | `Module -> "module"
-     | `Mime s -> s)
+      | `Javascript -> "application/javascript"
+      | `Module -> "module"
+      | `Mime s -> s)
     "type"
     value
 ;;
@@ -492,8 +500,8 @@ let a_rows value = int "rows" value
 let a_wrap value =
   to_string
     (function
-     | `Soft -> "soft"
-     | `Hard -> "hard")
+      | `Soft -> "soft"
+      | `Hard -> "hard")
     "wrap"
     value
 ;;
@@ -501,10 +509,10 @@ let a_wrap value =
 let a_scope value =
   to_string
     (function
-     | `Row -> "row"
-     | `Col -> "col"
-     | `Rowgroup -> "rowgroup"
-     | `Colgroup -> "colgroup")
+      | `Row -> "row"
+      | `Col -> "col"
+      | `Rowgroup -> "rowgroup"
+      | `Colgroup -> "colgroup")
     "scope"
     value
 ;;

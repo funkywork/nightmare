@@ -28,10 +28,10 @@ let test_sprintf_on_root =
     ~desc:"[sprintf] on root should produce `/`"
     Alcotest.string
     (fun () ->
-    let open Nightmare_service.Path in
-    let expected = "/"
-    and computed = sprintf root in
-    expected, computed)
+       let open Nightmare_service.Path in
+       let expected = "/"
+       and computed = sprintf root in
+       expected, computed)
 ;;
 
 let test_sprintf_on_path_without_variables =
@@ -42,10 +42,10 @@ let test_sprintf_on_path_without_variables =
        continuation"
     Alcotest.string
     (fun () ->
-    let open Nightmare_service.Path in
-    let expected = "/foo/bar/baz"
-    and computed = sprintf (~/"foo" / "bar" / "baz") in
-    expected, computed)
+       let open Nightmare_service.Path in
+       let expected = "/foo/bar/baz"
+       and computed = sprintf (~/"foo" / "bar" / "baz") in
+       expected, computed)
 ;;
 
 let test_sprintf_on_path_with_variables =
@@ -56,16 +56,21 @@ let test_sprintf_on_path_with_variables =
        continuation"
     Alcotest.string
     (fun () ->
-    let open Nightmare_service.Path in
-    let expected = "/get_message/42/by_user/grm/in_category/global"
-    and computed =
-      sprintf
-        (~/"get_message" /: int / "by_user" /: string / "in_category" /: string)
-        42
-        "grm"
-        "global"
-    in
-    expected, computed)
+       let open Nightmare_service.Path in
+       let expected = "/get_message/42/by_user/grm/in_category/global"
+       and computed =
+         sprintf
+           (~/"get_message"
+            /: int
+            / "by_user"
+            /: string
+            / "in_category"
+            /: string)
+           42
+           "grm"
+           "global"
+       in
+       expected, computed)
 ;;
 
 let test_sscanf_on_root_with_valid_uri =
@@ -191,10 +196,10 @@ let test_pp_1 =
     ~desc:"using [pp] - test 1"
     Alcotest.string
     (fun () ->
-    let open Nightmare_service.Path in
-    let expected = "/"
-    and computed = Format.asprintf "%a" pp root in
-    expected, computed)
+       let open Nightmare_service.Path in
+       let expected = "/"
+       and computed = Format.asprintf "%a" pp root in
+       expected, computed)
 ;;
 
 let test_pp_2 =
@@ -203,10 +208,10 @@ let test_pp_2 =
     ~desc:"using [pp] - test 2"
     Alcotest.string
     (fun () ->
-    let open Nightmare_service.Path in
-    let expected = "/foo/bar/baz"
-    and computed = Format.asprintf "%a" pp (~/"foo" / "bar" / "baz") in
-    expected, computed)
+       let open Nightmare_service.Path in
+       let expected = "/foo/bar/baz"
+       and computed = Format.asprintf "%a" pp (~/"foo" / "bar" / "baz") in
+       expected, computed)
 ;;
 
 let test_pp_3 =
@@ -215,12 +220,12 @@ let test_pp_3 =
     ~desc:"using [pp] - test 3"
     Alcotest.string
     (fun () ->
-    let open Nightmare_service.Path in
-    let expected = "/foo/:int/baz/:string/:float"
-    and computed =
-      Format.asprintf "%a" pp (~/"foo" /: int / "baz" /: string /: float)
-    in
-    expected, computed)
+       let open Nightmare_service.Path in
+       let expected = "/foo/:int/baz/:string/:float"
+       and computed =
+         Format.asprintf "%a" pp (~/"foo" /: int / "baz" /: string /: float)
+       in
+       expected, computed)
 ;;
 
 let cases =

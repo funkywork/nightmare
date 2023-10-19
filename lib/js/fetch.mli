@@ -270,8 +270,8 @@ val from
   -> ?integrity:string
   -> ?keepalive:bool
   -> ( _
-     , Nightmare_service.Method.t
-     , 'continuation
-     , Response.t Lwt.t )
-     Nightmare_service.Endpoint.wrapped
+       , Nightmare_service.Method.t
+       , 'continuation
+       , Response.t Lwt.t )
+       Nightmare_service.Endpoint.wrapped
   -> 'continuation

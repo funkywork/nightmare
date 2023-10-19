@@ -57,7 +57,7 @@ val error : 'a -> unit
     hierarchical listing with disclosure triangles that let you see the contents
     of child objects.
     {b This is why you can't pass an regular OCaml value but you have to give a
-      JavaScript one}. *)
+    JavaScript one}. *)
 val dir : 'a js -> unit
 
 (** [Console.dir_xml node] displays an interactive tree of the descendant

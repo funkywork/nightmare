@@ -54,7 +54,7 @@
  (depends
   (ocaml (>= 5.0.0))
   (dune (>= 3.0.0))
-  (tyxml (>= 4.5.0))
+  (tyxml (>= 4.6.0))
   (nightmare (= :version))))
 
 (package
@@ -79,6 +79,6 @@
     (ocaml (>= 5.0.0))
     (dune (>= 3.0.0))
     (tyxml (>= 4.5.0))
-    (ocaml-vdom (>= 0.2))
+    (vdom (>= 0.3))
     (nightmare-tyxml (= :version))
     (nightmare_js (= :version))))

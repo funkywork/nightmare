@@ -26,13 +26,14 @@ let a_of ?anchor ?parameters ?key ?(a = []) endpoint =
     ?parameters
     endpoint
     (fun target children ->
-    let a =
-      Attrib.a_href target
-      :: (a
-           : ([< Nightmare_tyxml.Attrib.Without_source.a ], 'msg) Attrib.t list
-           :> ([> Html_types.a_attrib ], 'msg) Attrib.t list)
-    in
-    Node.a ?key ~a children)
+       let a =
+         Attrib.a_href target
+         :: (a
+              : ([< Nightmare_tyxml.Attrib.Without_source.a ], 'msg) Attrib.t
+                  list
+              :> ([> Html_types.a_attrib ], 'msg) Attrib.t list)
+       in
+       Node.a ?key ~a children)
 ;;
 
 let audio_of ?parameters ?key ?srcs ?(a = []) endpoint =
@@ -48,7 +49,7 @@ let base_of ?key ?(a = []) endpoint =
       Attrib.a_href target
       :: (a
            : ([< Nightmare_tyxml.Attrib.Without_source.base ], 'msg) Attrib.t
-             list
+               list
            :> ([> Html_types.base_attrib ], 'msg) Attrib.t list)
     in
     Node.base ?key ~a ())
@@ -60,16 +61,16 @@ let blockquote_of ?anchor ?parameters ?key ?(a = []) endpoint =
     ?parameters
     endpoint
     (fun target children ->
-    let a =
-      Attrib.a_cite target
-      :: (a
-           : ( [< Nightmare_tyxml.Attrib.Without_source.blockquote ]
-             , 'msg )
-             Attrib.t
-             list
-           :> ([> Html_types.blockquote_attrib ], 'msg) Attrib.t list)
-    in
-    Node.blockquote ?key ~a children)
+       let a =
+         Attrib.a_cite target
+         :: (a
+              : ( [< Nightmare_tyxml.Attrib.Without_source.blockquote ]
+                  , 'msg )
+                  Attrib.t
+                  list
+              :> ([> Html_types.blockquote_attrib ], 'msg) Attrib.t list)
+       in
+       Node.blockquote ?key ~a children)
 ;;
 
 let del_of ?anchor ?parameters ?key ?(a = []) endpoint =
@@ -78,14 +79,14 @@ let del_of ?anchor ?parameters ?key ?(a = []) endpoint =
     ?parameters
     endpoint
     (fun target children ->
-    let a =
-      Attrib.a_cite target
-      :: (a
-           : ([< Nightmare_tyxml.Attrib.Without_source.del ], 'msg) Attrib.t
-             list
-           :> ([> Html_types.del_attrib ], 'msg) Attrib.t list)
-    in
-    Node.del ?key ~a children)
+       let a =
+         Attrib.a_cite target
+         :: (a
+              : ([< Nightmare_tyxml.Attrib.Without_source.del ], 'msg) Attrib.t
+                  list
+              :> ([> Html_types.del_attrib ], 'msg) Attrib.t list)
+       in
+       Node.del ?key ~a children)
 ;;
 
 let ins_of ?anchor ?parameters ?key ?(a = []) endpoint =
@@ -94,14 +95,14 @@ let ins_of ?anchor ?parameters ?key ?(a = []) endpoint =
     ?parameters
     endpoint
     (fun target children ->
-    let a =
-      Attrib.a_cite target
-      :: (a
-           : ([< Nightmare_tyxml.Attrib.Without_source.ins ], 'msg) Attrib.t
-             list
-           :> ([> Html_types.ins_attrib ], 'msg) Attrib.t list)
-    in
-    Node.ins ?key ~a children)
+       let a =
+         Attrib.a_cite target
+         :: (a
+              : ([< Nightmare_tyxml.Attrib.Without_source.ins ], 'msg) Attrib.t
+                  list
+              :> ([> Html_types.ins_attrib ], 'msg) Attrib.t list)
+       in
+       Node.ins ?key ~a children)
 ;;
 
 let embed_of ?parameters ?key ?(a = []) endpoint =
@@ -110,7 +111,7 @@ let embed_of ?parameters ?key ?(a = []) endpoint =
       Attrib.a_src target
       :: (a
            : ([< Nightmare_tyxml.Attrib.Without_source.embed ], 'msg) Attrib.t
-             list
+               list
            :> ([> Html_types.embed_attrib ], 'msg) Attrib.t list)
     in
     Node.embed ?key ~a ())
@@ -123,15 +124,17 @@ let button_of ?anchor ?parameters ?key ?(a = []) endpoint =
     ?parameters
     endpoint
     (fun target children ->
-    let a =
-      Attrib.a_formaction target
-      :: Attrib.a_formmethod form_method
-      :: (a
-           : ([< Nightmare_tyxml.Attrib.Without_source.button ], 'msg) Attrib.t
-             list
-           :> ([> Html_types.button_attrib ], 'msg) Attrib.t list)
-    in
-    Node.button ?key ~a children)
+       let a =
+         Attrib.a_formaction target
+         :: Attrib.a_formmethod form_method
+         :: (a
+              : ( [< Nightmare_tyxml.Attrib.Without_source.button ]
+                  , 'msg )
+                  Attrib.t
+                  list
+              :> ([> Html_types.button_attrib ], 'msg) Attrib.t list)
+       in
+       Node.button ?key ~a children)
 ;;
 
 let form_of ?anchor ?parameters ?csrf_token ?key ?(a = []) endpoint =
@@ -141,32 +144,32 @@ let form_of ?anchor ?parameters ?csrf_token ?key ?(a = []) endpoint =
     ?parameters
     endpoint
     (fun target children ->
-    let children =
-      Option.fold
-        ~none:children
-        ~some:(fun (input_name, input_value) ->
-          let x =
-            Node.input
-              ~a:
-                Attrib.
-                  [ a_input_type `Hidden
-                  ; a_name input_name
-                  ; a_value input_value
-                  ]
-              ()
-          in
-          x :: children)
-        csrf_token
-    in
-    let a =
-      Attrib.a_action target
-      :: Attrib.a_method form_method
-      :: (a
-           : ([< Nightmare_tyxml.Attrib.Without_source.form ], 'msg) Attrib.t
-             list
-           :> ([> Html_types.form_attrib ], 'msg) Attrib.t list)
-    in
-    Node.form ?key ~a children)
+       let children =
+         Option.fold
+           ~none:children
+           ~some:(fun (input_name, input_value) ->
+             let x =
+               Node.input
+                 ~a:
+                   Attrib.
+                     [ a_input_type `Hidden
+                     ; a_name input_name
+                     ; a_value input_value
+                     ]
+                 ()
+             in
+             x :: children)
+           csrf_token
+       in
+       let a =
+         Attrib.a_action target
+         :: Attrib.a_method form_method
+         :: (a
+              : ([< Nightmare_tyxml.Attrib.Without_source.form ], 'msg) Attrib.t
+                  list
+              :> ([> Html_types.form_attrib ], 'msg) Attrib.t list)
+       in
+       Node.form ?key ~a children)
 ;;
 
 let iframe_of ?anchor ?parameters ?key ?(a = []) endpoint =
@@ -175,14 +178,16 @@ let iframe_of ?anchor ?parameters ?key ?(a = []) endpoint =
     ?parameters
     endpoint
     (fun target children ->
-    let a =
-      Attrib.a_src target
-      :: (a
-           : ([< Nightmare_tyxml.Attrib.Without_source.iframe ], 'msg) Attrib.t
-             list
-           :> ([> Html_types.iframe_attrib ], 'msg) Attrib.t list)
-    in
-    Node.iframe ?key ~a children)
+       let a =
+         Attrib.a_src target
+         :: (a
+              : ( [< Nightmare_tyxml.Attrib.Without_source.iframe ]
+                  , 'msg )
+                  Attrib.t
+                  list
+              :> ([> Html_types.iframe_attrib ], 'msg) Attrib.t list)
+       in
+       Node.iframe ?key ~a children)
 ;;
 
 let img_of ~alt ?parameters ?key ?(a = []) endpoint =
@@ -200,14 +205,16 @@ let object_of ?parameters ?key ?(a = []) endpoint =
     ?parameters
     endpoint
     (fun target children ->
-    let a =
-      Attrib.a_data target
-      :: (a
-           : ([< Nightmare_tyxml.Attrib.Without_source.object_ ], 'msg) Attrib.t
-             list
-           :> ([> Html_types.object__attrib ], 'msg) Attrib.t list)
-    in
-    Node.object_ ?key ~a children)
+       let a =
+         Attrib.a_data target
+         :: (a
+              : ( [< Nightmare_tyxml.Attrib.Without_source.object_ ]
+                  , 'msg )
+                  Attrib.t
+                  list
+              :> ([> Html_types.object__attrib ], 'msg) Attrib.t list)
+       in
+       Node.object_ ?key ~a children)
 ;;
 
 let q_of ?anchor ?parameters ?key ?(a = []) endpoint =
@@ -216,13 +223,14 @@ let q_of ?anchor ?parameters ?key ?(a = []) endpoint =
     ?parameters
     endpoint
     (fun target children ->
-    let a =
-      Attrib.a_cite target
-      :: (a
-           : ([< Nightmare_tyxml.Attrib.Without_source.q ], 'msg) Attrib.t list
-           :> ([> Html_types.q_attrib ], 'msg) Attrib.t list)
-    in
-    Node.q ?key ~a children)
+       let a =
+         Attrib.a_cite target
+         :: (a
+              : ([< Nightmare_tyxml.Attrib.Without_source.q ], 'msg) Attrib.t
+                  list
+              :> ([> Html_types.q_attrib ], 'msg) Attrib.t list)
+       in
+       Node.q ?key ~a children)
 ;;
 
 let script_of ?parameters ?key ?(a = []) endpoint =
@@ -230,14 +238,16 @@ let script_of ?parameters ?key ?(a = []) endpoint =
     ?parameters
     endpoint
     (fun target children ->
-    let a =
-      Attrib.a_src target
-      :: (a
-           : ([< Nightmare_tyxml.Attrib.Without_source.script ], 'msg) Attrib.t
-             list
-           :> ([> Html_types.script_attrib ], 'msg) Attrib.t list)
-    in
-    Node.script ?key ~a children)
+       let a =
+         Attrib.a_src target
+         :: (a
+              : ( [< Nightmare_tyxml.Attrib.Without_source.script ]
+                  , 'msg )
+                  Attrib.t
+                  list
+              :> ([> Html_types.script_attrib ], 'msg) Attrib.t list)
+       in
+       Node.script ?key ~a children)
 ;;
 
 let source_of ?parameters ?key ?(a = []) endpoint =
@@ -246,7 +256,7 @@ let source_of ?parameters ?key ?(a = []) endpoint =
       Attrib.a_src target
       :: (a
            : ([< Nightmare_tyxml.Attrib.Without_source.source ], 'msg) Attrib.t
-             list
+               list
            :> ([> Html_types.source_attrib ], 'msg) Attrib.t list)
     in
     Node.source ?key ~a ())

@@ -127,7 +127,8 @@ module Without_source : sig
     | `Async
     | `Charset
     | `Defer
-    | `Mime_type
+    | `Script_type
+    | `Src
     ]
 
   type source =

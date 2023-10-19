@@ -77,10 +77,10 @@ val redirect_to
   -> ?anchor:string
   -> ?parameters:(string * string) list
   -> ( 'scope_
-     , [< Nightmare_service.Method.for_link ]
-     , 'continuation
-     , handler )
-     Nightmare_service.Endpoint.wrapped
+       , [< Nightmare_service.Method.for_link ]
+       , 'continuation
+       , handler )
+       Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
 module Redirect = Redirect

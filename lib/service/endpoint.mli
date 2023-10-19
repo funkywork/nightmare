@@ -188,7 +188,7 @@ val href
     ]}
 
     {b As with {!val:href}, the function can only be used for [GET] endpoints
-      ([Inner] or [Outer]).} *)
+    ([Inner] or [Outer]).} *)
 val href_with
   :  ?anchor:string
   -> ?parameters:(string * string) list
@@ -198,7 +198,7 @@ val href_with
 
 (** [form_method endpoint] will returns the method of a form.
     {b Since HTML form can just handle [GET] and [POST] form, the function can
-      just take those as an argument}. *)
+    just take those as an argument}. *)
 val form_method
   :  (_, Method.for_form_action, _, _) wrapped
   -> [> Method.for_form_action ]
@@ -208,7 +208,7 @@ val form_method
     produce a corresponding string adding [anchor] and [get parameters] (if they
     are defined).
     {b this function works only for [GET] and [POST] endpoints ([Inner] or
-      [Outer])} because HTML form only admit [GET] or [POST] request.*)
+    [Outer])} because HTML form only admit [GET] or [POST] request.*)
 val form_action
   :  ?anchor:string
   -> ?parameters:(string * string) list
@@ -248,8 +248,8 @@ val gen_link
     [endpoint].
 
     {b Interpretation is only possible for [Inner endpoints], logically, what
-      sense does it make to try to interpret a route that is not served by the
-      application} *)
+    sense does it make to try to interpret a route that is not served by the
+    application} *)
 
 (** [sscanf endpooint given_method given_uri handler] will perform [handler]
     (provisioned with the extracted variables) if the given method matches the

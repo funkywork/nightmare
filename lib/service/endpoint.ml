@@ -77,7 +77,7 @@ let outer
   -> string -> ('continuation, 'witness) Path.t
   -> ([> `Outer ], 'method_, 'continuation, 'witness) t
   =
- fun f prefix path ->
+  fun f prefix path ->
   match f path with
   | Inner p -> Outer (prefix, p)
 ;;
@@ -103,7 +103,7 @@ let handle_path_with
     -> (string -> witness)
     -> continuation
   =
- fun endpoint handler ->
+  fun endpoint handler ->
   match endpoint () with
   | Inner p ->
     let path = get_path p in
@@ -156,7 +156,7 @@ let form_method
   : type scope.
     (scope, Method.for_form_action, _, _) wrapped -> [> Method.for_form_action ]
   =
- fun endpoint ->
+  fun endpoint ->
   match endpoint () with
   | Inner (GET _) | Outer (_, GET _) -> `GET
   | Inner (POST _) | Outer (_, POST _) -> `POST
@@ -164,7 +164,7 @@ let form_method
 
 let sscanf endpoint given_method given_uri =
   let aux : ([ `Inner ], Method.t, _, _) wrapped -> _ =
-   fun endpoint ->
+    fun endpoint ->
     let (Inner p) = endpoint () in
     match p, (given_method :> Method.t) with
     | GET path, `GET
@@ -189,7 +189,7 @@ include Path.Preset
 let root = Path.root
 
 let method_of : type scope. (scope, Method.t, _, _) wrapped -> [> Method.t ] =
- fun endpoint ->
+  fun endpoint ->
   let (Inner x | Outer (_, x)) = endpoint () in
   match x with
   | GET _ -> `GET

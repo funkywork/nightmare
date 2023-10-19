@@ -31,7 +31,7 @@
 
 (** See
     {{:https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods} MDN Web
-      documentation} for more information about [HTTP request methods]. *)
+    documentation} for more information about [HTTP request methods]. *)
 type t =
   [ `GET (** Requests a representation of the specified resource. *)
   | `POST (** Submits an entity to the specified resource. *)
