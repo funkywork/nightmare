@@ -34,10 +34,10 @@ let test_href_empty_string =
     ~desc:"When the string is empty, it should produces an empty href"
     href_testable
     (fun () ->
-    let open Nightmare_service.Parser.Href in
-    let expected = make []
-    and computed = from_string "" in
-    expected, computed)
+       let open Nightmare_service.Parser.Href in
+       let expected = make []
+       and computed = from_string "" in
+       expected, computed)
 ;;
 
 let test_href_without_anchor_and_query_string =
@@ -48,10 +48,10 @@ let test_href_without_anchor_and_query_string =
        the fragments"
     href_testable
     (fun () ->
-    let open Nightmare_service.Parser.Href in
-    let expected = make [ "foo"; "bar"; "baz" ]
-    and computed = from_string "foo/bar/baz" in
-    expected, computed)
+       let open Nightmare_service.Parser.Href in
+       let expected = make [ "foo"; "bar"; "baz" ]
+       and computed = from_string "foo/bar/baz" in
+       expected, computed)
 ;;
 
 let test_href_with_anchor_and_without_query_string =
@@ -62,10 +62,10 @@ let test_href_with_anchor_and_without_query_string =
        the fragments and retreive the anchor"
     href_testable
     (fun () ->
-    let open Nightmare_service.Parser.Href in
-    let expected = make ~anchor:"foo-bar-baz" [ "foo"; "bar"; "baz" ]
-    and computed = from_string "foo/bar/baz#foo-bar-baz" in
-    expected, computed)
+       let open Nightmare_service.Parser.Href in
+       let expected = make ~anchor:"foo-bar-baz" [ "foo"; "bar"; "baz" ]
+       and computed = from_string "foo/bar/baz#foo-bar-baz" in
+       expected, computed)
 ;;
 
 let test_href_without_anchor_and_with_query_string =
@@ -76,10 +76,11 @@ let test_href_without_anchor_and_with_query_string =
        the fragments and retreive the query string"
     href_testable
     (fun () ->
-    let open Nightmare_service.Parser.Href in
-    let expected = make ~query_string:"foo=bar&baz=foo" [ "foo"; "bar"; "baz" ]
-    and computed = from_string "foo/bar/baz?foo=bar&baz=foo" in
-    expected, computed)
+       let open Nightmare_service.Parser.Href in
+       let expected =
+         make ~query_string:"foo=bar&baz=foo" [ "foo"; "bar"; "baz" ]
+       and computed = from_string "foo/bar/baz?foo=bar&baz=foo" in
+       expected, computed)
 ;;
 
 let test_href_with_anchor_and_with_query_string =
@@ -90,14 +91,14 @@ let test_href_with_anchor_and_with_query_string =
        the fragments and retreive the query string and the anchor"
     href_testable
     (fun () ->
-    let open Nightmare_service.Parser.Href in
-    let expected =
-      make
-        ~query_string:"foo=bar&baz=foo"
-        ~anchor:"foo-bar-baz"
-        [ "foo"; "bar"; "baz" ]
-    and computed = from_string "foo/bar/baz?foo=bar&baz=foo#foo-bar-baz" in
-    expected, computed)
+       let open Nightmare_service.Parser.Href in
+       let expected =
+         make
+           ~query_string:"foo=bar&baz=foo"
+           ~anchor:"foo-bar-baz"
+           [ "foo"; "bar"; "baz" ]
+       and computed = from_string "foo/bar/baz?foo=bar&baz=foo#foo-bar-baz" in
+       expected, computed)
 ;;
 
 let test_href_without_fragment_and_query_string_but_with_anchor =
@@ -106,10 +107,10 @@ let test_href_without_fragment_and_query_string_but_with_anchor =
     ~desc:"When the string has anchor and nothing else"
     href_testable
     (fun () ->
-    let open Nightmare_service.Parser.Href in
-    let expected = make ~anchor:"foo-bar-baz" []
-    and computed = from_string "#foo-bar-baz" in
-    expected, computed)
+       let open Nightmare_service.Parser.Href in
+       let expected = make ~anchor:"foo-bar-baz" []
+       and computed = from_string "#foo-bar-baz" in
+       expected, computed)
 ;;
 
 let test_href_without_fragment_and_anchor_string_but_with_query_string =
@@ -118,10 +119,10 @@ let test_href_without_fragment_and_anchor_string_but_with_query_string =
     ~desc:"When the string has query string and nothing else"
     href_testable
     (fun () ->
-    let open Nightmare_service.Parser.Href in
-    let expected = make ~query_string:"foo=true&baz=bar" []
-    and computed = from_string "?foo=true&baz=bar" in
-    expected, computed)
+       let open Nightmare_service.Parser.Href in
+       let expected = make ~query_string:"foo=true&baz=bar" []
+       and computed = from_string "?foo=true&baz=bar" in
+       expected, computed)
 ;;
 
 let test_href_without_fragment =
@@ -130,11 +131,11 @@ let test_href_without_fragment =
     ~desc:"When the string has query string and nothing else"
     href_testable
     (fun () ->
-    let open Nightmare_service.Parser.Href in
-    let expected =
-      make ~query_string:"foo=true&baz=bar" ~anchor:"foo-bar-baz" []
-    and computed = from_string "?foo=true&baz=bar#foo-bar-baz" in
-    expected, computed)
+       let open Nightmare_service.Parser.Href in
+       let expected =
+         make ~query_string:"foo=true&baz=bar" ~anchor:"foo-bar-baz" []
+       and computed = from_string "?foo=true&baz=bar#foo-bar-baz" in
+       expected, computed)
 ;;
 
 let cases =

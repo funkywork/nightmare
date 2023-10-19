@@ -286,7 +286,7 @@ val sscanf
 
     - with [let uri_str = "/"] the function will return [None]
     - with [let uri_str = "/test/of/10/foo/true"] the function will return
-      [Some "\[v\] - foo (10)"]
+      [Some "[v] - foo (10)"]
     - with [let uri_str = "/test/of/NaN/foo/true"] the function will return
       [None] because [NaN] is not a valid integer.
 

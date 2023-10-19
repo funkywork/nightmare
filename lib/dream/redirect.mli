@@ -59,8 +59,8 @@ val run
   -> ?anchor:string
   -> ?parameters:(string * string) list
   -> ( 'scope_
-     , [< Nightmare_service.Method.for_link ]
-     , 'continuation
-     , (Dream.request, Dream.response) Nightmare_service.Handler.t )
-     Nightmare_service.Endpoint.wrapped
+       , [< Nightmare_service.Method.for_link ]
+       , 'continuation
+       , (Dream.request, Dream.response) Nightmare_service.Handler.t )
+       Nightmare_service.Endpoint.wrapped
   -> 'continuation

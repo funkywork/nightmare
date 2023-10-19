@@ -83,9 +83,9 @@ module type KEY = Interfaces.PREFIXED_KEY
 
 (** A functor to build particular kind of references. *)
 module Ref
-  (Backend : S with type key = string and type value = string)
-  (Key : KEY)
-  (Value : VALUE) : sig
+    (Backend : S with type key = string and type value = string)
+    (Key : KEY)
+    (Value : VALUE) : sig
   (** The type that describe a Ref. *)
   type t
 
@@ -177,7 +177,7 @@ module Ref
     -> unit
     -> ((t, Value.t) change
        * Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t)
-       Lwt.t
+         Lwt.t
 
   (** Lwt version of [on_insert]. *)
   val lwt_on_insert
@@ -205,7 +205,7 @@ module Ref
        * Value.t
        * [ `Old_value of Value.t ]
        * Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t)
-       Lwt.t
+         Lwt.t
 
   (** {1 Infix Operators} *)
 

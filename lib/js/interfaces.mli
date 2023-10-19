@@ -23,7 +23,7 @@
 (** Generalization of signatures in the manner of the method described in this
     article:
     {{:https://www.craigfe.io/posts/generalised-signatures} Generalised
-      signatures}. *)
+    signatures}. *)
 
 open Aliases
 
@@ -342,7 +342,7 @@ module type STORAGE = sig
     -> unit
     -> ((key, value) storage_change_state
        * Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t)
-       Lwt.t
+         Lwt.t
 
   (** Lwt version of [on_clear]. *)
   val lwt_on_clear
@@ -377,5 +377,5 @@ module type STORAGE = sig
        * value
        * [ `Old_value of value ]
        * Js_of_ocaml.Dom_html.storageEvent Js_of_ocaml.Js.t)
-       Lwt.t
+         Lwt.t
 end

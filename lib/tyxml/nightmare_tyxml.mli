@@ -83,10 +83,10 @@ val a_of
   -> ?parameters:(string * string) list
   -> ?a:Attrib.Without_source.a Tyxml.Html.attrib list
   -> ( _
-     , [< Nightmare_service.Method.for_link ]
-     , 'continuation
-     , 'b Tyxml.Html.elt list -> [> 'b Html_types.a ] Tyxml.Html.elt )
-     Nightmare_service.Endpoint.wrapped
+       , [< Nightmare_service.Method.for_link ]
+       , 'continuation
+       , 'b Tyxml.Html.elt list -> [> 'b Html_types.a ] Tyxml.Html.elt )
+       Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
 (** [audio_of ?parameters ?srcs ?a endpoint] generates a function expecting the
@@ -97,10 +97,10 @@ val audio_of
   -> ?srcs:[< Html_types.source ] Tyxml.Html.elt list
   -> ?a:Html_types.audio_attrib Tyxml.Html.attrib list
   -> ( _
-     , [< Nightmare_service.Method.for_link ]
-     , 'continuation
-     , 'a Tyxml.Html.elt list -> [> 'a Html_types.audio ] Tyxml.Html.elt )
-     Nightmare_service.Endpoint.wrapped
+       , [< Nightmare_service.Method.for_link ]
+       , 'continuation
+       , 'a Tyxml.Html.elt list -> [> 'a Html_types.audio ] Tyxml.Html.elt )
+       Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
 (** [base_of ?a endpoint] generates a function expecting the parameters of
@@ -109,10 +109,10 @@ val audio_of
 val base_of
   :  ?a:Attrib.Without_source.base Tyxml.Html.attrib list
   -> ( _
-     , [< Nightmare_service.Method.for_link ]
-     , 'continuation
-     , [> Html_types.base ] Tyxml.Html.elt )
-     Nightmare_service.Endpoint.wrapped
+       , [< Nightmare_service.Method.for_link ]
+       , 'continuation
+       , [> Html_types.base ] Tyxml.Html.elt )
+       Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
 (** [button_of ?anchor ?parameters ?srcs ?a endpoint] generates a function
@@ -123,11 +123,11 @@ val button_of
   -> ?parameters:(string * string) list
   -> ?a:Attrib.Without_source.button Tyxml.Html.attrib list
   -> ( _
-     , Nightmare_service.Method.for_form_action
-     , 'continuation
-     , Html_types.button_content_fun Tyxml.Html.elt list
-       -> [> Html_types.button ] Tyxml.Html.elt )
-     Nightmare_service.Endpoint.wrapped
+       , Nightmare_service.Method.for_form_action
+       , 'continuation
+       , Html_types.button_content_fun Tyxml.Html.elt list
+         -> [> Html_types.button ] Tyxml.Html.elt )
+       Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
 (* FIXME: we should add <input_of> like <button_of> but it is awaiting for
@@ -141,11 +141,11 @@ val blockquote_of
   -> ?parameters:(string * string) list
   -> ?a:Attrib.Without_source.blockquote Tyxml.Html.attrib list
   -> ( _
-     , [< Nightmare_service.Method.for_link ]
-     , 'continuation
-     , Html_types.blockquote_content_fun Tyxml.Html.elt list
-       -> [> Html_types.blockquote ] Tyxml.Html.elt )
-     Nightmare_service.Endpoint.wrapped
+       , [< Nightmare_service.Method.for_link ]
+       , 'continuation
+       , Html_types.blockquote_content_fun Tyxml.Html.elt list
+         -> [> Html_types.blockquote ] Tyxml.Html.elt )
+       Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
 (** [del_of ?anchor ?parameters ?a endpoint] generates a function expecting the
@@ -156,11 +156,11 @@ val del_of
   -> ?parameters:(string * string) list
   -> ?a:Attrib.Without_source.del Tyxml.Html.attrib list
   -> ( _
-     , [< Nightmare_service.Method.for_link ]
-     , 'continuation
-     , 'children Tyxml.Html.elt list
-       -> [> 'children Html_types.del ] Tyxml.Html.elt )
-     Nightmare_service.Endpoint.wrapped
+       , [< Nightmare_service.Method.for_link ]
+       , 'continuation
+       , 'children Tyxml.Html.elt list
+         -> [> 'children Html_types.del ] Tyxml.Html.elt )
+       Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
 (** [ins_of ?anchor ?parameters ?a endpoint] generates a function expecting the
@@ -171,11 +171,11 @@ val ins_of
   -> ?parameters:(string * string) list
   -> ?a:Attrib.Without_source.del Tyxml.Html.attrib list
   -> ( _
-     , [< Nightmare_service.Method.for_link ]
-     , 'continuation
-     , 'children Tyxml.Html.elt list
-       -> [> 'children Html_types.ins ] Tyxml.Html.elt )
-     Nightmare_service.Endpoint.wrapped
+       , [< Nightmare_service.Method.for_link ]
+       , 'continuation
+       , 'children Tyxml.Html.elt list
+         -> [> 'children Html_types.ins ] Tyxml.Html.elt )
+       Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
 (** [embed_of ?anchor ?parameters ?a endpoint] generates a function expecting
@@ -185,10 +185,10 @@ val embed_of
   :  ?parameters:(string * string) list
   -> ?a:Attrib.Without_source.embed Tyxml.Html.attrib list
   -> ( _
-     , [< Nightmare_service.Method.for_link ]
-     , 'continuation
-     , [> Html_types.embed ] Tyxml.Html.elt )
-     Nightmare_service.Endpoint.wrapped
+       , [< Nightmare_service.Method.for_link ]
+       , 'continuation
+       , [> Html_types.embed ] Tyxml.Html.elt )
+       Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
 (** [form_of ?anchor ?parameters ?csrf_token ?a endpoint] generates a function
@@ -202,11 +202,11 @@ val form_of
   -> ?csrf_token:string * string
   -> ?a:Attrib.Without_source.form Tyxml.Html.attrib list
   -> ( _
-     , Nightmare_service.Method.for_form_action
-     , 'continuation
-     , Html_types.form_content_fun Tyxml.Html.elt list
-       -> [> Html_types.form ] Tyxml.Html.elt )
-     Nightmare_service.Endpoint.wrapped
+       , Nightmare_service.Method.for_form_action
+       , 'continuation
+       , Html_types.form_content_fun Tyxml.Html.elt list
+         -> [> Html_types.form ] Tyxml.Html.elt )
+       Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
 (** [iframe_of ?anchor ?parameters ?a endpoint] generates a function expecting
@@ -217,11 +217,11 @@ val iframe_of
   -> ?parameters:(string * string) list
   -> ?a:Attrib.Without_source.iframe Tyxml.Html.attrib list
   -> ( _
-     , [< Nightmare_service.Method.for_link ]
-     , 'continuation
-     , Html_types.iframe_content_fun Tyxml.Html.elt list
-       -> [> Html_types.iframe ] Tyxml.Html.elt )
-     Nightmare_service.Endpoint.wrapped
+       , [< Nightmare_service.Method.for_link ]
+       , 'continuation
+       , Html_types.iframe_content_fun Tyxml.Html.elt list
+         -> [> Html_types.iframe ] Tyxml.Html.elt )
+       Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
 (** [img_of ?parameters ?alt ?a endpoint] generates a function expecting the
@@ -232,10 +232,10 @@ val img_of
   -> ?alt:string
   -> ?a:Html_types.img_attrib Tyxml.Html.attrib list
   -> ( _
-     , [< Nightmare_service.Method.for_link ]
-     , 'continuation
-     , [> Html_types.img ] Tyxml.Html.elt )
-     Nightmare_service.Endpoint.wrapped
+       , [< Nightmare_service.Method.for_link ]
+       , 'continuation
+       , [> Html_types.img ] Tyxml.Html.elt )
+       Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
 (** [link_of ?parameters ~rel ?a endpoint] generates a function expecting the
@@ -246,10 +246,10 @@ val link_of
   -> rel:Html_types.linktypes
   -> ?a:Attrib.Without_source.link Tyxml.Html.attrib list
   -> ( _
-     , [< Nightmare_service.Method.for_link ]
-     , 'continuation
-     , [> Html_types.link ] Tyxml.Html.elt )
-     Nightmare_service.Endpoint.wrapped
+       , [< Nightmare_service.Method.for_link ]
+       , 'continuation
+       , [> Html_types.link ] Tyxml.Html.elt )
+       Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
 (** [object_of ?parameters ?a ?object_param endpoint] generates a function
@@ -259,11 +259,11 @@ val object_of
   :  ?parameters:(string * string) list
   -> ?a:Attrib.Without_source.object_ Tyxml.Html.attrib list
   -> ( _
-     , [< Nightmare_service.Method.for_link ]
-     , 'continuation
-     , Html_types.object__content Tyxml.Html.elt list
-       -> [> Html_types.object__ ] Tyxml.Html.elt )
-     Nightmare_service.Endpoint.wrapped
+       , [< Nightmare_service.Method.for_link ]
+       , 'continuation
+       , Html_types.object__content Tyxml.Html.elt list
+         -> [> Html_types.object__ ] Tyxml.Html.elt )
+       Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
 (** [script_of ?parameters ?a endpoint] generates a function expecting the
@@ -273,10 +273,10 @@ val script_of
   :  ?parameters:(string * string) list
   -> ?a:Attrib.Without_source.script Tyxml.Html.attrib list
   -> ( _
-     , [< Nightmare_service.Method.for_link ]
-     , 'continuation
-     , string -> [> Html_types.script ] Tyxml.Html.elt )
-     Nightmare_service.Endpoint.wrapped
+       , [< Nightmare_service.Method.for_link ]
+       , 'continuation
+       , string -> [> Html_types.script ] Tyxml.Html.elt )
+       Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
 (** [q_of ?anchor ?parameters ?a endpoint] generates a function expecting the
@@ -287,11 +287,11 @@ val q_of
   -> ?parameters:(string * string) list
   -> ?a:Attrib.Without_source.q Tyxml.Html.attrib list
   -> ( _
-     , [< Nightmare_service.Method.for_link ]
-     , 'continuation
-     , Html_types.q_content_fun Tyxml.Html.elt list
-       -> [> Html_types.q ] Tyxml.Html.elt )
-     Nightmare_service.Endpoint.wrapped
+       , [< Nightmare_service.Method.for_link ]
+       , 'continuation
+       , Html_types.q_content_fun Tyxml.Html.elt list
+         -> [> Html_types.q ] Tyxml.Html.elt )
+       Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
 (** [source_of ?parameters ?a endpoint] generates a function expecting the
@@ -301,10 +301,10 @@ val source_of
   :  ?parameters:(string * string) list
   -> ?a:Attrib.Without_source.source Tyxml.Html.attrib list
   -> ( _
-     , [< Nightmare_service.Method.for_link ]
-     , 'continuation
-     , [> Html_types.source ] Tyxml.Html.elt )
-     Nightmare_service.Endpoint.wrapped
+       , [< Nightmare_service.Method.for_link ]
+       , 'continuation
+       , [> Html_types.source ] Tyxml.Html.elt )
+       Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
 (** [video_of ?parameters ?srcs ?a endpoint] generates a function expecting the
@@ -315,10 +315,10 @@ val video_of
   -> ?srcs:[< Html_types.source ] Tyxml.Html.elt list
   -> ?a:Html_types.video_attrib Tyxml.Html.attrib list
   -> ( _
-     , [< Nightmare_service.Method.for_link ]
-     , 'continuation
-     , 'a Tyxml.Html.elt list -> [> 'a Html_types.video ] Tyxml.Html.elt )
-     Nightmare_service.Endpoint.wrapped
+       , [< Nightmare_service.Method.for_link ]
+       , 'continuation
+       , 'a Tyxml.Html.elt list -> [> 'a Html_types.video ] Tyxml.Html.elt )
+       Nightmare_service.Endpoint.wrapped
   -> 'continuation
 
 (** {1 Hooked attributes} *)

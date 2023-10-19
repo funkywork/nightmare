@@ -26,13 +26,13 @@ let a_of ?anchor ?parameters ?(a = []) endpoint =
     ?parameters
     endpoint
     (fun target children ->
-    let a =
-      Tyxml.Html.a_href target
-      :: (a
-           : [< Attrib.Without_source.a ] Tyxml.Html.attrib list
-           :> [> Html_types.a_attrib ] Tyxml.Html.attrib list)
-    in
-    Tyxml.Html.a ~a children)
+       let a =
+         Tyxml.Html.a_href target
+         :: (a
+              : [< Attrib.Without_source.a ] Tyxml.Html.attrib list
+              :> [> Html_types.a_attrib ] Tyxml.Html.attrib list)
+       in
+       Tyxml.Html.a ~a children)
 ;;
 
 let audio_of ?parameters ?srcs ?(a = []) endpoint =
@@ -59,13 +59,13 @@ let blockquote_of ?anchor ?parameters ?(a = []) endpoint =
     ?parameters
     endpoint
     (fun target children ->
-    let a =
-      Tyxml.Html.a_cite target
-      :: (a
-           : [< Attrib.Without_source.blockquote ] Tyxml.Html.attrib list
-           :> [> Html_types.blockquote_attrib ] Tyxml.Html.attrib list)
-    in
-    Tyxml.Html.blockquote ~a children)
+       let a =
+         Tyxml.Html.a_cite target
+         :: (a
+              : [< Attrib.Without_source.blockquote ] Tyxml.Html.attrib list
+              :> [> Html_types.blockquote_attrib ] Tyxml.Html.attrib list)
+       in
+       Tyxml.Html.blockquote ~a children)
 ;;
 
 let q_of ?anchor ?parameters ?(a = []) endpoint =
@@ -74,13 +74,13 @@ let q_of ?anchor ?parameters ?(a = []) endpoint =
     ?parameters
     endpoint
     (fun target children ->
-    let a =
-      Tyxml.Html.a_cite target
-      :: (a
-           : [< Attrib.Without_source.q ] Tyxml.Html.attrib list
-           :> [> Html_types.q_attrib ] Tyxml.Html.attrib list)
-    in
-    Tyxml.Html.q ~a children)
+       let a =
+         Tyxml.Html.a_cite target
+         :: (a
+              : [< Attrib.Without_source.q ] Tyxml.Html.attrib list
+              :> [> Html_types.q_attrib ] Tyxml.Html.attrib list)
+       in
+       Tyxml.Html.q ~a children)
 ;;
 
 let del_of ?anchor ?parameters ?(a = []) endpoint =
@@ -89,13 +89,13 @@ let del_of ?anchor ?parameters ?(a = []) endpoint =
     ?parameters
     endpoint
     (fun target children ->
-    let a =
-      Tyxml.Html.a_cite target
-      :: (a
-           : [< Attrib.Without_source.del ] Tyxml.Html.attrib list
-           :> [> Html_types.del_attrib ] Tyxml.Html.attrib list)
-    in
-    Tyxml.Html.del ~a children)
+       let a =
+         Tyxml.Html.a_cite target
+         :: (a
+              : [< Attrib.Without_source.del ] Tyxml.Html.attrib list
+              :> [> Html_types.del_attrib ] Tyxml.Html.attrib list)
+       in
+       Tyxml.Html.del ~a children)
 ;;
 
 let ins_of ?anchor ?parameters ?(a = []) endpoint =
@@ -104,13 +104,13 @@ let ins_of ?anchor ?parameters ?(a = []) endpoint =
     ?parameters
     endpoint
     (fun target children ->
-    let a =
-      Tyxml.Html.a_cite target
-      :: (a
-           : [< Attrib.Without_source.ins ] Tyxml.Html.attrib list
-           :> [> Html_types.ins_attrib ] Tyxml.Html.attrib list)
-    in
-    Tyxml.Html.ins ~a children)
+       let a =
+         Tyxml.Html.a_cite target
+         :: (a
+              : [< Attrib.Without_source.ins ] Tyxml.Html.attrib list
+              :> [> Html_types.ins_attrib ] Tyxml.Html.attrib list)
+       in
+       Tyxml.Html.ins ~a children)
 ;;
 
 let embed_of ?parameters ?(a = []) endpoint =
@@ -139,14 +139,14 @@ let button_of ?anchor ?parameters ?(a = []) endpoint =
     ?parameters
     endpoint
     (fun target children ->
-    let a =
-      Tyxml.Html.a_formaction target
-      :: Tyxml.Html.a_method form_method
-      :: (a
-           : [< Attrib.Without_source.button ] Tyxml.Html.attrib list
-           :> [> Html_types.button_attrib ] Tyxml.Html.attrib list)
-    in
-    Tyxml.Html.button ~a children)
+       let a =
+         Tyxml.Html.a_formaction target
+         :: Tyxml.Html.a_method form_method
+         :: (a
+              : [< Attrib.Without_source.button ] Tyxml.Html.attrib list
+              :> [> Html_types.button_attrib ] Tyxml.Html.attrib list)
+       in
+       Tyxml.Html.button ~a children)
 ;;
 
 let form_of ?anchor ?parameters ?csrf_token ?(a = []) endpoint =
@@ -159,31 +159,31 @@ let form_of ?anchor ?parameters ?csrf_token ?(a = []) endpoint =
     ?parameters
     endpoint
     (fun target children ->
-    let children =
-      Option.fold
-        ~none:children
-        ~some:(fun (input_name, input_value) ->
-          let x =
-            Tyxml.Html.(
-              input
-                ~a:
-                  [ a_input_type `Hidden
-                  ; a_name input_name
-                  ; a_value input_value
-                  ])
-              ()
-          in
-          x :: children)
-        csrf_token
-    in
-    let a =
-      Tyxml.Html.a_action target
-      :: Tyxml.Html.a_method form_method
-      :: (a
-           : [< Attrib.Without_source.form ] Tyxml.Html.attrib list
-           :> [> Html_types.form_attrib ] Tyxml.Html.attrib list)
-    in
-    Tyxml.Html.form ~a children)
+       let children =
+         Option.fold
+           ~none:children
+           ~some:(fun (input_name, input_value) ->
+             let x =
+               Tyxml.Html.(
+                 input
+                   ~a:
+                     [ a_input_type `Hidden
+                     ; a_name input_name
+                     ; a_value input_value
+                     ])
+                 ()
+             in
+             x :: children)
+           csrf_token
+       in
+       let a =
+         Tyxml.Html.a_action target
+         :: Tyxml.Html.a_method form_method
+         :: (a
+              : [< Attrib.Without_source.form ] Tyxml.Html.attrib list
+              :> [> Html_types.form_attrib ] Tyxml.Html.attrib list)
+       in
+       Tyxml.Html.form ~a children)
 ;;
 
 let iframe_of ?anchor ?parameters ?(a = []) endpoint =
@@ -192,13 +192,13 @@ let iframe_of ?anchor ?parameters ?(a = []) endpoint =
     ?parameters
     endpoint
     (fun target children ->
-    let a =
-      Tyxml.Html.a_src target
-      :: (a
-           : [< Attrib.Without_source.iframe ] Tyxml.Html.attrib list
-           :> [> Html_types.iframe_attrib ] Tyxml.Html.attrib list)
-    in
-    Tyxml.Html.iframe ~a children)
+       let a =
+         Tyxml.Html.a_src target
+         :: (a
+              : [< Attrib.Without_source.iframe ] Tyxml.Html.attrib list
+              :> [> Html_types.iframe_attrib ] Tyxml.Html.attrib list)
+       in
+       Tyxml.Html.iframe ~a children)
 ;;
 
 let img_of ?parameters ?alt ?(a = []) endpoint =
@@ -217,13 +217,13 @@ let object_of ?parameters ?(a = []) endpoint =
     ?parameters
     endpoint
     (fun target children ->
-    let a =
-      Tyxml.Html.a_data target
-      :: (a
-           : [< Attrib.Without_source.object_ ] Tyxml.Html.attrib list
-           :> [> Html_types.object__attrib ] Tyxml.Html.attrib list)
-    in
-    Tyxml.Html.object_ ~a children)
+       let a =
+         Tyxml.Html.a_data target
+         :: (a
+              : [< Attrib.Without_source.object_ ] Tyxml.Html.attrib list
+              :> [> Html_types.object__attrib ] Tyxml.Html.attrib list)
+       in
+       Tyxml.Html.object_ ~a children)
 ;;
 
 let script_of ?parameters ?(a = []) endpoint =
@@ -231,13 +231,13 @@ let script_of ?parameters ?(a = []) endpoint =
     ?parameters
     endpoint
     (fun target children ->
-    let a =
-      Tyxml.Html.a_src target
-      :: (a
-           : [< Attrib.Without_source.script ] Tyxml.Html.attrib list
-           :> [> Html_types.script_attrib ] Tyxml.Html.attrib list)
-    in
-    Tyxml.Html.script ~a (Tyxml.Html.txt children))
+       let a =
+         Tyxml.Html.a_src target
+         :: (a
+              : [< Attrib.Without_source.script ] Tyxml.Html.attrib list
+              :> [> Html_types.script_attrib ] Tyxml.Html.attrib list)
+       in
+       Tyxml.Html.script ~a (Tyxml.Html.txt children))
 ;;
 
 let source_of ?parameters ?(a = []) endpoint =

@@ -161,17 +161,17 @@ let test_choose_when_there_is_no_candidate_1 =
       "when there is no service that match input, it should return an error 1"
     R.testable
     (fun () ->
-    let open Lwt.Syntax in
-    let+ computed =
-      Service.choose
-        ~services
-        ~given_method:`GET
-        ~given_uri:"/"
-        Services.error
-        (R.make_ok "root")
-    in
-    let expected = R.make_error "no service" in
-    expected, computed)
+       let open Lwt.Syntax in
+       let+ computed =
+         Service.choose
+           ~services
+           ~given_method:`GET
+           ~given_uri:"/"
+           Services.error
+           (R.make_ok "root")
+       in
+       let expected = R.make_error "no service" in
+       expected, computed)
 ;;
 
 let test_choose_when_there_is_no_candidate_2 =
@@ -181,17 +181,17 @@ let test_choose_when_there_is_no_candidate_2 =
       "when there is no service that match input, it should return an error 2"
     R.testable
     (fun () ->
-    let open Lwt.Syntax in
-    let+ computed =
-      Service.choose
-        ~services
-        ~given_method:`POST
-        ~given_uri:"/hello/world"
-        Services.error
-        (R.make_ok "root")
-    in
-    let expected = R.make_error "no service" in
-    expected, computed)
+       let open Lwt.Syntax in
+       let+ computed =
+         Service.choose
+           ~services
+           ~given_method:`POST
+           ~given_uri:"/hello/world"
+           Services.error
+           (R.make_ok "root")
+       in
+       let expected = R.make_error "no service" in
+       expected, computed)
 ;;
 
 let test_choose_when_there_is_no_candidate_3 =
@@ -201,17 +201,17 @@ let test_choose_when_there_is_no_candidate_3 =
       "when there is no service that match input, it should return an error 3"
     R.testable
     (fun () ->
-    let open Lwt.Syntax in
-    let+ computed =
-      Service.choose
-        ~services
-        ~given_method:`POST
-        ~given_uri:"/sum/a/10/b/foo"
-        Services.error
-        (R.make_ok "root")
-    in
-    let expected = R.make_error "no service" in
-    expected, computed)
+       let open Lwt.Syntax in
+       let+ computed =
+         Service.choose
+           ~services
+           ~given_method:`POST
+           ~given_uri:"/sum/a/10/b/foo"
+           Services.error
+           (R.make_ok "root")
+       in
+       let expected = R.make_error "no service" in
+       expected, computed)
 ;;
 
 let test_choose_on_hello_world =
@@ -221,17 +221,17 @@ let test_choose_on_hello_world =
       "when choose match hello_world, it should return the string Hello, World!"
     R.testable
     (fun () ->
-    let open Lwt.Syntax in
-    let+ computed =
-      Service.choose
-        ~services
-        ~given_method:`GET
-        ~given_uri:"/hello/world"
-        Services.error
-        (R.make_ok "root")
-    in
-    let expected = R.make_ok "Hello, World!" in
-    expected, computed)
+       let open Lwt.Syntax in
+       let+ computed =
+         Service.choose
+           ~services
+           ~given_method:`GET
+           ~given_uri:"/hello/world"
+           Services.error
+           (R.make_ok "root")
+       in
+       let expected = R.make_ok "Hello, World!" in
+       expected, computed)
 ;;
 
 let test_choose_on_sum =
@@ -240,17 +240,17 @@ let test_choose_on_sum =
     ~desc:"when choose match sum, it should return the result of the addition"
     R.testable
     (fun () ->
-    let open Lwt.Syntax in
-    let+ computed =
-      Service.choose
-        ~services
-        ~given_method:`POST
-        ~given_uri:"/sum/a/12/b/3145"
-        Services.error
-        (R.make_ok "root")
-    in
-    let expected = R.make_ok "3157" in
-    expected, computed)
+       let open Lwt.Syntax in
+       let+ computed =
+         Service.choose
+           ~services
+           ~given_method:`POST
+           ~given_uri:"/sum/a/12/b/3145"
+           Services.error
+           (R.make_ok "root")
+       in
+       let expected = R.make_ok "3157" in
+       expected, computed)
 ;;
 
 let test_choose_on_cheap_auth_when_auth_is_not_allowed =
@@ -260,17 +260,17 @@ let test_choose_on_cheap_auth_when_auth_is_not_allowed =
     ~desc:"when choose match auth, but auth is not allowed"
     R.testable
     (fun () ->
-    let open Lwt.Syntax in
-    let+ computed =
-      Service.choose
-        ~services
-        ~given_method:`POST
-        ~given_uri:"/auth/pierre/pierre-s-password1234"
-        Services.error
-        (R.make_ok ~env "root")
-    in
-    let expected = R.make_redirect ~env "https://public.com" in
-    expected, computed)
+       let open Lwt.Syntax in
+       let+ computed =
+         Service.choose
+           ~services
+           ~given_method:`POST
+           ~given_uri:"/auth/pierre/pierre-s-password1234"
+           Services.error
+           (R.make_ok ~env "root")
+       in
+       let expected = R.make_redirect ~env "https://public.com" in
+       expected, computed)
 ;;
 
 let test_choose_on_cheap_auth_when_user_does_not_exists =
@@ -285,17 +285,17 @@ let test_choose_on_cheap_auth_when_user_does_not_exists =
     ~desc:"when choose match auth, but the user does not exists"
     R.testable
     (fun () ->
-    let open Lwt.Syntax in
-    let+ computed =
-      Service.choose
-        ~services
-        ~given_method:`POST
-        ~given_uri:"/auth/antoine/pierre-s-password1234"
-        Services.error
-        (R.make_ok ~env "root")
-    in
-    let expected = R.make_error ~env "unknown user" in
-    expected, computed)
+       let open Lwt.Syntax in
+       let+ computed =
+         Service.choose
+           ~services
+           ~given_method:`POST
+           ~given_uri:"/auth/antoine/pierre-s-password1234"
+           Services.error
+           (R.make_ok ~env "root")
+       in
+       let expected = R.make_error ~env "unknown user" in
+       expected, computed)
 ;;
 
 let test_choose_on_cheap_auth_when_password_does_not_match =
@@ -311,17 +311,17 @@ let test_choose_on_cheap_auth_when_password_does_not_match =
       "when choose match auth, the user exists, but passwords does not match"
     R.testable
     (fun () ->
-    let open Lwt.Syntax in
-    let+ computed =
-      Service.choose
-        ~services
-        ~given_method:`POST
-        ~given_uri:"/auth/pierre/pierre-s-password12345"
-        Services.error
-        (R.make_ok ~env "root")
-    in
-    let expected = R.make_error ~env "invalid password" in
-    expected, computed)
+       let open Lwt.Syntax in
+       let+ computed =
+         Service.choose
+           ~services
+           ~given_method:`POST
+           ~given_uri:"/auth/pierre/pierre-s-password12345"
+           Services.error
+           (R.make_ok ~env "root")
+       in
+       let expected = R.make_error ~env "invalid password" in
+       expected, computed)
 ;;
 
 let test_choose_on_cheap_auth_when_user_exists_and_password_match =
@@ -336,17 +336,17 @@ let test_choose_on_cheap_auth_when_user_exists_and_password_match =
     ~desc:"when choose match auth, the user exists and password exists"
     R.testable
     (fun () ->
-    let open Lwt.Syntax in
-    let+ computed =
-      Service.choose
-        ~services
-        ~given_method:`POST
-        ~given_uri:"/auth/pierre/pierre-s-password1234"
-        Services.error
-        (R.make_ok ~env "root")
-    in
-    let expected = R.make_redirect ~env "https://private.com" in
-    expected, computed)
+       let open Lwt.Syntax in
+       let+ computed =
+         Service.choose
+           ~services
+           ~given_method:`POST
+           ~given_uri:"/auth/pierre/pierre-s-password1234"
+           Services.error
+           (R.make_ok ~env "root")
+       in
+       let expected = R.make_redirect ~env "https://private.com" in
+       expected, computed)
 ;;
 
 let test_choose_on_provided_page_when_user_is_not_connected =
@@ -356,17 +356,17 @@ let test_choose_on_provided_page_when_user_is_not_connected =
     ~desc:"when choose match provided but the user is not connected"
     R.testable
     (fun () ->
-    let open Lwt.Syntax in
-    let+ computed =
-      Service.choose
-        ~services
-        ~given_method:`POST
-        ~given_uri:"/provided"
-        Services.error
-        (R.make_ok ~env "root")
-    in
-    let expected = R.make_error ~env "not connected" in
-    expected, computed)
+       let open Lwt.Syntax in
+       let+ computed =
+         Service.choose
+           ~services
+           ~given_method:`POST
+           ~given_uri:"/provided"
+           Services.error
+           (R.make_ok ~env "root")
+       in
+       let expected = R.make_error ~env "not connected" in
+       expected, computed)
 ;;
 
 let test_choose_on_provided_page_when_user_is_not_active =
@@ -376,17 +376,17 @@ let test_choose_on_provided_page_when_user_is_not_active =
     ~desc:"when choose match provided but the user is not active"
     R.testable
     (fun () ->
-    let open Lwt.Syntax in
-    let+ computed =
-      Service.choose
-        ~services
-        ~given_method:`POST
-        ~given_uri:"/provided"
-        Services.error
-        (R.make_ok ~env "root")
-    in
-    let expected = R.make_error ~env "not active" in
-    expected, computed)
+       let open Lwt.Syntax in
+       let+ computed =
+         Service.choose
+           ~services
+           ~given_method:`POST
+           ~given_uri:"/provided"
+           Services.error
+           (R.make_ok ~env "root")
+       in
+       let expected = R.make_error ~env "not active" in
+       expected, computed)
 ;;
 
 let test_choose_on_provided_page_when_user_is_valid =
@@ -396,17 +396,17 @@ let test_choose_on_provided_page_when_user_is_valid =
     ~desc:"when choose match provided and the user is active"
     R.testable
     (fun () ->
-    let open Lwt.Syntax in
-    let+ computed =
-      Service.choose
-        ~services
-        ~given_method:`POST
-        ~given_uri:"/provided"
-        Services.error
-        (R.make_ok ~env "root")
-    in
-    let expected = R.make_ok ~env "connected" in
-    expected, computed)
+       let open Lwt.Syntax in
+       let+ computed =
+         Service.choose
+           ~services
+           ~given_method:`POST
+           ~given_uri:"/provided"
+           Services.error
+           (R.make_ok ~env "root")
+       in
+       let expected = R.make_ok ~env "connected" in
+       expected, computed)
 ;;
 
 let test_choose_on_cheap_failable_auth_when_user_does_not_exists =
@@ -421,17 +421,17 @@ let test_choose_on_cheap_failable_auth_when_user_does_not_exists =
     ~desc:"when choose match auth, but the user does not exists"
     R.testable
     (fun () ->
-    let open Lwt.Syntax in
-    let+ computed =
-      Service.choose
-        ~services
-        ~given_method:`POST
-        ~given_uri:"/auth-failable/antoine/pierre-s-password1234"
-        Services.error
-        (R.make_ok ~env "root")
-    in
-    let expected = R.make_error ~env "unknown user" in
-    expected, computed)
+       let open Lwt.Syntax in
+       let+ computed =
+         Service.choose
+           ~services
+           ~given_method:`POST
+           ~given_uri:"/auth-failable/antoine/pierre-s-password1234"
+           Services.error
+           (R.make_ok ~env "root")
+       in
+       let expected = R.make_error ~env "unknown user" in
+       expected, computed)
 ;;
 
 let test_choose_on_cheap_failable_auth_when_password_not_match =
@@ -446,17 +446,17 @@ let test_choose_on_cheap_failable_auth_when_password_not_match =
     ~desc:"when choose match auth, but the password does not match"
     R.testable
     (fun () ->
-    let open Lwt.Syntax in
-    let+ computed =
-      Service.choose
-        ~services
-        ~given_method:`POST
-        ~given_uri:"/auth-failable/pierre/pierre-s-password12345"
-        Services.error
-        (R.make_ok ~env "root")
-    in
-    let expected = R.make_error ~env "invalid password" in
-    expected, computed)
+       let open Lwt.Syntax in
+       let+ computed =
+         Service.choose
+           ~services
+           ~given_method:`POST
+           ~given_uri:"/auth-failable/pierre/pierre-s-password12345"
+           Services.error
+           (R.make_ok ~env "root")
+       in
+       let expected = R.make_error ~env "invalid password" in
+       expected, computed)
 ;;
 
 let test_choose_on_cheap_failable_auth_when_password_match =
@@ -471,17 +471,17 @@ let test_choose_on_cheap_failable_auth_when_password_match =
     ~desc:"when choose match auth and the password match"
     R.testable
     (fun () ->
-    let open Lwt.Syntax in
-    let+ computed =
-      Service.choose
-        ~services
-        ~given_method:`POST
-        ~given_uri:"/auth-failable/pierre/pierre-s-password1234"
-        Services.error
-        (R.make_ok ~env "root")
-    in
-    let expected = R.make_ok ~env "Hello pierre" in
-    expected, computed)
+       let open Lwt.Syntax in
+       let+ computed =
+         Service.choose
+           ~services
+           ~given_method:`POST
+           ~given_uri:"/auth-failable/pierre/pierre-s-password1234"
+           Services.error
+           (R.make_ok ~env "root")
+       in
+       let expected = R.make_ok ~env "Hello pierre" in
+       expected, computed)
 ;;
 
 let test_choose_on_binop_with_invalid_char =
@@ -490,17 +490,17 @@ let test_choose_on_binop_with_invalid_char =
     ~desc:"when choose match binop but the char is not an operator"
     R.testable
     (fun () ->
-    let open Lwt.Syntax in
-    let+ computed =
-      Service.choose
-        ~services
-        ~given_method:`POST
-        ~given_uri:"/binop/i/a/1/b/2"
-        Services.error
-        (R.make_ok "root")
-    in
-    let expected = R.make_error "unknown operator i" in
-    expected, computed)
+       let open Lwt.Syntax in
+       let+ computed =
+         Service.choose
+           ~services
+           ~given_method:`POST
+           ~given_uri:"/binop/i/a/1/b/2"
+           Services.error
+           (R.make_ok "root")
+       in
+       let expected = R.make_error "unknown operator i" in
+       expected, computed)
 ;;
 
 let test_choose_on_binop_with_valid_char =
@@ -509,17 +509,17 @@ let test_choose_on_binop_with_valid_char =
     ~desc:"when choose match binop and perform a computation"
     R.testable
     (fun () ->
-    let open Lwt.Syntax in
-    let+ computed =
-      Service.choose
-        ~services
-        ~given_method:`POST
-        ~given_uri:"/binop/*/a/2/b/9"
-        Services.error
-        (R.make_ok "root")
-    in
-    let expected = R.make_ok "18" in
-    expected, computed)
+       let open Lwt.Syntax in
+       let+ computed =
+         Service.choose
+           ~services
+           ~given_method:`POST
+           ~given_uri:"/binop/*/a/2/b/9"
+           Services.error
+           (R.make_ok "root")
+       in
+       let expected = R.make_ok "18" in
+       expected, computed)
 ;;
 
 let test_choose_on_provided_auth_when_no_env =
@@ -529,17 +529,17 @@ let test_choose_on_provided_auth_when_no_env =
       "when choose match provided_auth but there is no current user connected"
     R.testable
     (fun () ->
-    let open Lwt.Syntax in
-    let+ computed =
-      Service.choose
-        ~services
-        ~given_method:`POST
-        ~given_uri:"/provided-auth"
-        Services.error
-        (R.make_ok "root")
-    in
-    let expected = R.make_error "not connected" in
-    expected, computed)
+       let open Lwt.Syntax in
+       let+ computed =
+         Service.choose
+           ~services
+           ~given_method:`POST
+           ~given_uri:"/provided-auth"
+           Services.error
+           (R.make_ok "root")
+       in
+       let expected = R.make_error "not connected" in
+       expected, computed)
 ;;
 
 let test_choose_on_provided_auth_when_user_not_active =
@@ -549,17 +549,17 @@ let test_choose_on_provided_auth_when_user_not_active =
     ~desc:"when choose match provided_auth but the current user is inactive"
     R.testable
     (fun () ->
-    let open Lwt.Syntax in
-    let+ computed =
-      Service.choose
-        ~services
-        ~given_method:`POST
-        ~given_uri:"/provided-auth"
-        Services.error
-        (R.make_ok ~env "root")
-    in
-    let expected = R.make_error ~env "not active" in
-    expected, computed)
+       let open Lwt.Syntax in
+       let+ computed =
+         Service.choose
+           ~services
+           ~given_method:`POST
+           ~given_uri:"/provided-auth"
+           Services.error
+           (R.make_ok ~env "root")
+       in
+       let expected = R.make_error ~env "not active" in
+       expected, computed)
 ;;
 
 let test_choose_on_provided_auth_when_user_is_active =
@@ -569,17 +569,17 @@ let test_choose_on_provided_auth_when_user_is_active =
     ~desc:"when choose match provided_auth and the current user is active"
     R.testable
     (fun () ->
-    let open Lwt.Syntax in
-    let+ computed =
-      Service.choose
-        ~services
-        ~given_method:`POST
-        ~given_uri:"/provided-auth"
-        Services.error
-        (R.make_ok ~env "root")
-    in
-    let expected = R.make_ok ~env "welcome" in
-    expected, computed)
+       let open Lwt.Syntax in
+       let+ computed =
+         Service.choose
+           ~services
+           ~given_method:`POST
+           ~given_uri:"/provided-auth"
+           Services.error
+           (R.make_ok ~env "root")
+       in
+       let expected = R.make_ok ~env "welcome" in
+       expected, computed)
 ;;
 
 let cases =

@@ -82,11 +82,11 @@ let as_lwt promise =
 let set_timeout duration = Internal.set_timeout duration
 
 module Monad = Preface.Make.Monad.Via_return_and_bind (struct
-  type nonrec 'a t = 'a t
+    type nonrec 'a t = 'a t
 
-  let return x = resolved x
-  let bind f x = then_ f x
-end)
+    let return x = resolved x
+    let bind f x = then_ f x
+  end)
 
 module Applicative = Preface.Make.Applicative.From_monad (Monad)
 module Functor = Applicative

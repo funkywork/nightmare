@@ -242,7 +242,7 @@ val a_media
      | `Tv
      | `Raw_mediadesc of string
      ]
-     list
+       list
   -> ([> `Media ], 'msg) t
 
 val a_sizes : [< `Any | `List of (int * int) list ] -> ([> `Sizes ], 'msg) t

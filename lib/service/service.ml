@@ -3,10 +3,10 @@ type ('request, 'response) t =
       { middlewares : ('request, 'response) Middleware.t list
       ; endpoint :
           ( [ `Inner ]
-          , Method.t
-          , 'continuation
-          , ('request, 'response) Handler.t )
-          Endpoint.wrapped
+            , Method.t
+            , 'continuation
+            , ('request, 'response) Handler.t )
+            Endpoint.wrapped
       ; handler : 'continuation
       }
       -> ('request, 'response) t
@@ -14,10 +14,10 @@ type ('request, 'response) t =
       { middlewares : ('request, 'response) Middleware.t list
       ; endpoint :
           ( [ `Inner ]
-          , Method.t
-          , 'continuation
-          , 'attachment -> ('request, 'response) Handler.t )
-          Endpoint.wrapped
+            , Method.t
+            , 'continuation
+            , 'attachment -> ('request, 'response) Handler.t )
+            Endpoint.wrapped
       ; provider :
           ('attachment -> ('request, 'response) Handler.t)
           -> ('request, 'response) Handler.t
@@ -28,10 +28,10 @@ type ('request, 'response) t =
       { middlewares : ('request, 'response) Middleware.t list
       ; endpoint :
           ( [ `Inner ]
-          , Method.t
-          , 'continuation
-          , ('request, ('result, 'error) result) Handler.t )
-          Endpoint.wrapped
+            , Method.t
+            , 'continuation
+            , ('request, ('result, 'error) result) Handler.t )
+            Endpoint.wrapped
       ; handler : 'continuation
       ; ok : 'result -> ('request, 'response) Handler.t
       ; error : 'error -> ('request, 'response) Handler.t
@@ -41,10 +41,10 @@ type ('request, 'response) t =
       { middlewares : ('request, 'response) Middleware.t list
       ; endpoint :
           ( [ `Inner ]
-          , Method.t
-          , 'continuation
-          , 'attachment -> ('request, ('result, 'error) result) Handler.t )
-          Endpoint.wrapped
+            , Method.t
+            , 'continuation
+            , 'attachment -> ('request, ('result, 'error) result) Handler.t )
+            Endpoint.wrapped
       ; provider :
           ('attachment -> ('request, 'response) Handler.t)
           -> ('request, 'response) Handler.t

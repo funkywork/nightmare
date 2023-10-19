@@ -213,10 +213,10 @@ module Make (Req : REQUIREMENT) = struct
     let task, awaiter, cancelation, listener_id = prepare_lwt_task () in
     let () =
       listener_id
-        := Nullable.fill
-           @@ on ?capture ?passive ?prefix (fun state event ->
-                let () = cancelation () in
-                Lwt.wakeup awaiter (state, event))
+      := Nullable.fill
+         @@ on ?capture ?passive ?prefix (fun state event ->
+           let () = cancelation () in
+           Lwt.wakeup awaiter (state, event))
     in
     task
   ;;
@@ -225,10 +225,10 @@ module Make (Req : REQUIREMENT) = struct
     let task, awaiter, cancelation, listener_id = prepare_lwt_task () in
     let () =
       listener_id
-        := Nullable.fill
-           @@ on_clear ?capture ?passive (fun event ->
-                let () = cancelation () in
-                Lwt.wakeup awaiter event)
+      := Nullable.fill
+         @@ on_clear ?capture ?passive (fun event ->
+           let () = cancelation () in
+           Lwt.wakeup awaiter event)
     in
     task
   ;;
@@ -237,10 +237,10 @@ module Make (Req : REQUIREMENT) = struct
     let task, awaiter, cancelation, listener_id = prepare_lwt_task () in
     let () =
       listener_id
-        := Nullable.fill
-           @@ on_insert ?capture ?passive ?prefix (fun ~key ~value event ->
-                let () = cancelation () in
-                Lwt.wakeup awaiter (key, value, event))
+      := Nullable.fill
+         @@ on_insert ?capture ?passive ?prefix (fun ~key ~value event ->
+           let () = cancelation () in
+           Lwt.wakeup awaiter (key, value, event))
     in
     task
   ;;
@@ -249,10 +249,10 @@ module Make (Req : REQUIREMENT) = struct
     let task, awaiter, cancelation, listener_id = prepare_lwt_task () in
     let () =
       listener_id
-        := Nullable.fill
-           @@ on_remove ?capture ?passive ?prefix (fun ~key ~old_value event ->
-                let () = cancelation () in
-                Lwt.wakeup awaiter (key, old_value, event))
+      := Nullable.fill
+         @@ on_remove ?capture ?passive ?prefix (fun ~key ~old_value event ->
+           let () = cancelation () in
+           Lwt.wakeup awaiter (key, old_value, event))
     in
     task
   ;;
@@ -261,34 +261,34 @@ module Make (Req : REQUIREMENT) = struct
     let task, awaiter, cancelation, listener_id = prepare_lwt_task () in
     let () =
       listener_id
-        := Nullable.fill
-           @@ on_update
-                ?capture
-                ?passive
-                ?prefix
-                (fun ~key ~old_value ~new_value event ->
-                let () = cancelation () in
-                Lwt.wakeup awaiter (key, new_value, `Old_value old_value, event))
+      := Nullable.fill
+         @@ on_update
+              ?capture
+              ?passive
+              ?prefix
+              (fun ~key ~old_value ~new_value event ->
+                 let () = cancelation () in
+                 Lwt.wakeup awaiter (key, new_value, `Old_value old_value, event))
     in
     task
   ;;
 end
 
 module Local = Make (struct
-  let handler = Js_of_ocaml.Dom_html.window##.localStorage
-end)
+    let handler = Js_of_ocaml.Dom_html.window##.localStorage
+  end)
 
 module Session = Make (struct
-  let handler = Js_of_ocaml.Dom_html.window##.sessionStorage
-end)
+    let handler = Js_of_ocaml.Dom_html.window##.sessionStorage
+  end)
 
 let separator = "\x01"
 let terminator = "\x00"
 
 module Ref
-  (Backend : S with type key = string and type value = string)
-  (Key : KEY)
-  (Value : VALUE) =
+    (Backend : S with type key = string and type value = string)
+    (Key : KEY)
+    (Value : VALUE) =
 struct
   open Optional
 
@@ -386,10 +386,10 @@ struct
     let task, awaiter, cancelation, listener_id = prepare_lwt_task () in
     let () =
       listener_id
-        := Nullable.fill
-           @@ on ?capture ?passive ~key (fun state event ->
-                let () = cancelation () in
-                Lwt.wakeup awaiter (state, event))
+      := Nullable.fill
+         @@ on ?capture ?passive ~key (fun state event ->
+           let () = cancelation () in
+           Lwt.wakeup awaiter (state, event))
     in
     task
   ;;
@@ -398,10 +398,10 @@ struct
     let task, awaiter, cancelation, listener_id = prepare_lwt_task () in
     let () =
       listener_id
-        := Nullable.fill
-           @@ on_insert ?capture ?passive ~key (fun ~key ~value event ->
-                let () = cancelation () in
-                Lwt.wakeup awaiter (key, value, event))
+      := Nullable.fill
+         @@ on_insert ?capture ?passive ~key (fun ~key ~value event ->
+           let () = cancelation () in
+           Lwt.wakeup awaiter (key, value, event))
     in
     task
   ;;
@@ -410,10 +410,10 @@ struct
     let task, awaiter, cancelation, listener_id = prepare_lwt_task () in
     let () =
       listener_id
-        := Nullable.fill
-           @@ on_remove ?capture ?passive ~key (fun ~key ~old_value event ->
-                let () = cancelation () in
-                Lwt.wakeup awaiter (key, old_value, event))
+      := Nullable.fill
+         @@ on_remove ?capture ?passive ~key (fun ~key ~old_value event ->
+           let () = cancelation () in
+           Lwt.wakeup awaiter (key, old_value, event))
     in
     task
   ;;
@@ -422,14 +422,14 @@ struct
     let task, awaiter, cancelation, listener_id = prepare_lwt_task () in
     let () =
       listener_id
-        := Nullable.fill
-           @@ on_update
-                ?capture
-                ?passive
-                ~key
-                (fun ~key ~old_value ~new_value event ->
-                let () = cancelation () in
-                Lwt.wakeup awaiter (key, new_value, `Old_value old_value, event))
+      := Nullable.fill
+         @@ on_update
+              ?capture
+              ?passive
+              ~key
+              (fun ~key ~old_value ~new_value event ->
+                 let () = cancelation () in
+                 Lwt.wakeup awaiter (key, new_value, `Old_value old_value, event))
     in
     task
   ;;

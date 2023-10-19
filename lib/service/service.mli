@@ -77,10 +77,10 @@ val straight
   :  ?middlewares:('request, 'response) Middleware.t list
   -> endpoint:
        ( [ `Inner ]
-       , Method.t
-       , 'continuation
-       , ('request, 'response) Handler.t )
-       Endpoint.wrapped
+         , Method.t
+         , 'continuation
+         , ('request, 'response) Handler.t )
+         Endpoint.wrapped
   -> 'continuation
   -> ('request, 'response) t
 
@@ -120,9 +120,9 @@ val straight
           ~middlewares:[ is_authenticated ]
           ~provider:provide_user
           (fun password user _request ->
-          if String.equal password "secret-password-of-secret-page"
-          then Lwt.return ("Hello on the secret page" ^ user.name)
-          else Lwt.return "Nothing to see here")
+             if String.equal password "secret-password-of-secret-page"
+             then Lwt.return ("Hello on the secret page" ^ user.name)
+             else Lwt.return "Nothing to see here")
       ;;
     ]}
 
@@ -138,10 +138,10 @@ val straight'
         -> ('request, 'response) Handler.t)
   -> endpoint:
        ( [ `Inner ]
-       , Method.t
-       , 'continuation
-       , 'attachment -> ('request, 'response) Handler.t )
-       Endpoint.wrapped
+         , Method.t
+         , 'continuation
+         , 'attachment -> ('request, 'response) Handler.t )
+         Endpoint.wrapped
   -> 'continuation
   -> ('request, 'response) t
 
@@ -190,10 +190,10 @@ val failable
   :  ?middlewares:('request, 'response) Middleware.t list
   -> endpoint:
        ( [ `Inner ]
-       , Method.t
-       , 'continuation
-       , ('request, ('result, 'error) result) Handler.t )
-       Endpoint.wrapped
+         , Method.t
+         , 'continuation
+         , ('request, ('result, 'error) result) Handler.t )
+         Endpoint.wrapped
   -> ok:('result -> ('request, 'response) Handler.t)
   -> error:('error -> ('request, 'response) Handler.t)
   -> 'continuation
@@ -247,10 +247,10 @@ val failable'
         -> ('request, 'response) Handler.t)
   -> endpoint:
        ( [ `Inner ]
-       , Method.t
-       , 'continuation
-       , 'attachment -> ('request, ('result, 'error) result) Handler.t )
-       Endpoint.wrapped
+         , Method.t
+         , 'continuation
+         , 'attachment -> ('request, ('result, 'error) result) Handler.t )
+         Endpoint.wrapped
   -> ok:('result -> ('request, 'response) Handler.t)
   -> error:('error -> ('request, 'response) Handler.t)
   -> 'continuation

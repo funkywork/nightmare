@@ -48,10 +48,10 @@ module Make (R : Interfaces.FOLDABLE_OPTION) = struct
   ;;
 
   module Functor = Preface.Make.Functor.Via_map (struct
-    type nonrec 'a t = 'a t
+      type nonrec 'a t = 'a t
 
-    let map f x = fold halt (fun x -> fill (f x)) x
-  end)
+      let map f x = fold halt (fun x -> fill (f x)) x
+    end)
 
   module Alt =
     Preface.Make.Alt.Over_functor
@@ -63,18 +63,18 @@ module Make (R : Interfaces.FOLDABLE_OPTION) = struct
       end)
 
   module Alternative = Preface.Make.Alternative.Via_pure_and_apply (struct
-    type nonrec 'a t = 'a t
+      type nonrec 'a t = 'a t
 
-    let pure = fill
-    let neutral = empty
-    let combine = Alt.combine
+      let pure = fill
+      let neutral = empty
+      let combine = Alt.combine
 
-    let apply fs xs =
-      let right f x = pure (f x) in
-      let left f = fold halt (right f) xs in
-      fold halt left fs
-    ;;
-  end)
+      let apply fs xs =
+        let right f x = pure (f x) in
+        let left f = fold halt (right f) xs in
+        fold halt left fs
+      ;;
+    end)
 
   module Applicative =
     Preface.Make.Traversable.Join_with_applicative
@@ -92,11 +92,11 @@ module Make (R : Interfaces.FOLDABLE_OPTION) = struct
            end))
 
   module Monad_plus = Preface.Make.Monad_plus.Via_bind (struct
-    include Alternative
+      include Alternative
 
-    let return = fill
-    let bind f x = fold halt f x
-  end)
+      let return = fill
+      let bind f x = fold halt f x
+    end)
 
   module Monad =
     Preface.Make.Traversable.Join_with_monad
@@ -119,10 +119,10 @@ module Make (R : Interfaces.FOLDABLE_OPTION) = struct
       (Preface.Make.Selective.Select_from_monad (Monad))
 
   module Foldable = Preface.Make.Foldable.Via_fold_right (struct
-    type nonrec 'a t = 'a t
+      type nonrec 'a t = 'a t
 
-    let fold_right f x acc = fold (fun () -> acc) (fun x -> f x acc) x
-  end)
+      let fold_right f x acc = fold (fun () -> acc) (fun x -> f x acc) x
+    end)
 
   module Infix = struct
     let ( <$> ), ( <&> ), ( <$ ), ( $> ) =
@@ -156,48 +156,49 @@ module Make (R : Interfaces.FOLDABLE_OPTION) = struct
 end
 
 module Option = Make (struct
-  type 'a t = 'a option
+    type 'a t = 'a option
 
-  let empty = None
-  let fill x = Some x
+    let empty = None
+    let fill x = Some x
 
-  let fold n s = function
-    | None -> n ()
-    | Some x -> s x
-  ;;
+    let fold n s = function
+      | None -> n ()
+      | Some x -> s x
+    ;;
 
-  let pp pp' formater = function
-    | None -> Format.fprintf formater "None"
-    | Some x -> Format.fprintf formater "@[<2>Some@ @[%a@]@]" pp' x
-  ;;
-end)
+    let pp pp' formater = function
+      | None -> Format.fprintf formater "None"
+      | Some x -> Format.fprintf formater "@[<2>Some@ @[%a@]@]" pp' x
+    ;;
+  end)
 
 module Nullable = Make (struct
-  type 'a t = 'a Js.Opt.t
+    type 'a t = 'a Js.Opt.t
 
-  let empty = Js.Opt.empty
-  let fill x = Js.Opt.return x
-  let fold n s x = Js.Opt.case x n s
+    let empty = Js.Opt.empty
+    let fill x = Js.Opt.return x
+    let fold n s x = Js.Opt.case x n s
 
-  let pp pp' formater x =
-    fold
-      (fun () -> Format.fprintf formater "Js.null")
-      (fun x -> Format.fprintf formater "@[<2>Js.not_null@ @[%a@]@]" pp' x)
-      x
-  ;;
-end)
+    let pp pp' formater x =
+      fold
+        (fun () -> Format.fprintf formater "Js.null")
+        (fun x -> Format.fprintf formater "@[<2>Js.not_null@ @[%a@]@]" pp' x)
+        x
+    ;;
+  end)
 
 module Undefinable = Make (struct
-  type 'a t = 'a Js.Optdef.t
+    type 'a t = 'a Js.Optdef.t
 
-  let empty = Js.Optdef.empty
-  let fill x = Js.Optdef.return x
-  let fold n s x = Js.Optdef.case x n s
+    let empty = Js.Optdef.empty
+    let fill x = Js.Optdef.return x
+    let fold n s x = Js.Optdef.case x n s
 
-  let pp pp' formater x =
-    fold
-      (fun () -> Format.fprintf formater "Js.undefined")
-      (fun x -> Format.fprintf formater "@[<2>Js.not_undefined@ @[%a@]@]" pp' x)
-      x
-  ;;
-end)
+    let pp pp' formater x =
+      fold
+        (fun () -> Format.fprintf formater "Js.undefined")
+        (fun x ->
+          Format.fprintf formater "@[<2>Js.not_undefined@ @[%a@]@]" pp' x)
+        x
+    ;;
+  end)
