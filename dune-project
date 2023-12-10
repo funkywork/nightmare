@@ -38,7 +38,7 @@
  (description "An overlay built on top of Dream for using Nightmare tools")
  (depends
   (ocaml (>= 5.0.0))
-  (dream (>= 1.0.0~alpha4))
+  (dream (>= 1.0.0~alpha5))
   (nightmare (= :version))))
 
 (package
@@ -58,9 +58,9 @@
   (ocaml (>= 5.0.0))
   (lwt (>= 5.6.1))
   (preface (>= 1.0.0))
-  (js_of_ocaml-compiler (>= 5.2.0))
-  (js_of_ocaml-ppx (>= 5.2.0))
-  (js_of_ocaml-lwt (>= 5.2.0))
+  (js_of_ocaml-compiler (>= 5.5.2))
+  (js_of_ocaml-ppx (>= 5.5.2))
+  (js_of_ocaml-lwt (>= 5.5.2))
   (nightmare (= :version))))
 
 (package

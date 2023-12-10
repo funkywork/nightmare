@@ -10,7 +10,7 @@ bug-reports: "https://github.com/funkywork/nightmare/issues"
 depends: [
   "dune" {>= "3.0"}
   "ocaml" {>= "5.0.0"}
-  "dream" {>= "1.0.0~alpha4"}
+  "dream" {>= "1.0.0~alpha5"}
   "nightmare" {= version}
   "odoc" {with-doc}
 ]
